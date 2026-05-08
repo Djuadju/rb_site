@@ -3,1843 +3,1569 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>RB Barbearia — Painel de Gerenciamento</title>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <title>RB Barbearia - Excelência em Grooming Masculino</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=Montserrat:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&display=swap" rel="stylesheet">
   <style>
     :root {
       --black: #1a1a1a;
       --charcoal: #252525;
-      --charcoal-2: #2e2e2e;
+      --charcoal-light: #2e2e2e;
       --gold: #FED917;
-      --gold-dark: #c9ab00;
+      --gold-dark: #d4b800;
+      --gold-light: #ffe566;
       --white: #ffffff;
+      --cream: #f8f5ee;
       --gray: #888888;
       --gray-light: #cccccc;
-      --success: #22c55e;
-      --danger: #ef4444;
-      --info: #3b82f6;
-      --warning: #f59e0b;
-      --sidebar-w: 260px;
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
 
     body {
       font-family: 'Montserrat', sans-serif;
       background: var(--black);
       color: var(--white);
-      min-height: 100vh;
+      overflow-x: hidden;
     }
 
-    /* ===== LOGIN ===== */
-    #login-screen {
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: radial-gradient(ellipse at center, #252525 0%, #1a1a1a 100%);
-    }
-
-    .login-card {
-      background: var(--charcoal);
-      border: 1px solid rgba(254,217,23,0.15);
-      border-radius: 12px;
-      padding: 48px;
-      width: 100%;
-      max-width: 420px;
-      text-align: center;
-    }
-
-    .login-logo {
-      width: 64px; height: 64px;
-      background: var(--gold);
-      border-radius: 14px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: 'Playfair Display', serif;
-      font-size: 28px;
-      font-weight: 700;
-      color: var(--black);
-      margin: 0 auto 20px;
-      letter-spacing: -2px;
-    }
-
-    .login-title {
-      font-family: 'Playfair Display', serif;
-      font-size: 24px;
-      margin-bottom: 8px;
-    }
-
-    .login-sub {
-      font-size: 12px;
-      color: var(--gray);
-      letter-spacing: 1px;
-      margin-bottom: 32px;
-    }
-
-    .form-group {
-      margin-bottom: 16px;
-      text-align: left;
-    }
-
-    .form-label {
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      color: var(--gray);
-      display: block;
-      margin-bottom: 8px;
-    }
-
-    .form-input {
-      width: 100%;
-      background: var(--black);
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 6px;
-      padding: 12px 16px;
-      color: var(--white);
-      font-family: 'Montserrat', sans-serif;
-      font-size: 14px;
-      outline: none;
-      transition: border-color 0.2s;
-    }
-
-    .form-input:focus { border-color: var(--gold); }
-
-    .btn { 
-      cursor: pointer;
-      transition: all 0.2s;
-      border: none;
-      font-family: 'Montserrat', sans-serif;
-      font-weight: 600;
-      letter-spacing: 1px;
-      border-radius: 6px;
-    }
-
-    .btn-gold {
-      background: var(--gold);
-      color: var(--black);
-      padding: 14px;
-      font-size: 12px;
-      text-transform: uppercase;
-      width: 100%;
-    }
-
-    .btn-gold:hover { background: #ffe135; }
-
-    .login-error {
-      background: rgba(239,68,68,0.1);
-      border: 1px solid rgba(239,68,68,0.3);
-      color: #fca5a5;
-      padding: 10px 16px;
-      border-radius: 6px;
-      font-size: 13px;
-      margin-bottom: 16px;
-      display: none;
-    }
-
-    /* ===== ADMIN LAYOUT ===== */
-    #admin-panel { display: none; }
-
-    .admin-layout {
-      display: flex;
-      min-height: 100vh;
-    }
-
-    /* SIDEBAR */
-    .sidebar {
-      width: var(--sidebar-w);
-      background: var(--charcoal);
-      border-right: 1px solid rgba(255,255,255,0.05);
-      display: flex;
-      flex-direction: column;
+    /* ===== NAVBAR ===== */
+    nav {
       position: fixed;
-      top: 0;
-      bottom: 0;
-      left: 0;
-      z-index: 100;
-      overflow-y: auto;
+      top: 0; left: 0; right: 0;
+      z-index: 1000;
+      background: rgba(26,26,26,0.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(254,217,23,0.15);
+      padding: 0 5%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 72px;
+      transition: all 0.3s;
     }
 
-    .sidebar-header {
-      padding: 24px 20px;
-      border-bottom: 1px solid rgba(255,255,255,0.05);
+    nav.scrolled {
+      background: rgba(26,26,26,0.99);
+      height: 64px;
+      box-shadow: 0 4px 30px rgba(0,0,0,0.5);
+    }
+
+    .nav-logo {
       display: flex;
       align-items: center;
       gap: 12px;
+      text-decoration: none;
     }
 
-    .sidebar-logo {
-      width: 38px; height: 38px;
+    .logo-icon {
+      width: 42px; height: 42px;
       background: var(--gold);
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Playfair Display', serif;
+      font-weight: 900;
+      font-size: 20px;
+      color: var(--black);
+      letter-spacing: -2px;
+    }
+
+    .logo-text {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 300;
+      font-size: 13px;
+      letter-spacing: 4px;
+      color: var(--white);
+      text-transform: uppercase;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 36px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--gray-light);
+      text-decoration: none;
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      transition: color 0.2s;
+      position: relative;
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px; left: 0; right: 100%;
+      height: 1px;
+      background: var(--gold);
+      transition: right 0.3s;
+    }
+
+    .nav-links a:hover { color: var(--gold); }
+    .nav-links a:hover::after { right: 0; }
+
+    .nav-social {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .nav-social a {
+      color: var(--gray);
+      text-decoration: none;
+      font-size: 12px;
+      letter-spacing: 1px;
+      transition: color 0.2s;
+    }
+
+    .nav-social a:hover { color: var(--gold); }
+
+    .btn-agendar {
+      background: var(--gold);
+      color: var(--black) !important;
+      padding: 10px 24px !important;
+      border-radius: 4px;
+      font-weight: 700 !important;
+      font-size: 11px !important;
+      letter-spacing: 2px !important;
+      transition: all 0.2s !important;
+    }
+
+    .btn-agendar:hover {
+      background: var(--gold-light) !important;
+      color: var(--black) !important;
+      transform: translateY(-1px);
+    }
+
+    .btn-agendar::after { display: none !important; }
+
+    /* ===== HERO ===== */
+    #home {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+      padding-top: 72px;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse at 70% 50%, rgba(254,217,23,0.06) 0%, transparent 60%),
+        radial-gradient(ellipse at 10% 80%, rgba(254,217,23,0.04) 0%, transparent 50%),
+        linear-gradient(135deg, #1a1a1a 0%, #252525 50%, #1a1a1a 100%);
+    }
+
+    .hero-grid {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(254,217,23,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(254,217,23,0.03) 1px, transparent 1px);
+      background-size: 60px 60px;
+    }
+
+    .hero-content {
+      position: relative;
+      padding: 0 10%;
+      max-width: 1400px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 24px;
+    }
+
+    .hero-eyebrow::before {
+      content: '';
+      width: 40px; height: 1px;
+      background: var(--gold);
+    }
+
+    .hero-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(52px, 8vw, 110px);
+      font-weight: 700;
+      line-height: 1;
+      margin-bottom: 32px;
+    }
+
+    .hero-title span {
+      color: var(--gold);
+      display: block;
+    }
+
+    .hero-desc {
+      font-size: 16px;
+      font-weight: 300;
+      color: var(--gray-light);
+      max-width: 480px;
+      line-height: 1.8;
+      margin-bottom: 48px;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+    }
+
+    .btn-primary {
+      background: var(--gold);
+      color: var(--black);
+      padding: 16px 40px;
+      border-radius: 4px;
+      font-weight: 700;
+      font-size: 12px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: all 0.2s;
+      display: inline-block;
+    }
+
+    .btn-primary:hover {
+      background: var(--gold-light);
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(254,217,23,0.3);
+    }
+
+    .btn-outline {
+      border: 1px solid rgba(255,255,255,0.3);
+      color: var(--white);
+      padding: 16px 40px;
+      border-radius: 4px;
+      font-weight: 500;
+      font-size: 12px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: all 0.2s;
+      display: inline-block;
+    }
+
+    .btn-outline:hover {
+      border-color: var(--gold);
+      color: var(--gold);
+    }
+
+    .hero-stats {
+      position: absolute;
+      right: 8%;
+      bottom: 10%;
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+    }
+
+    .stat-item { text-align: right; }
+
+    .stat-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 48px;
+      font-weight: 700;
+      color: var(--gold);
+      line-height: 1;
+    }
+
+    .stat-label {
+      font-size: 11px;
+      letter-spacing: 2px;
+      color: var(--gray);
+      text-transform: uppercase;
+      margin-top: 4px;
+    }
+
+    .scroll-indicator {
+      position: absolute;
+      bottom: 40px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      animation: bounce 2s infinite;
+    }
+
+    .scroll-indicator span {
+      font-size: 10px;
+      letter-spacing: 3px;
+      color: var(--gray);
+      text-transform: uppercase;
+    }
+
+    .scroll-line {
+      width: 1px; height: 40px;
+      background: linear-gradient(var(--gold), transparent);
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50% { transform: translateX(-50%) translateY(8px); }
+    }
+
+    /* ===== SECTIONS COMMON ===== */
+    section { padding: 100px 10%; }
+
+    .section-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 4px;
+      color: var(--gold);
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+
+    .section-label::before {
+      content: '';
+      width: 30px; height: 1px;
+      background: var(--gold);
+    }
+
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(36px, 5vw, 60px);
+      font-weight: 700;
+      line-height: 1.1;
+      margin-bottom: 24px;
+    }
+
+    .section-desc {
+      font-size: 15px;
+      color: var(--gray-light);
+      line-height: 1.8;
+      max-width: 600px;
+      font-weight: 300;
+    }
+
+    /* ===== SOBRE ===== */
+    #sobre {
+      background: var(--charcoal);
+    }
+
+    .sobre-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .sobre-visual {
+      position: relative;
+    }
+
+    .sobre-img-placeholder {
+      width: 100%;
+      aspect-ratio: 3/4;
+      background: linear-gradient(135deg, var(--black) 0%, var(--charcoal-light) 100%);
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid rgba(254,217,23,0.1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .sobre-img-placeholder::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        repeating-linear-gradient(
+          45deg,
+          transparent,
+          transparent 20px,
+          rgba(254,217,23,0.02) 20px,
+          rgba(254,217,23,0.02) 21px
+        );
+    }
+
+    .sobre-img-icon {
+      font-size: 80px;
+      opacity: 0.2;
+    }
+
+    .sobre-badge {
+      position: absolute;
+      bottom: -20px;
+      right: -20px;
+      background: var(--gold);
+      color: var(--black);
+      width: 120px; height: 120px;
+      border-radius: 50%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+
+    .sobre-badge strong {
+      font-family: 'Playfair Display', serif;
+      font-size: 32px;
+      font-weight: 700;
+      line-height: 1;
+    }
+
+    .sobre-badge span {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .sobre-features {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-top: 48px;
+    }
+
+    .feature-item {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+    }
+
+    .feature-icon {
+      width: 44px; height: 44px;
+      background: rgba(254,217,23,0.1);
+      border: 1px solid rgba(254,217,23,0.2);
       border-radius: 8px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-family: 'Playfair Display', serif;
-      font-size: 16px;
-      font-weight: 700;
-      color: var(--black);
+      font-size: 20px;
       flex-shrink: 0;
     }
 
-    .sidebar-brand-text {
+    .feature-text h4 {
       font-size: 13px;
       font-weight: 600;
       letter-spacing: 1px;
-    }
-
-    .sidebar-brand-sub {
-      font-size: 10px;
-      color: var(--gray);
-      letter-spacing: 1px;
-    }
-
-    .sidebar-nav {
-      flex: 1;
-      padding: 20px 0;
-    }
-
-    .nav-section-label {
-      font-size: 10px;
-      font-weight: 700;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      color: var(--gray);
-      padding: 0 20px;
-      margin: 16px 0 8px;
-    }
-
-    .nav-item {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 11px 20px;
-      cursor: pointer;
-      transition: all 0.2s;
-      color: var(--gray-light);
-      font-size: 13px;
-      font-weight: 500;
-      border-left: 3px solid transparent;
-      user-select: none;
-    }
-
-    .nav-item:hover {
-      background: rgba(254,217,23,0.05);
-      color: var(--white);
-    }
-
-    .nav-item.active {
-      background: rgba(254,217,23,0.08);
-      color: var(--gold);
-      border-left-color: var(--gold);
-      font-weight: 600;
-    }
-
-    .nav-icon { font-size: 16px; width: 20px; text-align: center; }
-
-    .sidebar-footer {
-      padding: 20px;
-      border-top: 1px solid rgba(255,255,255,0.05);
-    }
-
-    .user-info {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 12px;
-    }
-
-    .user-avatar {
-      width: 36px; height: 36px;
-      background: var(--gold);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 700;
-      color: var(--black);
-      font-size: 14px;
-    }
-
-    .user-name { font-size: 13px; font-weight: 600; }
-    .user-role { font-size: 11px; color: var(--gray); }
-
-    .btn-logout {
-      background: rgba(239,68,68,0.1);
-      border: 1px solid rgba(239,68,68,0.2);
-      color: #fca5a5;
-      padding: 8px 16px;
-      font-size: 11px;
-      width: 100%;
-      border-radius: 6px;
-    }
-
-    .btn-logout:hover { background: rgba(239,68,68,0.2); }
-
-    /* MAIN CONTENT */
-    .main-content {
-      margin-left: var(--sidebar-w);
-      flex: 1;
-      min-height: 100vh;
-      background: var(--black);
-    }
-
-    .topbar {
-      background: var(--charcoal);
-      border-bottom: 1px solid rgba(255,255,255,0.05);
-      padding: 0 32px;
-      height: 64px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      position: sticky;
-      top: 0;
-      z-index: 50;
-    }
-
-    .page-title {
-      font-size: 18px;
-      font-weight: 600;
-    }
-
-    .topbar-actions { display: flex; gap: 12px; align-items: center; }
-
-    .page-content { padding: 32px; }
-
-    /* CARDS / WIDGETS */
-    .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 20px;
-      margin-bottom: 32px;
-    }
-
-    .stat-card {
-      background: var(--charcoal);
-      border: 1px solid rgba(255,255,255,0.05);
-      border-radius: 10px;
-      padding: 24px;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .stat-card::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 3px;
-    }
-
-    .stat-card.gold::before { background: var(--gold); }
-    .stat-card.green::before { background: var(--success); }
-    .stat-card.red::before { background: var(--danger); }
-    .stat-card.blue::before { background: var(--info); }
-
-    .stat-label {
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      color: var(--gray);
-      margin-bottom: 12px;
-    }
-
-    .stat-value {
-      font-family: 'Playfair Display', serif;
-      font-size: 32px;
-      font-weight: 700;
       margin-bottom: 4px;
     }
 
-    .stat-card.gold .stat-value { color: var(--gold); }
-    .stat-card.green .stat-value { color: var(--success); }
-    .stat-card.red .stat-value { color: var(--danger); }
-    .stat-card.blue .stat-value { color: var(--info); }
-
-    .stat-change {
+    .feature-text p {
       font-size: 12px;
       color: var(--gray);
+      line-height: 1.5;
     }
 
-    .stat-icon {
-      position: absolute;
-      top: 16px;
-      right: 20px;
-      font-size: 32px;
-      opacity: 0.15;
+    /* ===== SERVIÇOS ===== */
+    #servicos { background: var(--black); }
+
+    .servicos-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 60px;
+      max-width: 1200px;
+      margin: 0 auto 60px;
     }
 
-    /* TABLES */
-    .card {
+    .servicos-tabs {
+      display: flex;
+      gap: 0;
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 6px;
+      overflow: hidden;
+      max-width: 1200px;
+      margin: 0 auto 48px;
+    }
+
+    .tab-btn {
+      padding: 12px 24px;
+      background: transparent;
+      border: none;
+      color: var(--gray);
+      font-family: 'Montserrat', sans-serif;
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 1px;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-transform: uppercase;
+    }
+
+    .tab-btn.active {
+      background: var(--gold);
+      color: var(--black);
+      font-weight: 700;
+    }
+
+    .tab-btn:hover:not(.active) {
+      background: rgba(254,217,23,0.1);
+      color: var(--gold);
+    }
+
+    .servicos-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 24px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .servico-card {
       background: var(--charcoal);
       border: 1px solid rgba(255,255,255,0.05);
-      border-radius: 10px;
-      overflow: hidden;
-      margin-bottom: 24px;
-    }
-
-    .card-header {
-      padding: 20px 24px;
-      border-bottom: 1px solid rgba(255,255,255,0.05);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .card-title {
-      font-size: 15px;
-      font-weight: 600;
-    }
-
-    .card-body { padding: 24px; }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-    }
-
-    th {
-      text-align: left;
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      color: var(--gray);
-      padding: 12px 16px;
-      border-bottom: 1px solid rgba(255,255,255,0.05);
-    }
-
-    td {
-      padding: 14px 16px;
-      font-size: 13px;
-      border-bottom: 1px solid rgba(255,255,255,0.03);
-      vertical-align: middle;
-    }
-
-    tr:last-child td { border-bottom: none; }
-    tr:hover td { background: rgba(255,255,255,0.02); }
-
-    .badge {
-      display: inline-block;
-      padding: 3px 10px;
-      border-radius: 20px;
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: 0.5px;
-    }
-
-    .badge-gold { background: rgba(254,217,23,0.15); color: var(--gold); }
-    .badge-green { background: rgba(34,197,94,0.15); color: var(--success); }
-    .badge-red { background: rgba(239,68,68,0.15); color: var(--danger); }
-    .badge-blue { background: rgba(59,130,246,0.15); color: var(--info); }
-    .badge-gray { background: rgba(136,136,136,0.15); color: var(--gray-light); }
-
-    /* FORMS */
-    .form-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
-    }
-
-    .form-row.cols-3 { grid-template-columns: 1fr 1fr 1fr; }
-
-    .form-group { margin-bottom: 20px; }
-
-    select.form-input {
+      border-radius: 8px;
+      padding: 32px;
+      transition: all 0.3s;
       cursor: pointer;
+      position: relative;
+      overflow: hidden;
     }
 
-    textarea.form-input {
-      resize: vertical;
-      min-height: 100px;
+    .servico-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 3px;
+      background: var(--gold);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.3s;
     }
 
-    .btn-sm {
-      padding: 8px 16px;
-      font-size: 11px;
+    .servico-card:hover {
+      border-color: rgba(254,217,23,0.2);
+      transform: translateY(-4px);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+    }
+
+    .servico-card:hover::before { transform: scaleX(1); }
+
+    .servico-emoji {
+      font-size: 36px;
+      margin-bottom: 16px;
+      display: block;
+    }
+
+    .servico-nome {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .servico-desc {
+      font-size: 13px;
+      color: var(--gray);
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+
+    .servico-preco {
+      font-family: 'Playfair Display', serif;
+      font-size: 28px;
+      color: var(--gold);
+      font-weight: 600;
+    }
+
+    .servico-preco small {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 12px;
+      color: var(--gray);
+      font-weight: 400;
+    }
+
+    .servicos-cta {
+      text-align: center;
+      margin-top: 60px;
+    }
+
+    /* ===== GALERIA ===== */
+    #galeria {
+      background: var(--charcoal);
+    }
+
+    .galeria-header {
+      text-align: center;
+      margin-bottom: 60px;
+    }
+
+    .galeria-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: auto;
+      gap: 16px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .galeria-item {
+      aspect-ratio: 1;
+      background: var(--black);
       border-radius: 6px;
-    }
-
-    .btn-primary { background: var(--gold); color: var(--black); }
-    .btn-primary:hover { background: #ffe135; }
-    .btn-danger { background: rgba(239,68,68,0.1); color: #fca5a5; border: 1px solid rgba(239,68,68,0.2); }
-    .btn-danger:hover { background: rgba(239,68,68,0.2); }
-    .btn-success { background: rgba(34,197,94,0.1); color: var(--success); border: 1px solid rgba(34,197,94,0.2); }
-    .btn-success:hover { background: rgba(34,197,94,0.2); }
-    .btn-info { background: rgba(59,130,246,0.1); color: var(--info); border: 1px solid rgba(59,130,246,0.2); }
-    .btn-info:hover { background: rgba(59,130,246,0.2); }
-
-    /* MODAL */
-    .modal-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.8);
-      z-index: 999;
+      overflow: hidden;
+      position: relative;
       display: flex;
       align-items: center;
       justify-content: center;
-      display: none;
+      border: 1px solid rgba(255,255,255,0.05);
+      transition: all 0.3s;
     }
 
-    .modal-overlay.open { display: flex; }
+    .galeria-item:hover { transform: scale(1.02); border-color: rgba(254,217,23,0.3); }
 
-    .modal {
-      background: var(--charcoal);
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 12px;
-      padding: 32px;
-      width: 100%;
-      max-width: 580px;
-      max-height: 90vh;
-      overflow-y: auto;
+    .galeria-item:nth-child(1) { grid-column: span 2; aspect-ratio: 2/1; }
+
+    .galeria-placeholder {
+      font-size: 40px;
+      opacity: 0.2;
     }
 
-    .modal-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 24px;
-    }
-
-    .modal-title { font-size: 18px; font-weight: 600; }
-
-    .modal-close {
-      background: none;
-      border: none;
-      color: var(--gray);
-      font-size: 20px;
-      cursor: pointer;
-      padding: 4px;
-    }
-
-    .modal-close:hover { color: var(--white); }
-
-    /* SWITCH TOGGLE */
-    .switch {
-      position: relative;
-      width: 48px;
-      height: 26px;
-    }
-
-    .switch input { opacity: 0; width: 0; height: 0; }
-
-    .slider {
+    .galeria-overlay {
       position: absolute;
-      cursor: pointer;
       inset: 0;
-      background: rgba(255,255,255,0.1);
-      border-radius: 20px;
-      transition: 0.3s;
-    }
-
-    .slider:before {
-      content: '';
-      position: absolute;
-      width: 18px; height: 18px;
-      left: 4px; bottom: 4px;
-      background: var(--white);
-      border-radius: 50%;
-      transition: 0.3s;
-    }
-
-    input:checked + .slider { background: var(--gold); }
-    input:checked + .slider:before { transform: translateX(22px); background: var(--black); }
-
-    /* SECTIONS */
-    .section { display: none; }
-    .section.active { display: block; }
-
-    /* CHART BARS */
-    .chart-bar-container {
+      background: rgba(26,26,26,0.8);
       display: flex;
-      gap: 8px;
-      align-items: flex-end;
-      height: 160px;
-      padding: 16px 0 8px;
-    }
-
-    .chart-bar-wrap {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
       align-items: center;
-      gap: 6px;
-      height: 100%;
-      justify-content: flex-end;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.3s;
     }
 
-    .chart-bar {
-      width: 100%;
-      border-radius: 4px 4px 0 0;
-      min-height: 4px;
-      transition: height 0.5s ease;
-    }
+    .galeria-item:hover .galeria-overlay { opacity: 1; }
 
-    .chart-bar.gold { background: var(--gold); }
-    .chart-bar.red { background: var(--danger); opacity: 0.7; }
-
-    .chart-label {
-      font-size: 10px;
-      color: var(--gray);
-      letter-spacing: 0.5px;
-    }
-
-    .chart-value-label {
-      font-size: 11px;
+    .galeria-overlay span {
+      color: var(--gold);
+      font-size: 12px;
       font-weight: 600;
-      color: var(--gray-light);
+      letter-spacing: 2px;
+      text-transform: uppercase;
     }
 
-    /* ALERT */
-    .alert {
-      padding: 12px 16px;
-      border-radius: 6px;
-      font-size: 13px;
+    /* ===== PRODUTOS ===== */
+    #produtos { background: var(--black); }
+
+    .produtos-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 24px;
+      max-width: 1200px;
+      margin: 60px auto 0;
+    }
+
+    .produto-card {
+      background: var(--charcoal);
+      border: 1px solid rgba(255,255,255,0.05);
+      border-radius: 8px;
+      overflow: hidden;
+      transition: all 0.3s;
+    }
+
+    .produto-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+      border-color: rgba(254,217,23,0.2);
+    }
+
+    .produto-img {
+      aspect-ratio: 1;
+      background: var(--black);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 60px;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .produto-info {
+      padding: 20px;
+    }
+
+    .produto-categoria {
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--gold);
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .produto-nome {
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .produto-desc {
+      font-size: 12px;
+      color: var(--gray);
+      line-height: 1.5;
       margin-bottom: 16px;
     }
 
-    .alert-success { background: rgba(34,197,94,0.1); border: 1px solid rgba(34,197,94,0.2); color: var(--success); }
-    .alert-error { background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.2); color: #fca5a5; }
+    .produto-preco {
+      font-family: 'Playfair Display', serif;
+      font-size: 24px;
+      color: var(--gold);
+    }
 
-    /* GRID HELPERS */
-    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-    .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; }
+    /* ===== CONTATO ===== */
+    #contato {
+      background: var(--charcoal);
+    }
 
-    /* PRODUCT DISPLAY TOGGLE */
-    .toggle-row {
+    .contato-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      max-width: 1200px;
+      margin: 60px auto 0;
+      align-items: start;
+    }
+
+    .contato-items { display: flex; flex-direction: column; gap: 32px; }
+
+    .contato-item {
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+    }
+
+    .contato-icon {
+      width: 48px; height: 48px;
+      background: rgba(254,217,23,0.1);
+      border: 1px solid rgba(254,217,23,0.2);
+      border-radius: 8px;
       display: flex;
       align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      flex-shrink: 0;
+    }
+
+    .contato-info h4 {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 8px;
+    }
+
+    .contato-info p, .contato-info a {
+      font-size: 14px;
+      color: var(--gray-light);
+      line-height: 1.6;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .contato-info a:hover { color: var(--gold); }
+
+    .horarios {
+      background: var(--black);
+      border-radius: 8px;
+      border: 1px solid rgba(255,255,255,0.05);
+      padding: 32px;
+    }
+
+    .horarios h3 {
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 24px;
+    }
+
+    .horario-item {
+      display: flex;
       justify-content: space-between;
+      align-items: center;
       padding: 14px 0;
-      border-bottom: 1px solid rgba(255,255,255,0.03);
+      border-bottom: 1px solid rgba(255,255,255,0.05);
     }
 
-    .toggle-row:last-child { border-bottom: none; }
+    .horario-item:last-child { border-bottom: none; }
 
-    /* RESPONSIVE */
-    @media (max-width: 1200px) {
-      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+    .horario-dia {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--gray-light);
     }
 
-    @media (max-width: 800px) {
-      .sidebar { display: none; }
-      .main-content { margin-left: 0; }
-      .stats-grid { grid-template-columns: 1fr 1fr; }
-      .form-row { grid-template-columns: 1fr; }
+    .horario-hora {
+      font-size: 13px;
+      color: var(--gold);
+      font-weight: 600;
     }
+
+    .horario-fechado {
+      color: var(--gray) !important;
+    }
+
+    /* ===== FOOTER ===== */
+    footer {
+      background: var(--black);
+      border-top: 1px solid rgba(255,255,255,0.05);
+      padding: 60px 10% 40px;
+    }
+
+    .footer-top {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: 60px;
+      margin-bottom: 60px;
+    }
+
+    .footer-brand h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 28px;
+      color: var(--gold);
+      margin-bottom: 16px;
+    }
+
+    .footer-brand p {
+      font-size: 13px;
+      color: var(--gray);
+      line-height: 1.8;
+      max-width: 320px;
+    }
+
+    .footer-social {
+      display: flex;
+      gap: 12px;
+      margin-top: 24px;
+    }
+
+    .footer-social a {
+      width: 40px; height: 40px;
+      background: var(--charcoal);
+      border: 1px solid rgba(255,255,255,0.05);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--gray);
+      text-decoration: none;
+      font-size: 16px;
+      transition: all 0.2s;
+    }
+
+    .footer-social a:hover {
+      background: var(--gold);
+      color: var(--black);
+      border-color: var(--gold);
+    }
+
+    .footer-col h4 {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 20px;
+    }
+
+    .footer-col ul { list-style: none; }
+
+    .footer-col ul li {
+      margin-bottom: 12px;
+    }
+
+    .footer-col ul li a {
+      color: var(--gray);
+      text-decoration: none;
+      font-size: 13px;
+      transition: color 0.2s;
+    }
+
+    .footer-col ul li a:hover { color: var(--gold); }
+
+    .footer-agendar {
+      text-align: center;
+      padding: 60px;
+      background: var(--charcoal);
+      border-radius: 8px;
+      margin-bottom: 48px;
+    }
+
+    .footer-agendar h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 40px;
+      margin-bottom: 16px;
+    }
+
+    .footer-agendar p {
+      color: var(--gray-light);
+      font-size: 15px;
+      margin-bottom: 32px;
+    }
+
+    .footer-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 24px;
+      border-top: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .footer-bottom p {
+      color: var(--gray);
+      font-size: 12px;
+    }
+
+    .footer-bottom a {
+      color: var(--gold);
+      text-decoration: none;
+      font-size: 12px;
+    }
+
+    /* ===== FLOATING WHATSAPP ===== */
+    .whatsapp-float {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      z-index: 999;
+      width: 56px; height: 56px;
+      background: #25D366;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 20px rgba(37,211,102,0.4);
+      text-decoration: none;
+      font-size: 26px;
+      transition: all 0.2s;
+      animation: pulse-whats 3s infinite;
+    }
+
+    .whatsapp-float:hover {
+      transform: scale(1.1);
+      box-shadow: 0 8px 30px rgba(37,211,102,0.6);
+    }
+
+    @keyframes pulse-whats {
+      0%, 100% { box-shadow: 0 4px 20px rgba(37,211,102,0.4); }
+      50% { box-shadow: 0 4px 30px rgba(37,211,102,0.7), 0 0 0 8px rgba(37,211,102,0.1); }
+    }
+
+    /* ===== MOBILE MENU ===== */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 4px;
+    }
+
+    .hamburger span {
+      width: 24px; height: 2px;
+      background: var(--white);
+      border-radius: 2px;
+      transition: all 0.3s;
+    }
+
+    @media (max-width: 900px) {
+      .nav-links { display: none; }
+      .nav-social { display: none; }
+      .hamburger { display: flex; }
+
+      .hero-stats { display: none; }
+
+      .sobre-grid { grid-template-columns: 1fr; }
+      .sobre-visual { display: none; }
+
+      .contato-grid { grid-template-columns: 1fr; }
+
+      .footer-top { grid-template-columns: 1fr; gap: 40px; }
+
+      .galeria-grid { grid-template-columns: 1fr 1fr; }
+      .galeria-item:nth-child(1) { grid-column: span 2; }
+
+      section { padding: 60px 6%; }
+    }
+
+    /* ===== ANIMATIONS ===== */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
   </style>
 </head>
 <body>
 
-<!-- ===== LOGIN ===== -->
-<div id="login-screen">
-  <div class="login-card">
-    <div class="login-logo">RB</div>
-    <h1 class="login-title">Área Administrativa</h1>
-    <p class="login-sub">RB Barbearia · Acesso Restrito</p>
+  <!-- NAVBAR -->
+  <nav id="navbar">
+    <a href="#home" class="nav-logo">
+      <div class="logo-icon">RB</div>
+      <span class="logo-text">Barbearia</span>
+    </a>
 
-    <div id="login-error" class="login-error">Usuário ou senha incorretos.</div>
+    <ul class="nav-links">
+      <li><a href="#home">Home</a></li>
+      <li><a href="#sobre">Sobre</a></li>
+      <li><a href="#servicos">Serviços</a></li>
+      <li><a href="#produtos">Produtos</a></li>
+      <li><a href="#contato">Contato</a></li>
+      <li>
+        <a href="https://wa.me/5581999999999" target="_blank" style="font-size:11px; color: var(--gray)">📲 WhatsApp</a>
+      </li>
+      <li>
+        <a href="https://instagram.com/rbbarbearia" target="_blank" style="font-size:11px; color: var(--gray)">📸 Instagram</a>
+      </li>
+      <li><a href="#contato" class="btn-agendar">Agendamento</a></li>
+    </ul>
 
-    <div class="form-group">
-      <label class="form-label">Usuário</label>
-      <input type="text" class="form-input" id="inp-user" placeholder="admin" />
+    <button class="hamburger" onclick="toggleMenu()">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- HERO -->
+  <section id="home">
+    <div class="hero-bg"></div>
+    <div class="hero-grid"></div>
+    <div class="hero-content">
+      <div class="hero-eyebrow">Experiência Premium</div>
+      <h1 class="hero-title">
+        Arte &<br><span>Estilo</span><br>Masculino
+      </h1>
+      <p class="hero-desc">
+        Um espaço exclusivamente masculino onde tradição e modernidade se encontram.
+        Cada detalhe pensado para a sua melhor versão.
+      </p>
+      <div class="hero-actions">
+        <a href="#contato" class="btn-primary">Agendar Horário</a>
+        <a href="#servicos" class="btn-outline">Ver Serviços</a>
+      </div>
     </div>
-    <div class="form-group">
-      <label class="form-label">Senha</label>
-      <input type="password" class="form-input" id="inp-pass" placeholder="••••••••" onkeydown="if(event.key==='Enter') doLogin()" />
+    <div class="hero-stats">
+      <div class="stat-item">
+        <div class="stat-num">500+</div>
+        <div class="stat-label">Clientes Fiéis</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">10</div>
+        <div class="stat-label">Anos de Excelência</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">98%</div>
+        <div class="stat-label">Satisfação</div>
+      </div>
     </div>
-    <button class="btn btn-gold" onclick="doLogin()">🔐 Entrar</button>
+    <div class="scroll-indicator">
+      <span>Role</span>
+      <div class="scroll-line"></div>
+    </div>
+  </section>
 
-    <p style="margin-top:20px;font-size:11px;color:var(--gray)">
-      Acesso restrito aos proprietários.
-    </p>
-  </div>
-</div>
-
-<!-- ===== ADMIN PANEL ===== -->
-<div id="admin-panel">
-  <div class="admin-layout">
-
-    <!-- SIDEBAR -->
-    <aside class="sidebar">
-      <div class="sidebar-header">
-        <div class="sidebar-logo">RB</div>
-        <div>
-          <div class="sidebar-brand-text">RB Barbearia</div>
-          <div class="sidebar-brand-sub">Painel Admin</div>
+  <!-- SOBRE -->
+  <section id="sobre">
+    <div class="sobre-grid">
+      <div class="sobre-visual">
+        <div class="sobre-img-placeholder">
+          <span class="sobre-img-icon">✂️</span>
+        </div>
+        <div class="sobre-badge">
+          <strong>10+</strong>
+          <span>Anos no<br>mercado</span>
         </div>
       </div>
-
-      <nav class="sidebar-nav">
-        <div class="nav-section-label">Principal</div>
-        <div class="nav-item active" onclick="goTo('dashboard')">
-          <span class="nav-icon">📊</span> Dashboard
-        </div>
-        <div class="nav-item" onclick="goTo('financeiro')">
-          <span class="nav-icon">💰</span> Financeiro
-        </div>
-
-        <div class="nav-section-label">Site</div>
-        <div class="nav-item" onclick="goTo('servicos')">
-          <span class="nav-icon">✂️</span> Serviços
-        </div>
-        <div class="nav-item" onclick="goTo('produtos-admin')">
-          <span class="nav-icon">🛍️</span> Produtos
-        </div>
-        <div class="nav-item" onclick="goTo('conteudo')">
-          <span class="nav-icon">📝</span> Conteúdo
-        </div>
-        <div class="nav-item" onclick="goTo('galeria-admin')">
-          <span class="nav-icon">🖼️</span> Galeria
-        </div>
-
-        <div class="nav-section-label">Financeiro</div>
-        <div class="nav-item" onclick="goTo('receitas')">
-          <span class="nav-icon">📈</span> Receitas
-        </div>
-        <div class="nav-item" onclick="goTo('despesas')">
-          <span class="nav-icon">📉</span> Despesas
-        </div>
-        <div class="nav-item" onclick="goTo('relatorio')">
-          <span class="nav-icon">📋</span> Relatório
-        </div>
-      </nav>
-
-      <div class="sidebar-footer">
-        <div class="user-info">
-          <div class="user-avatar">A</div>
-          <div>
-            <div class="user-name">Administrador</div>
-            <div class="user-role">Proprietário</div>
+      <div class="sobre-text fade-in">
+        <div class="section-label">Sobre Nós</div>
+        <h2 class="section-title">Tradição que<br>você pode sentir</h2>
+        <p class="section-desc">
+          A RB Barbearia é um refúgio exclusivamente masculino, onde o homem moderno encontra
+          cuidado, estilo e bem-estar em um só lugar. Nosso ambiente é pensado para oferecer
+          muito mais que um simples corte — é uma experiência completa de grooming.
+        </p>
+        <p class="section-desc" style="margin-top: 16px;">
+          Com profissionais especializados e produtos premium, garantimos que cada cliente
+          saia se sentindo no melhor da sua versão.
+        </p>
+        <div class="sobre-features">
+          <div class="feature-item">
+            <div class="feature-icon">✂️</div>
+            <div class="feature-text">
+              <h4>Profissionais</h4>
+              <p>Barbeiros treinados e atualizados nas tendências</p>
+            </div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-icon">⭐</div>
+            <div class="feature-text">
+              <h4>Qualidade</h4>
+              <p>Produtos premium e técnicas refinadas</p>
+            </div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-icon">🏆</div>
+            <div class="feature-text">
+              <h4>Exclusividade</h4>
+              <p>Ambiente 100% masculino e acolhedor</p>
+            </div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-icon">🤝</div>
+            <div class="feature-text">
+              <h4>Confiança</h4>
+              <p>Mais de 10 anos de tradição e clientes fiéis</p>
+            </div>
           </div>
         </div>
-        <button class="btn btn-logout" onclick="doLogout()">🚪 Sair</button>
       </div>
-    </aside>
+    </div>
+  </section>
 
-    <!-- MAIN -->
-    <main class="main-content">
-      <div class="topbar">
-        <span class="page-title" id="page-title">Dashboard</span>
-        <div class="topbar-actions">
-          <span style="font-size:12px;color:var(--gray)">🕐 <span id="current-time"></span></span>
-          <a href="index.html" target="_blank" style="background:rgba(254,217,23,0.1);color:var(--gold);padding:8px 16px;border-radius:6px;font-size:11px;font-weight:600;text-decoration:none;letter-spacing:1px;">
-            👁️ Ver Site
+  <!-- SERVIÇOS -->
+  <section id="servicos">
+    <div class="servicos-header fade-in">
+      <div>
+        <div class="section-label">O que oferecemos</div>
+        <h2 class="section-title">Nossos Serviços</h2>
+      </div>
+    </div>
+
+    <div class="servicos-tabs">
+      <button class="tab-btn active" onclick="switchTab('cabelo')">Cabelo</button>
+      <button class="tab-btn" onclick="switchTab('barba')">Barba</button>
+      <button class="tab-btn" onclick="switchTab('quimica')">Química Capilar</button>
+      <button class="tab-btn" onclick="switchTab('estetica')">Estética</button>
+    </div>
+
+    <div id="tab-cabelo" class="tab-content active">
+      <div class="servicos-grid">
+        <div class="servico-card fade-in">
+          <span class="servico-emoji">✂️</span>
+          <div class="servico-nome">Corte Clássico</div>
+          <div class="servico-desc">Corte tradicional com acabamento impecável. Lavagem e finalização incluídas.</div>
+          <div class="servico-preco">R$ 45 <small>/ sessão</small></div>
+        </div>
+        <div class="servico-card fade-in">
+          <span class="servico-emoji">💈</span>
+          <div class="servico-nome">Corte Moderno</div>
+          <div class="servico-desc">Tendências atuais com técnicas de degradê, texturas e estilos contemporâneos.</div>
+          <div class="servico-preco">R$ 55 <small>/ sessão</small></div>
+        </div>
+        <div class="servico-card fade-in">
+          <span class="servico-emoji">👑</span>
+          <div class="servico-nome">Corte Premium</div>
+          <div class="servico-desc">Experiência completa: corte, lavagem, finalização e consultoria de estilo.</div>
+          <div class="servico-preco">R$ 80 <small>/ sessão</small></div>
+        </div>
+      </div>
+    </div>
+
+    <div id="tab-barba" class="tab-content">
+      <div class="servicos-grid">
+        <div class="servico-card fade-in">
+          <span class="servico-emoji">🪒</span>
+          <div class="servico-nome">Barba Completa</div>
+          <div class="servico-desc">Modelagem, navalha quente, toalha quente e hidratação da barba.</div>
+          <div class="servico-preco">R$ 40 <small>/ sessão</small></div>
+        </div>
+        <div class="servico-card fade-in">
+          <span class="servico-emoji">⚡</span>
+          <div class="servico-nome">Combo Corte + Barba</div>
+          <div class="servico-desc">O pacote mais completo: corte de cabelo + barba completa com ritual.</div>
+          <div class="servico-preco">R$ 75 <small>/ sessão</small></div>
+        </div>
+      </div>
+    </div>
+
+    <div id="tab-quimica" class="tab-content">
+      <div class="servicos-grid">
+        <div class="servico-card fade-in">
+          <span class="servico-emoji">🧴</span>
+          <div class="servico-nome">Hidratação Capilar</div>
+          <div class="servico-desc">Tratamento profundo para restaurar o brilho e saúde dos fios.</div>
+          <div class="servico-preco">R$ 60 <small>/ sessão</small></div>
+        </div>
+        <div class="servico-card fade-in">
+          <span class="servico-emoji">🎨</span>
+          <div class="servico-nome">Coloração</div>
+          <div class="servico-desc">Coloração profissional com produtos de alta qualidade e resultado natural.</div>
+          <div class="servico-preco">R$ 90 <small>/ sessão</small></div>
+        </div>
+        <div class="servico-card fade-in">
+          <span class="servico-emoji">✨</span>
+          <div class="servico-nome">Progressiva Masculina</div>
+          <div class="servico-desc">Tratamento para alisar e disciplinar os fios com resultado duradouro.</div>
+          <div class="servico-preco">R$ 150 <small>/ sessão</small></div>
+        </div>
+      </div>
+    </div>
+
+    <div id="tab-estetica" class="tab-content">
+      <div class="servicos-grid">
+        <div class="servico-card fade-in">
+          <span class="servico-emoji">💆</span>
+          <div class="servico-nome">Massagem</div>
+          <div class="servico-desc">Massagem relaxante para alívio de tensão e bem-estar após o atendimento.</div>
+          <div class="servico-preco">R$ 50 <small>/ sessão</small></div>
+        </div>
+        <div class="servico-card fade-in">
+          <span class="servico-emoji">🧖</span>
+          <div class="servico-nome">Limpeza Facial</div>
+          <div class="servico-desc">Limpeza profunda de poros, extração e hidratação facial masculina.</div>
+          <div class="servico-preco">R$ 70 <small>/ sessão</small></div>
+        </div>
+        <div class="servico-card fade-in">
+          <span class="servico-emoji">👁️</span>
+          <div class="servico-nome">Design de Sobrancelha</div>
+          <div class="servico-desc">Modelagem masculina de sobrancelhas para um visual bem cuidado.</div>
+          <div class="servico-preco">R$ 25 <small>/ sessão</small></div>
+        </div>
+        <div class="servico-card fade-in">
+          <span class="servico-emoji">👃</span>
+          <div class="servico-nome">Epilação Nasal</div>
+          <div class="servico-desc">Remoção de pelos nasais com cera para um acabamento perfeito.</div>
+          <div class="servico-preco">R$ 20 <small>/ sessão</small></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="servicos-cta fade-in">
+      <a href="#contato" class="btn-primary" style="font-size: 13px; padding: 18px 50px;">
+        ✂️ Agendar um Serviço
+      </a>
+    </div>
+  </section>
+
+  <!-- GALERIA -->
+  <section id="galeria">
+    <div class="galeria-header fade-in">
+      <div class="section-label">Nosso Espaço</div>
+      <h2 class="section-title">Fotos da Unidade</h2>
+    </div>
+    <div class="galeria-grid">
+      <div class="galeria-item">
+        <span class="galeria-placeholder">🏠</span>
+        <div class="galeria-overlay"><span>Ambiente</span></div>
+      </div>
+      <div class="galeria-item">
+        <span class="galeria-placeholder">💈</span>
+        <div class="galeria-overlay"><span>Cadeiras</span></div>
+      </div>
+      <div class="galeria-item">
+        <span class="galeria-placeholder">✂️</span>
+        <div class="galeria-overlay"><span>Atendimento</span></div>
+      </div>
+      <div class="galeria-item">
+        <span class="galeria-placeholder">🪒</span>
+        <div class="galeria-overlay"><span>Barba</span></div>
+      </div>
+      <div class="galeria-item">
+        <span class="galeria-placeholder">🏆</span>
+        <div class="galeria-overlay"><span>Produtos</span></div>
+      </div>
+      <div class="galeria-item">
+        <span class="galeria-placeholder">⭐</span>
+        <div class="galeria-overlay"><span>Detalhes</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRODUTOS -->
+  <section id="produtos">
+    <div class="fade-in">
+      <div class="section-label">Loja</div>
+      <h2 class="section-title">Nossos Produtos</h2>
+      <p class="section-desc">Produtos premium selecionados pelos nossos especialistas para o cuidado diário do seu estilo.</p>
+    </div>
+    <div class="produtos-grid">
+      <div class="produto-card fade-in">
+        <div class="produto-img">🧴</div>
+        <div class="produto-info">
+          <div class="produto-categoria">Cabelo</div>
+          <div class="produto-nome">Pomada Modeladora</div>
+          <div class="produto-desc">Fixação forte com brilho natural. Ideal para todos os tipos de cabelo.</div>
+          <div class="produto-preco">R$ 35</div>
+        </div>
+      </div>
+      <div class="produto-card fade-in">
+        <div class="produto-img">🫙</div>
+        <div class="produto-info">
+          <div class="produto-categoria">Barba</div>
+          <div class="produto-nome">Balm para Barba</div>
+          <div class="produto-desc">Hidratação e maciez para a barba. Aroma amadeirado.</div>
+          <div class="produto-preco">R$ 45</div>
+        </div>
+      </div>
+      <div class="produto-card fade-in">
+        <div class="produto-img">💧</div>
+        <div class="produto-info">
+          <div class="produto-categoria">Barba</div>
+          <div class="produto-nome">Óleo de Barba</div>
+          <div class="produto-desc">Nutrição profunda e brilho para barbas longas e curtas.</div>
+          <div class="produto-preco">R$ 55</div>
+        </div>
+      </div>
+      <div class="produto-card fade-in">
+        <div class="produto-img">🧼</div>
+        <div class="produto-info">
+          <div class="produto-categoria">Cuidados</div>
+          <div class="produto-nome">Shampoo Premium</div>
+          <div class="produto-desc">Limpeza profunda sem agredir. Enriquecido com óleos naturais.</div>
+          <div class="produto-preco">R$ 40</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTATO -->
+  <section id="contato">
+    <div class="fade-in">
+      <div class="section-label">Fale Conosco</div>
+      <h2 class="section-title">Venha nos visitar</h2>
+    </div>
+    <div class="contato-grid">
+      <div class="contato-items fade-in">
+        <div class="contato-item">
+          <div class="contato-icon">📍</div>
+          <div class="contato-info">
+            <h4>Endereço</h4>
+            <p>Rua Exemplo, 123 - Bairro<br>Recife - PE, 50000-000</p>
+          </div>
+        </div>
+        <div class="contato-item">
+          <div class="contato-icon">📞</div>
+          <div class="contato-info">
+            <h4>Telefone</h4>
+            <a href="tel:+558133333333">(81) 3333-3333</a>
+          </div>
+        </div>
+        <div class="contato-item">
+          <div class="contato-icon">💬</div>
+          <div class="contato-info">
+            <h4>WhatsApp</h4>
+            <a href="https://wa.me/5581999999999" target="_blank">(81) 99999-9999</a>
+          </div>
+        </div>
+        <div class="contato-item">
+          <div class="contato-icon">📧</div>
+          <div class="contato-info">
+            <h4>E-mail</h4>
+            <a href="mailto:contato@rbbarbearia.com.br">contato@rbbarbearia.com.br</a>
+          </div>
+        </div>
+        <div class="contato-item">
+          <div class="contato-icon">📸</div>
+          <div class="contato-info">
+            <h4>Instagram</h4>
+            <a href="https://instagram.com/rbbarbearia" target="_blank">@rbbarbearia</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="horarios fade-in">
+        <h3>⏰ Horário de Funcionamento</h3>
+        <div class="horario-item">
+          <span class="horario-dia">Segunda-feira</span>
+          <span class="horario-hora">10h – 21h</span>
+        </div>
+        <div class="horario-item">
+          <span class="horario-dia">Terça-feira</span>
+          <span class="horario-hora">10h – 21h</span>
+        </div>
+        <div class="horario-item">
+          <span class="horario-dia">Quarta-feira</span>
+          <span class="horario-hora">10h – 21h</span>
+        </div>
+        <div class="horario-item">
+          <span class="horario-dia">Quinta-feira</span>
+          <span class="horario-hora">10h – 21h</span>
+        </div>
+        <div class="horario-item">
+          <span class="horario-dia">Sexta-feira</span>
+          <span class="horario-hora">10h – 21h</span>
+        </div>
+        <div class="horario-item">
+          <span class="horario-dia">Sábado</span>
+          <span class="horario-hora">8h – 18h</span>
+        </div>
+        <div class="horario-item">
+          <span class="horario-dia">Domingo</span>
+          <span class="horario-hora horario-fechado">Fechado</span>
+        </div>
+
+        <div style="margin-top: 32px;">
+          <a href="https://wa.me/5581999999999" target="_blank" class="btn-primary" style="width: 100%; text-align: center; display: block; padding: 16px;">
+            📲 Agendar pelo WhatsApp
           </a>
         </div>
       </div>
-
-      <div class="page-content">
-
-        <!-- ===== DASHBOARD ===== -->
-        <div id="sec-dashboard" class="section active">
-          <div class="stats-grid">
-            <div class="stat-card gold">
-              <div class="stat-icon">💰</div>
-              <div class="stat-label">Receita Mensal</div>
-              <div class="stat-value" id="dash-receita">R$ 0</div>
-              <div class="stat-change">Mês atual</div>
-            </div>
-            <div class="stat-card red">
-              <div class="stat-icon">💸</div>
-              <div class="stat-label">Despesas Mensais</div>
-              <div class="stat-value" id="dash-despesa">R$ 0</div>
-              <div class="stat-change">Mês atual</div>
-            </div>
-            <div class="stat-card green">
-              <div class="stat-icon">📊</div>
-              <div class="stat-label">Lucro Líquido</div>
-              <div class="stat-value" id="dash-lucro">R$ 0</div>
-              <div class="stat-change">Mês atual</div>
-            </div>
-            <div class="stat-card blue">
-              <div class="stat-icon">🛍️</div>
-              <div class="stat-label">Produtos Vendidos</div>
-              <div class="stat-value" id="dash-produtos">0</div>
-              <div class="stat-change">Mês atual</div>
-            </div>
-          </div>
-
-          <div class="grid-2">
-            <div class="card">
-              <div class="card-header">
-                <span class="card-title">📈 Receitas vs Despesas (últimos 6 meses)</span>
-              </div>
-              <div class="card-body">
-                <div class="chart-bar-container" id="chart-container">
-                  <!-- Rendered by JS -->
-                </div>
-                <div style="display:flex;gap:16px;margin-top:8px;font-size:11px;color:var(--gray)">
-                  <span><span style="color:var(--gold)">■</span> Receitas</span>
-                  <span><span style="color:var(--danger)">■</span> Despesas</span>
-                </div>
-              </div>
-            </div>
-
-            <div class="card">
-              <div class="card-header">
-                <span class="card-title">📋 Últimas Transações</span>
-              </div>
-              <div class="card-body" style="padding:0">
-                <table>
-                  <thead>
-                    <tr>
-                      <th>Tipo</th>
-                      <th>Descrição</th>
-                      <th>Valor</th>
-                    </tr>
-                  </thead>
-                  <tbody id="dash-recent"></tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-
-          <div class="card">
-            <div class="card-header">
-              <span class="card-title">🛍️ Produtos em Destaque no Site</span>
-              <button class="btn btn-primary btn-sm" onclick="goTo('produtos-admin')">Gerenciar →</button>
-            </div>
-            <div class="card-body" style="padding:0">
-              <table>
-                <thead>
-                  <tr>
-                    <th>Produto</th>
-                    <th>Custo</th>
-                    <th>Preço Venda</th>
-                    <th>Margem</th>
-                    <th>No Site</th>
-                  </tr>
-                </thead>
-                <tbody id="dash-produtos-table"></tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-
-        <!-- ===== FINANCEIRO (VISÃO GERAL) ===== -->
-        <div id="sec-financeiro" class="section">
-          <div class="stats-grid">
-            <div class="stat-card gold">
-              <div class="stat-icon">💰</div>
-              <div class="stat-label">Total Receitas</div>
-              <div class="stat-value" id="fin-total-rec">R$ 0</div>
-            </div>
-            <div class="stat-card red">
-              <div class="stat-icon">💸</div>
-              <div class="stat-label">Total Despesas</div>
-              <div class="stat-value" id="fin-total-desp">R$ 0</div>
-            </div>
-            <div class="stat-card green">
-              <div class="stat-icon">🏆</div>
-              <div class="stat-label">Lucro Total</div>
-              <div class="stat-value" id="fin-lucro">R$ 0</div>
-            </div>
-            <div class="stat-card blue">
-              <div class="stat-icon">📦</div>
-              <div class="stat-label">Receita Produtos</div>
-              <div class="stat-value" id="fin-rec-prod">R$ 0</div>
-            </div>
-          </div>
-
-          <div class="card">
-            <div class="card-header">
-              <span class="card-title">💵 Registrar Nova Venda de Serviço</span>
-            </div>
-            <div class="card-body">
-              <div class="form-row">
-                <div class="form-group">
-                  <label class="form-label">Serviço</label>
-                  <select class="form-input" id="fin-servico">
-                    <option>Corte Clássico - R$ 45</option>
-                    <option>Corte Moderno - R$ 55</option>
-                    <option>Corte Premium - R$ 80</option>
-                    <option>Barba Completa - R$ 40</option>
-                    <option>Combo Corte + Barba - R$ 75</option>
-                    <option>Hidratação Capilar - R$ 60</option>
-                    <option>Coloração - R$ 90</option>
-                    <option>Progressiva - R$ 150</option>
-                    <option>Massagem - R$ 50</option>
-                    <option>Limpeza Facial - R$ 70</option>
-                    <option>Design Sobrancelha - R$ 25</option>
-                    <option>Epilação Nasal - R$ 20</option>
-                    <option value="custom">Outro (digitar valor)</option>
-                  </select>
-                </div>
-                <div class="form-group">
-                  <label class="form-label">Valor (R$)</label>
-                  <input type="number" class="form-input" id="fin-val-servico" placeholder="0,00" step="0.01" />
-                </div>
-              </div>
-              <div class="form-row">
-                <div class="form-group">
-                  <label class="form-label">Data</label>
-                  <input type="date" class="form-input" id="fin-data-servico" />
-                </div>
-                <div class="form-group">
-                  <label class="form-label">Observação (opcional)</label>
-                  <input type="text" class="form-input" id="fin-obs-servico" placeholder="Ex: Pagamento PIX" />
-                </div>
-              </div>
-              <button class="btn btn-primary btn-sm" onclick="addReceita('servico')">✅ Registrar Serviço</button>
-            </div>
-          </div>
-
-          <div class="card">
-            <div class="card-header">
-              <span class="card-title">🛍️ Registrar Venda de Produto</span>
-            </div>
-            <div class="card-body">
-              <div class="form-row">
-                <div class="form-group">
-                  <label class="form-label">Produto</label>
-                  <select class="form-input" id="fin-produto-venda">
-                    <!-- Populated by JS -->
-                  </select>
-                </div>
-                <div class="form-group">
-                  <label class="form-label">Quantidade</label>
-                  <input type="number" class="form-input" id="fin-qtd-produto" value="1" min="1" />
-                </div>
-                <div class="form-group">
-                  <label class="form-label">Valor Unitário (R$)</label>
-                  <input type="number" class="form-input" id="fin-val-produto" placeholder="0,00" step="0.01" />
-                </div>
-              </div>
-              <div class="form-group">
-                <label class="form-label">Data</label>
-                <input type="date" class="form-input" id="fin-data-produto" style="max-width:240px" />
-              </div>
-              <button class="btn btn-primary btn-sm" onclick="addReceita('produto')">✅ Registrar Venda</button>
-            </div>
-          </div>
-
-          <div class="card">
-            <div class="card-header">
-              <span class="card-title">📉 Registrar Despesa</span>
-            </div>
-            <div class="card-body">
-              <div class="form-row cols-3">
-                <div class="form-group">
-                  <label class="form-label">Categoria</label>
-                  <select class="form-input" id="desp-cat">
-                    <option>Aluguel</option>
-                    <option>Compra de Produtos</option>
-                    <option>Salário / Pró-labore</option>
-                    <option>Energia Elétrica</option>
-                    <option>Água</option>
-                    <option>Internet</option>
-                    <option>Marketing</option>
-                    <option>Manutenção</option>
-                    <option>Material de Limpeza</option>
-                    <option>Outro</option>
-                  </select>
-                </div>
-                <div class="form-group">
-                  <label class="form-label">Descrição</label>
-                  <input type="text" class="form-input" id="desp-desc" placeholder="Detalhe a despesa" />
-                </div>
-                <div class="form-group">
-                  <label class="form-label">Valor (R$)</label>
-                  <input type="number" class="form-input" id="desp-val" placeholder="0,00" step="0.01" />
-                </div>
-              </div>
-              <div class="form-group" style="max-width:240px">
-                <label class="form-label">Data</label>
-                <input type="date" class="form-input" id="desp-data" />
-              </div>
-              <button class="btn btn-danger btn-sm" onclick="addDespesa()">📉 Registrar Despesa</button>
-            </div>
-          </div>
-        </div>
-
-        <!-- ===== SERVIÇOS ===== -->
-        <div id="sec-servicos" class="section">
-          <div class="card" style="margin-bottom:24px">
-            <div class="card-header">
-              <span class="card-title">➕ Adicionar Novo Serviço</span>
-            </div>
-            <div class="card-body">
-              <div class="form-row cols-3">
-                <div class="form-group">
-                  <label class="form-label">Nome do Serviço</label>
-                  <input type="text" class="form-input" id="srv-nome" placeholder="Ex: Corte Executivo" />
-                </div>
-                <div class="form-group">
-                  <label class="form-label">Categoria</label>
-                  <select class="form-input" id="srv-cat">
-                    <option>Cabelo</option>
-                    <option>Barba</option>
-                    <option>Química Capilar</option>
-                    <option>Estética</option>
-                  </select>
-                </div>
-                <div class="form-group">
-                  <label class="form-label">Preço (R$)</label>
-                  <input type="number" class="form-input" id="srv-preco" placeholder="0,00" step="0.01" />
-                </div>
-              </div>
-              <div class="form-group">
-                <label class="form-label">Descrição</label>
-                <input type="text" class="form-input" id="srv-desc" placeholder="Breve descrição do serviço" />
-              </div>
-              <div class="form-row">
-                <div class="form-group">
-                  <label class="form-label">Emoji / Ícone</label>
-                  <input type="text" class="form-input" id="srv-emoji" placeholder="✂️" />
-                </div>
-                <div class="form-group" style="display:flex;align-items:flex-end;gap:12px">
-                  <button class="btn btn-primary btn-sm" onclick="addServico()">✅ Adicionar Serviço</button>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="card">
-            <div class="card-header">
-              <span class="card-title">✂️ Serviços Cadastrados</span>
-            </div>
-            <div class="card-body" style="padding:0">
-              <table>
-                <thead>
-                  <tr>
-                    <th>Ícone</th>
-                    <th>Serviço</th>
-                    <th>Categoria</th>
-                    <th>Preço</th>
-                    <th>Ações</th>
-                  </tr>
-                </thead>
-                <tbody id="servicos-table"></tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-
-        <!-- ===== PRODUTOS ADMIN ===== -->
-        <div id="sec-produtos-admin" class="section">
-          <div class="card" style="margin-bottom:24px">
-            <div class="card-header">
-              <span class="card-title">➕ Cadastrar Novo Produto</span>
-            </div>
-            <div class="card-body">
-              <div class="form-row">
-                <div class="form-group">
-                  <label class="form-label">Nome do Produto</label>
-                  <input type="text" class="form-input" id="prod-nome" placeholder="Ex: Pomada Premium" />
-                </div>
-                <div class="form-group">
-                  <label class="form-label">Categoria</label>
-                  <select class="form-input" id="prod-cat">
-                    <option>Cabelo</option>
-                    <option>Barba</option>
-                    <option>Cuidados</option>
-                    <option>Acessórios</option>
-                  </select>
-                </div>
-              </div>
-              <div class="form-row cols-3">
-                <div class="form-group">
-                  <label class="form-label">Custo (R$)</label>
-                  <input type="number" class="form-input" id="prod-custo" placeholder="0,00" step="0.01" />
-                </div>
-                <div class="form-group">
-                  <label class="form-label">Preço de Venda (R$)</label>
-                  <input type="number" class="form-input" id="prod-preco" placeholder="0,00" step="0.01" />
-                </div>
-                <div class="form-group">
-                  <label class="form-label">Emoji</label>
-                  <input type="text" class="form-input" id="prod-emoji" placeholder="🧴" />
-                </div>
-              </div>
-              <div class="form-row">
-                <div class="form-group">
-                  <label class="form-label">Descrição</label>
-                  <input type="text" class="form-input" id="prod-desc" placeholder="Breve descrição" />
-                </div>
-                <div class="form-group" style="display:flex;flex-direction:column;justify-content:flex-end">
-                  <button class="btn btn-primary btn-sm" onclick="addProduto()">✅ Cadastrar Produto</button>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="card">
-            <div class="card-header">
-              <span class="card-title">🛍️ Produtos Cadastrados</span>
-            </div>
-            <div class="card-body" style="padding:0">
-              <table>
-                <thead>
-                  <tr>
-                    <th>Produto</th>
-                    <th>Cat.</th>
-                    <th>Custo</th>
-                    <th>Venda</th>
-                    <th>Margem</th>
-                    <th>Exibir no Site</th>
-                    <th>Ações</th>
-                  </tr>
-                </thead>
-                <tbody id="produtos-table"></tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-
-        <!-- ===== CONTEÚDO DO SITE ===== -->
-        <div id="sec-conteudo" class="section">
-          <div class="card" style="margin-bottom:24px">
-            <div class="card-header">
-              <span class="card-title">✏️ Editar Textos do Site</span>
-            </div>
-            <div class="card-body">
-              <div class="form-group">
-                <label class="form-label">Título Principal (Hero)</label>
-                <input type="text" class="form-input" id="cont-hero-title" value="Arte & Estilo Masculino" />
-              </div>
-              <div class="form-group">
-                <label class="form-label">Subtítulo / Descrição Hero</label>
-                <textarea class="form-input" id="cont-hero-desc">Um espaço exclusivamente masculino onde tradição e modernidade se encontram. Cada detalhe pensado para a sua melhor versão.</textarea>
-              </div>
-              <div class="form-group">
-                <label class="form-label">Texto Sobre Nós</label>
-                <textarea class="form-input" id="cont-sobre">A RB Barbearia é um refúgio exclusivamente masculino, onde o homem moderno encontra cuidado, estilo e bem-estar em um só lugar.</textarea>
-              </div>
-              <div class="form-row cols-3">
-                <div class="form-group">
-                  <label class="form-label">WhatsApp</label>
-                  <input type="text" class="form-input" id="cont-whats" placeholder="5581999999999" />
-                </div>
-                <div class="form-group">
-                  <label class="form-label">Instagram</label>
-                  <input type="text" class="form-input" id="cont-instagram" placeholder="@rbbarbearia" />
-                </div>
-                <div class="form-group">
-                  <label class="form-label">E-mail</label>
-                  <input type="text" class="form-input" id="cont-email" placeholder="contato@rb.com.br" />
-                </div>
-              </div>
-              <div class="form-row">
-                <div class="form-group">
-                  <label class="form-label">Endereço</label>
-                  <input type="text" class="form-input" id="cont-endereco" placeholder="Rua Exemplo, 123 - Bairro" />
-                </div>
-                <div class="form-group">
-                  <label class="form-label">Telefone Fixo</label>
-                  <input type="text" class="form-input" id="cont-telefone" placeholder="(81) 3333-3333" />
-                </div>
-              </div>
-              <div style="display:flex;gap:12px;align-items:center">
-                <button class="btn btn-primary btn-sm" onclick="saveConteudo()">💾 Salvar Alterações</button>
-                <span id="save-feedback" style="font-size:12px;color:var(--success);display:none">✅ Salvo com sucesso!</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- ===== GALERIA ADMIN ===== -->
-        <div id="sec-galeria-admin" class="section">
-          <div class="card">
-            <div class="card-header">
-              <span class="card-title">🖼️ Gerenciar Galeria</span>
-            </div>
-            <div class="card-body">
-              <p style="color:var(--gray);font-size:13px;margin-bottom:24px">
-                Configure os slots de imagem da galeria. Na versão de produção, faça upload de fotos reais da unidade.
-              </p>
-              <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;" id="galeria-slots">
-                <!-- Rendered by JS -->
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- ===== RECEITAS ===== -->
-        <div id="sec-receitas" class="section">
-          <div class="card">
-            <div class="card-header">
-              <span class="card-title">📈 Histórico de Receitas</span>
-              <div style="display:flex;gap:8px">
-                <select class="form-input" id="rec-filter" style="width:auto;padding:6px 12px;font-size:12px" onchange="renderReceitas()">
-                  <option value="">Todos os meses</option>
-                  <option value="2025-05">Maio 2025</option>
-                  <option value="2025-04">Abril 2025</option>
-                  <option value="2025-03">Março 2025</option>
-                </select>
-              </div>
-            </div>
-            <div class="card-body" style="padding:0">
-              <table>
-                <thead>
-                  <tr>
-                    <th>Data</th>
-                    <th>Tipo</th>
-                    <th>Descrição</th>
-                    <th>Valor</th>
-                    <th>Ação</th>
-                  </tr>
-                </thead>
-                <tbody id="receitas-table"></tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-
-        <!-- ===== DESPESAS ===== -->
-        <div id="sec-despesas" class="section">
-          <div class="card">
-            <div class="card-header">
-              <span class="card-title">📉 Histórico de Despesas</span>
-            </div>
-            <div class="card-body" style="padding:0">
-              <table>
-                <thead>
-                  <tr>
-                    <th>Data</th>
-                    <th>Categoria</th>
-                    <th>Descrição</th>
-                    <th>Valor</th>
-                    <th>Ação</th>
-                  </tr>
-                </thead>
-                <tbody id="despesas-table"></tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-
-        <!-- ===== RELATÓRIO ===== -->
-        <div id="sec-relatorio" class="section">
-          <div class="stats-grid" style="margin-bottom:32px">
-            <div class="stat-card gold">
-              <div class="stat-label">Total Receitas</div>
-              <div class="stat-value" id="rel-rec">R$ 0</div>
-            </div>
-            <div class="stat-card red">
-              <div class="stat-label">Total Despesas</div>
-              <div class="stat-value" id="rel-desp">R$ 0</div>
-            </div>
-            <div class="stat-card green">
-              <div class="stat-label">Lucro Líquido</div>
-              <div class="stat-value" id="rel-lucro">R$ 0</div>
-            </div>
-            <div class="stat-card blue">
-              <div class="stat-label">Margem de Lucro</div>
-              <div class="stat-value" id="rel-margem">0%</div>
-            </div>
-          </div>
-
-          <div class="grid-2">
-            <div class="card">
-              <div class="card-header"><span class="card-title">📊 Receitas por Tipo</span></div>
-              <div class="card-body" style="padding:0">
-                <table>
-                  <thead>
-                    <tr><th>Tipo</th><th>Total</th><th>%</th></tr>
-                  </thead>
-                  <tbody id="rel-por-tipo"></tbody>
-                </table>
-              </div>
-            </div>
-
-            <div class="card">
-              <div class="card-header"><span class="card-title">💸 Despesas por Categoria</span></div>
-              <div class="card-body" style="padding:0">
-                <table>
-                  <thead>
-                    <tr><th>Categoria</th><th>Total</th><th>%</th></tr>
-                  </thead>
-                  <tbody id="rel-por-cat"></tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-
-          <div class="card">
-            <div class="card-header">
-              <span class="card-title">🏆 Produtos Mais Rentáveis</span>
-            </div>
-            <div class="card-body" style="padding:0">
-              <table>
-                <thead>
-                  <tr><th>Produto</th><th>Custo</th><th>Preço</th><th>Margem</th><th>Vendas</th><th>Receita</th></tr>
-                </thead>
-                <tbody id="rel-produtos"></tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-
-      </div><!-- /page-content -->
-    </main>
-  </div>
-</div>
-
-<!-- MODAL EDITAR SERVIÇO -->
-<div class="modal-overlay" id="modal-servico">
-  <div class="modal">
-    <div class="modal-header">
-      <span class="modal-title">✏️ Editar Serviço</span>
-      <button class="modal-close" onclick="closeModal('modal-servico')">✕</button>
     </div>
-    <div class="form-group">
-      <label class="form-label">Nome</label>
-      <input type="text" class="form-input" id="edit-srv-nome" />
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-agendar fade-in">
+      <h2>Agende seu Horário</h2>
+      <p>Reserve agora o seu momento de cuidado e estilo</p>
+      <a href="https://wa.me/5581999999999" target="_blank" class="btn-primary" style="font-size: 13px; padding: 18px 50px;">
+        💈 Falar com a Gente
+      </a>
     </div>
-    <div class="form-group">
-      <label class="form-label">Preço (R$)</label>
-      <input type="number" class="form-input" id="edit-srv-preco" step="0.01" />
-    </div>
-    <div class="form-group">
-      <label class="form-label">Descrição</label>
-      <input type="text" class="form-input" id="edit-srv-desc" />
-    </div>
-    <input type="hidden" id="edit-srv-idx" />
-    <div style="display:flex;gap:12px">
-      <button class="btn btn-primary btn-sm" onclick="saveServico()">💾 Salvar</button>
-      <button class="btn btn-danger btn-sm" onclick="closeModal('modal-servico')">Cancelar</button>
-    </div>
-  </div>
-</div>
 
-<script>
-// ============================================================
-// STATE
-// ============================================================
-let state = {
-  receitas: [],
-  despesas: [],
-  servicos: [
-    { nome: 'Corte Clássico', cat: 'Cabelo', preco: 45, desc: 'Corte tradicional com acabamento impecável.', emoji: '✂️' },
-    { nome: 'Corte Moderno', cat: 'Cabelo', preco: 55, desc: 'Tendências atuais com técnicas de degradê.', emoji: '💈' },
-    { nome: 'Barba Completa', cat: 'Barba', preco: 40, desc: 'Modelagem, navalha quente, toalha quente.', emoji: '🪒' },
-    { nome: 'Combo Corte + Barba', cat: 'Barba', preco: 75, desc: 'O pacote mais completo.', emoji: '⚡' },
-    { nome: 'Limpeza Facial', cat: 'Estética', preco: 70, desc: 'Limpeza profunda de poros.', emoji: '🧖' },
-    { nome: 'Massagem', cat: 'Estética', preco: 50, desc: 'Massagem relaxante.', emoji: '💆' },
-  ],
-  produtos: [
-    { nome: 'Pomada Modeladora', cat: 'Cabelo', custo: 18, preco: 35, emoji: '🧴', desc: 'Fixação forte com brilho natural.', noSite: true, vendas: 0 },
-    { nome: 'Balm para Barba', cat: 'Barba', custo: 22, preco: 45, emoji: '🫙', desc: 'Hidratação e maciez para a barba.', noSite: true, vendas: 0 },
-    { nome: 'Óleo de Barba', cat: 'Barba', custo: 28, preco: 55, emoji: '💧', desc: 'Nutrição profunda.', noSite: true, vendas: 0 },
-    { nome: 'Shampoo Premium', cat: 'Cuidados', custo: 20, preco: 40, emoji: '🧼', desc: 'Limpeza profunda sem agredir.', noSite: false, vendas: 0 },
-  ]
-};
-
-// Load from localStorage
-function loadState() {
-  try {
-    const saved = localStorage.getItem('rb_admin_state');
-    if (saved) state = { ...state, ...JSON.parse(saved) };
-  } catch(e) {}
-}
-
-function saveState() {
-  localStorage.setItem('rb_admin_state', JSON.stringify(state));
-}
-
-loadState();
-
-// ============================================================
-// AUTH
-// ============================================================
-function doLogin() {
-  const user = document.getElementById('inp-user').value.trim();
-  const pass = document.getElementById('inp-pass').value.trim();
-  if (user === 'admin' && pass === 'rb2025') {
-    document.getElementById('login-screen').style.display = 'none';
-    document.getElementById('admin-panel').style.display = 'block';
-    initAdmin();
-  } else {
-    document.getElementById('login-error').style.display = 'block';
-  }
-}
-
-function doLogout() {
-  if (confirm('Deseja sair do painel?')) {
-    document.getElementById('login-screen').style.display = 'flex';
-    document.getElementById('admin-panel').style.display = 'none';
-    document.getElementById('inp-pass').value = '';
-  }
-}
-
-// ============================================================
-// NAVIGATION
-// ============================================================
-const titles = {
-  dashboard: 'Dashboard', financeiro: 'Financeiro', servicos: 'Gerenciar Serviços',
-  'produtos-admin': 'Gerenciar Produtos', conteudo: 'Conteúdo do Site',
-  'galeria-admin': 'Galeria', receitas: 'Receitas', despesas: 'Despesas', relatorio: 'Relatório Financeiro'
-};
-
-function goTo(section) {
-  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-
-  document.getElementById(`sec-${section}`).classList.add('active');
-  document.querySelectorAll('.nav-item').forEach(n => {
-    if (n.textContent.trim().toLowerCase().includes(titles[section]?.split(' ')[0].toLowerCase()) ||
-        n.getAttribute('onclick')?.includes(`'${section}'`)) {
-      n.classList.add('active');
-    }
-  });
-  document.getElementById('page-title').textContent = titles[section] || section;
-
-  renderAll();
-}
-
-// ============================================================
-// INIT
-// ============================================================
-function initAdmin() {
-  setDefaultDates();
-  updateClock();
-  setInterval(updateClock, 1000);
-  renderAll();
-  renderGaleriaSlots();
-}
-
-function setDefaultDates() {
-  const today = new Date().toISOString().split('T')[0];
-  ['fin-data-servico','fin-data-produto','desp-data'].forEach(id => {
-    const el = document.getElementById(id);
-    if (el) el.value = today;
-  });
-}
-
-function updateClock() {
-  const el = document.getElementById('current-time');
-  if (el) el.textContent = new Date().toLocaleTimeString('pt-BR');
-}
-
-function renderAll() {
-  renderDashboard();
-  renderServicosTable();
-  renderProdutosTable();
-  renderReceitas();
-  renderDespesas();
-  renderRelatorio();
-  renderFinOverview();
-  updateProdutoVendaSelect();
-}
-
-// ============================================================
-// FORMAT
-// ============================================================
-const fmt = (v) => 'R$ ' + Number(v).toFixed(2).replace('.', ',');
-const pct = (v, t) => t > 0 ? ((v/t)*100).toFixed(1)+'%' : '0%';
-
-// ============================================================
-// DASHBOARD
-// ============================================================
-function renderDashboard() {
-  const now = new Date();
-  const mes = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}`;
-
-  const recMes = state.receitas.filter(r => r.data.startsWith(mes)).reduce((a,r) => a+r.valor, 0);
-  const despMes = state.despesas.filter(d => d.data.startsWith(mes)).reduce((a,d) => a+d.valor, 0);
-  const prodMes = state.receitas.filter(r => r.data.startsWith(mes) && r.tipo === 'produto').length;
-
-  document.getElementById('dash-receita').textContent = fmt(recMes);
-  document.getElementById('dash-despesa').textContent = fmt(despMes);
-  document.getElementById('dash-lucro').textContent = fmt(recMes - despMes);
-  document.getElementById('dash-produtos').textContent = prodMes;
-
-  renderChart();
-  renderDashRecent();
-  renderDashProdutos();
-}
-
-function renderChart() {
-  const container = document.getElementById('chart-container');
-  const months = [];
-  for (let i = 5; i >= 0; i--) {
-    const d = new Date();
-    d.setMonth(d.getMonth() - i);
-    months.push({ key: `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`, label: d.toLocaleDateString('pt-BR', {month:'short'}) });
-  }
-  const maxVal = Math.max(...months.map(m => {
-    const r = state.receitas.filter(x => x.data.startsWith(m.key)).reduce((a,x) => a+x.valor, 0);
-    const d = state.despesas.filter(x => x.data.startsWith(m.key)).reduce((a,x) => a+x.valor, 0);
-    return Math.max(r, d);
-  }), 1);
-
-  container.innerHTML = months.map(m => {
-    const r = state.receitas.filter(x => x.data.startsWith(m.key)).reduce((a,x) => a+x.valor, 0);
-    const d = state.despesas.filter(x => x.data.startsWith(m.key)).reduce((a,x) => a+x.valor, 0);
-    const rH = Math.max((r/maxVal)*120, 2);
-    const dH = Math.max((d/maxVal)*120, 2);
-    return `
-      <div class="chart-bar-wrap">
-        <div style="display:flex;gap:4px;align-items:flex-end;height:120px">
-          <div class="chart-bar gold" style="height:${rH}px;width:50%;"></div>
-          <div class="chart-bar red" style="height:${dH}px;width:50%;"></div>
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px">
+          <div class="logo-icon">RB</div>
+          <span style="font-family:'Playfair Display',serif;font-size:20px;letter-spacing:2px;">BARBEARIA</span>
         </div>
-        <div class="chart-label">${m.label}</div>
+        <h2 style="font-size:20px;margin-bottom:12px;color:var(--gold)">RB BARBEARIA</h2>
+        <p>Dedicados ao bem-estar e à elegância do homem moderno. Tradição, qualidade e estilo em cada atendimento.</p>
+        <div class="footer-social">
+          <a href="https://facebook.com/rbbarbearia" target="_blank">f</a>
+          <a href="https://instagram.com/rbbarbearia" target="_blank">📸</a>
+          <a href="https://wa.me/5581999999999" target="_blank">💬</a>
+        </div>
       </div>
-    `;
-  }).join('');
-}
 
-function renderDashRecent() {
-  const tbody = document.getElementById('dash-recent');
-  const items = [
-    ...state.receitas.map(r => ({...r, dir:'rec'})),
-    ...state.despesas.map(d => ({...d, dir:'desp'}))
-  ].sort((a,b) => new Date(b.data)-new Date(a.data)).slice(0,6);
+      <div class="footer-col">
+        <h4>Navegação</h4>
+        <ul>
+          <li><a href="#home">Home</a></li>
+          <li><a href="#sobre">Sobre</a></li>
+          <li><a href="#servicos">Serviços</a></li>
+          <li><a href="#galeria">Galeria</a></li>
+          <li><a href="#produtos">Produtos</a></li>
+          <li><a href="#contato">Contato</a></li>
+        </ul>
+      </div>
 
-  tbody.innerHTML = items.length ? items.map(i => `
-    <tr>
-      <td><span class="badge ${i.dir==='rec'?'badge-green':'badge-red'}">${i.dir==='rec'?'Receita':'Despesa'}</span></td>
-      <td>${i.desc || i.descricao || i.servico || ''}</td>
-      <td style="color:${i.dir==='rec'?'var(--success)':'var(--danger)'}">
-        ${i.dir==='rec'?'+':'-'}${fmt(i.valor)}
-      </td>
-    </tr>
-  `).join('') : '<tr><td colspan="3" style="text-align:center;color:var(--gray);padding:24px">Nenhuma transação registrada</td></tr>';
-}
-
-function renderDashProdutos() {
-  const tbody = document.getElementById('dash-produtos-table');
-  tbody.innerHTML = state.produtos.map((p, i) => {
-    const margem = ((p.preco - p.custo) / p.custo * 100).toFixed(0);
-    return `
-      <tr>
-        <td>${p.emoji} ${p.nome}</td>
-        <td>${fmt(p.custo)}</td>
-        <td>${fmt(p.preco)}</td>
-        <td><span class="badge badge-green">${margem}%</span></td>
-        <td>
-          <label class="switch">
-            <input type="checkbox" ${p.noSite?'checked':''} onchange="toggleProdutoSite(${i},this.checked)">
-            <span class="slider"></span>
-          </label>
-        </td>
-      </tr>
-    `;
-  }).join('');
-}
-
-// ============================================================
-// FINANCEIRO
-// ============================================================
-function renderFinOverview() {
-  const totRec = state.receitas.reduce((a,r) => a+r.valor, 0);
-  const totDesp = state.despesas.reduce((a,d) => a+d.valor, 0);
-  const recProd = state.receitas.filter(r => r.tipo==='produto').reduce((a,r) => a+r.valor, 0);
-
-  document.getElementById('fin-total-rec').textContent = fmt(totRec);
-  document.getElementById('fin-total-desp').textContent = fmt(totDesp);
-  document.getElementById('fin-lucro').textContent = fmt(totRec - totDesp);
-  document.getElementById('fin-rec-prod').textContent = fmt(recProd);
-}
-
-function addReceita(tipo) {
-  let val, desc, data;
-  if (tipo === 'servico') {
-    const srv = document.getElementById('fin-servico').value;
-    val = parseFloat(document.getElementById('fin-val-servico').value);
-    desc = document.getElementById('fin-obs-servico').value || srv;
-    data = document.getElementById('fin-data-servico').value;
-    if (!val) { const m = srv.match(/R\$ (\d+)/); val = m ? parseFloat(m[1]) : 0; }
-  } else {
-    const p = document.getElementById('fin-produto-venda');
-    const qtd = parseInt(document.getElementById('fin-qtd-produto').value) || 1;
-    val = parseFloat(document.getElementById('fin-val-produto').value) * qtd;
-    desc = `Venda: ${p.options[p.selectedIndex].text} (x${qtd})`;
-    data = document.getElementById('fin-data-produto').value;
-    // update product sales count
-    const idx = parseInt(p.value);
-    if (!isNaN(idx)) state.produtos[idx].vendas = (state.produtos[idx].vendas || 0) + qtd;
-  }
-
-  if (!val || val <= 0) { alert('Informe o valor!'); return; }
-  if (!data) { alert('Informe a data!'); return; }
-
-  state.receitas.push({ tipo, desc, valor: val, data });
-  saveState();
-  renderAll();
-  alert('✅ Receita registrada com sucesso!');
-}
-
-function addDespesa() {
-  const cat = document.getElementById('desp-cat').value;
-  const desc = document.getElementById('desp-desc').value || cat;
-  const val = parseFloat(document.getElementById('desp-val').value);
-  const data = document.getElementById('desp-data').value;
-
-  if (!val || val <= 0) { alert('Informe o valor!'); return; }
-  if (!data) { alert('Informe a data!'); return; }
-
-  state.despesas.push({ cat, desc, valor: val, data });
-  saveState();
-  renderAll();
-  alert('✅ Despesa registrada com sucesso!');
-}
-
-function updateProdutoVendaSelect() {
-  const sel = document.getElementById('fin-produto-venda');
-  if (!sel) return;
-  sel.innerHTML = state.produtos.map((p,i) => `<option value="${i}">${p.emoji} ${p.nome} (R$ ${p.preco})</option>`).join('');
-}
-
-// ============================================================
-// SERVIÇOS
-// ============================================================
-function addServico() {
-  const nome = document.getElementById('srv-nome').value.trim();
-  const cat = document.getElementById('srv-cat').value;
-  const preco = parseFloat(document.getElementById('srv-preco').value);
-  const desc = document.getElementById('srv-desc').value.trim();
-  const emoji = document.getElementById('srv-emoji').value.trim() || '✂️';
-  if (!nome || !preco) { alert('Preencha nome e preço!'); return; }
-  state.servicos.push({ nome, cat, preco, desc, emoji });
-  saveState();
-  renderServicosTable();
-  ['srv-nome','srv-preco','srv-desc','srv-emoji'].forEach(id => document.getElementById(id).value = '');
-}
-
-function renderServicosTable() {
-  const tbody = document.getElementById('servicos-table');
-  if (!tbody) return;
-  tbody.innerHTML = state.servicos.map((s,i) => `
-    <tr>
-      <td style="font-size:24px">${s.emoji}</td>
-      <td><strong>${s.nome}</strong><br><small style="color:var(--gray)">${s.desc}</small></td>
-      <td><span class="badge badge-blue">${s.cat}</span></td>
-      <td style="color:var(--gold);font-weight:600">${fmt(s.preco)}</td>
-      <td style="display:flex;gap:8px">
-        <button class="btn btn-info btn-sm" onclick="editServico(${i})">✏️</button>
-        <button class="btn btn-danger btn-sm" onclick="delServico(${i})">🗑️</button>
-      </td>
-    </tr>
-  `).join('') || '<tr><td colspan="5" style="text-align:center;color:var(--gray);padding:24px">Nenhum serviço cadastrado</td></tr>';
-}
-
-function editServico(i) {
-  const s = state.servicos[i];
-  document.getElementById('edit-srv-nome').value = s.nome;
-  document.getElementById('edit-srv-preco').value = s.preco;
-  document.getElementById('edit-srv-desc').value = s.desc;
-  document.getElementById('edit-srv-idx').value = i;
-  document.getElementById('modal-servico').classList.add('open');
-}
-
-function saveServico() {
-  const i = parseInt(document.getElementById('edit-srv-idx').value);
-  state.servicos[i].nome = document.getElementById('edit-srv-nome').value;
-  state.servicos[i].preco = parseFloat(document.getElementById('edit-srv-preco').value);
-  state.servicos[i].desc = document.getElementById('edit-srv-desc').value;
-  saveState();
-  renderServicosTable();
-  closeModal('modal-servico');
-}
-
-function delServico(i) {
-  if (confirm('Excluir este serviço?')) {
-    state.servicos.splice(i, 1);
-    saveState();
-    renderServicosTable();
-  }
-}
-
-// ============================================================
-// PRODUTOS
-// ============================================================
-function addProduto() {
-  const nome = document.getElementById('prod-nome').value.trim();
-  const cat = document.getElementById('prod-cat').value;
-  const custo = parseFloat(document.getElementById('prod-custo').value);
-  const preco = parseFloat(document.getElementById('prod-preco').value);
-  const emoji = document.getElementById('prod-emoji').value.trim() || '🛍️';
-  const desc = document.getElementById('prod-desc').value.trim();
-  if (!nome || !custo || !preco) { alert('Preencha todos os campos!'); return; }
-  state.produtos.push({ nome, cat, custo, preco, emoji, desc, noSite: false, vendas: 0 });
-  saveState();
-  renderProdutosTable();
-  updateProdutoVendaSelect();
-  ['prod-nome','prod-custo','prod-preco','prod-emoji','prod-desc'].forEach(id => document.getElementById(id).value = '');
-}
-
-function renderProdutosTable() {
-  const tbody = document.getElementById('produtos-table');
-  if (!tbody) return;
-  tbody.innerHTML = state.produtos.map((p,i) => {
-    const margem = ((p.preco - p.custo) / p.custo * 100).toFixed(0);
-    return `
-      <tr>
-        <td>${p.emoji} <strong>${p.nome}</strong></td>
-        <td><span class="badge badge-blue">${p.cat}</span></td>
-        <td>${fmt(p.custo)}</td>
-        <td style="color:var(--gold)">${fmt(p.preco)}</td>
-        <td><span class="badge badge-green">+${margem}%</span></td>
-        <td>
-          <label class="switch">
-            <input type="checkbox" ${p.noSite?'checked':''} onchange="toggleProdutoSite(${i},this.checked)">
-            <span class="slider"></span>
-          </label>
-        </td>
-        <td>
-          <button class="btn btn-danger btn-sm" onclick="delProduto(${i})">🗑️</button>
-        </td>
-      </tr>
-    `;
-  }).join('') || '<tr><td colspan="7" style="text-align:center;color:var(--gray);padding:24px">Nenhum produto cadastrado</td></tr>';
-}
-
-function toggleProdutoSite(i, val) {
-  state.produtos[i].noSite = val;
-  saveState();
-  renderDashProdutos();
-}
-
-function delProduto(i) {
-  if (confirm('Excluir este produto?')) {
-    state.produtos.splice(i, 1);
-    saveState();
-    renderProdutosTable();
-    updateProdutoVendaSelect();
-  }
-}
-
-// ============================================================
-// RECEITAS / DESPESAS TABLES
-// ============================================================
-function renderReceitas() {
-  const tbody = document.getElementById('receitas-table');
-  if (!tbody) return;
-  const filter = document.getElementById('rec-filter')?.value || '';
-  const items = state.receitas
-    .filter(r => !filter || r.data.startsWith(filter))
-    .sort((a,b) => new Date(b.data)-new Date(a.data));
-  tbody.innerHTML = items.length ? items.map((r,i) => `
-    <tr>
-      <td>${new Date(r.data).toLocaleDateString('pt-BR')}</td>
-      <td><span class="badge ${r.tipo==='produto'?'badge-blue':'badge-green'}">${r.tipo==='produto'?'Produto':'Serviço'}</span></td>
-      <td>${r.desc}</td>
-      <td style="color:var(--success);font-weight:600">+${fmt(r.valor)}</td>
-      <td><button class="btn btn-danger btn-sm" onclick="delReceita(${i})">🗑️</button></td>
-    </tr>
-  `).join('') : '<tr><td colspan="5" style="text-align:center;color:var(--gray);padding:24px">Nenhuma receita registrada</td></tr>';
-}
-
-function delReceita(i) {
-  if (confirm('Remover esta receita?')) { state.receitas.splice(i,1); saveState(); renderAll(); }
-}
-
-function renderDespesas() {
-  const tbody = document.getElementById('despesas-table');
-  if (!tbody) return;
-  const items = [...state.despesas].sort((a,b) => new Date(b.data)-new Date(a.data));
-  tbody.innerHTML = items.length ? items.map((d,i) => `
-    <tr>
-      <td>${new Date(d.data).toLocaleDateString('pt-BR')}</td>
-      <td><span class="badge badge-red">${d.cat}</span></td>
-      <td>${d.desc}</td>
-      <td style="color:var(--danger);font-weight:600">-${fmt(d.valor)}</td>
-      <td><button class="btn btn-danger btn-sm" onclick="delDespesa(${i})">🗑️</button></td>
-    </tr>
-  `).join('') : '<tr><td colspan="5" style="text-align:center;color:var(--gray);padding:24px">Nenhuma despesa registrada</td></tr>';
-}
-
-function delDespesa(i) {
-  if (confirm('Remover esta despesa?')) { state.despesas.splice(i,1); saveState(); renderAll(); }
-}
-
-// ============================================================
-// RELATÓRIO
-// ============================================================
-function renderRelatorio() {
-  const totRec = state.receitas.reduce((a,r) => a+r.valor, 0);
-  const totDesp = state.despesas.reduce((a,d) => a+d.valor, 0);
-  const lucro = totRec - totDesp;
-  const margem = totRec > 0 ? (lucro/totRec*100).toFixed(1)+'%' : '0%';
-
-  const setEl = (id, val) => { const el = document.getElementById(id); if(el) el.textContent = val; };
-  setEl('rel-rec', fmt(totRec));
-  setEl('rel-desp', fmt(totDesp));
-  setEl('rel-lucro', fmt(lucro));
-  setEl('rel-margem', margem);
-
-  // Por tipo
-  const recServico = state.receitas.filter(r => r.tipo==='servico').reduce((a,r) => a+r.valor, 0);
-  const recProduto = state.receitas.filter(r => r.tipo==='produto').reduce((a,r) => a+r.valor, 0);
-  const tbody1 = document.getElementById('rel-por-tipo');
-  if (tbody1) tbody1.innerHTML = `
-    <tr><td>💈 Serviços</td><td>${fmt(recServico)}</td><td>${pct(recServico,totRec)}</td></tr>
-    <tr><td>🛍️ Produtos</td><td>${fmt(recProduto)}</td><td>${pct(recProduto,totRec)}</td></tr>
-  `;
-
-  // Por categoria de despesa
-  const despCats = {};
-  state.despesas.forEach(d => { despCats[d.cat] = (despCats[d.cat]||0) + d.valor; });
-  const tbody2 = document.getElementById('rel-por-cat');
-  if (tbody2) tbody2.innerHTML = Object.entries(despCats)
-    .sort((a,b) => b[1]-a[1])
-    .map(([cat,val]) => `<tr><td>${cat}</td><td>${fmt(val)}</td><td>${pct(val,totDesp)}</td></tr>`)
-    .join('') || '<tr><td colspan="3" style="text-align:center;color:var(--gray)">Sem despesas</td></tr>';
-
-  // Produtos
-  const tbody3 = document.getElementById('rel-produtos');
-  if (tbody3) tbody3.innerHTML = state.produtos.map(p => {
-    const margem = ((p.preco - p.custo) / p.custo * 100).toFixed(0);
-    const receitaTotal = (p.vendas || 0) * p.preco;
-    return `
-      <tr>
-        <td>${p.emoji} ${p.nome}</td>
-        <td>${fmt(p.custo)}</td>
-        <td>${fmt(p.preco)}</td>
-        <td><span class="badge badge-green">+${margem}%</span></td>
-        <td>${p.vendas || 0}</td>
-        <td style="color:var(--gold)">${fmt(receitaTotal)}</td>
-      </tr>
-    `;
-  }).join('') || '<tr><td colspan="6" style="text-align:center;color:var(--gray)">Sem dados</td></tr>';
-}
-
-// ============================================================
-// CONTEÚDO
-// ============================================================
-function saveConteudo() {
-  // In production, this would save to a backend
-  const feedback = document.getElementById('save-feedback');
-  feedback.style.display = 'inline';
-  setTimeout(() => feedback.style.display = 'none', 3000);
-}
-
-// ============================================================
-// GALERIA
-// ============================================================
-function renderGaleriaSlots() {
-  const container = document.getElementById('galeria-slots');
-  if (!container) return;
-  const emojis = ['🏠', '💈', '✂️', '🪒', '🏆', '⭐'];
-  const labels = ['Fachada', 'Interior', 'Atendimento', 'Barba', 'Produtos', 'Detalhes'];
-  container.innerHTML = emojis.map((e,i) => `
-    <div style="background:var(--black);border:1px dashed rgba(255,255,255,0.1);border-radius:8px;padding:20px;text-align:center">
-      <div style="font-size:40px;margin-bottom:8px">${e}</div>
-      <div style="font-size:12px;color:var(--gray);margin-bottom:12px">${labels[i]}</div>
-      <button class="btn btn-info btn-sm" onclick="alert('Upload de imagem seria implementado com backend')">📤 Upload</button>
+      <div class="footer-col">
+        <h4>Serviços</h4>
+        <ul>
+          <li><a href="#servicos">Corte de Cabelo</a></li>
+          <li><a href="#servicos">Barba Completa</a></li>
+          <li><a href="#servicos">Hidratação</a></li>
+          <li><a href="#servicos">Limpeza Facial</a></li>
+          <li><a href="#servicos">Massagem</a></li>
+          <li><a href="#servicos">Química Capilar</a></li>
+        </ul>
+      </div>
     </div>
-  `).join('');
-}
 
-// ============================================================
-// MODAL
-// ============================================================
-function closeModal(id) {
-  document.getElementById(id).classList.remove('open');
-}
+    <div class="footer-bottom">
+      <p>© 2025 RB Barbearia. Todos os direitos reservados.</p>
+      <a href="admin.html">Área Administrativa</a>
+    </div>
+  </footer>
 
-// Check if URL has admin param for direct access
-if (window.location.search.includes('auth=rb2025admin')) {
-  document.getElementById('inp-user').value = 'admin';
-  document.getElementById('inp-pass').value = 'rb2025';
-  doLogin();
-}
-</script>
+  <!-- FLOATING WHATSAPP -->
+  <a href="https://wa.me/5581999999999" target="_blank" class="whatsapp-float" title="Fale pelo WhatsApp">
+    💬
+  </a>
+
+  <script>
+    // Navbar scroll effect
+    window.addEventListener('scroll', () => {
+      const nav = document.getElementById('navbar');
+      nav.classList.toggle('scrolled', window.scrollY > 50);
+    });
+
+    // Fade in on scroll
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+    // Tab switching
+    function switchTab(tab) {
+      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+
+      document.getElementById(`tab-${tab}`).classList.add('active');
+      event.target.classList.add('active');
+
+      // Re-trigger fade-in
+      document.querySelectorAll(`#tab-${tab} .fade-in`).forEach(el => {
+        el.classList.remove('visible');
+        setTimeout(() => el.classList.add('visible'), 50);
+      });
+    }
+
+    // Mobile menu
+    let menuOpen = false;
+    function toggleMenu() {
+      menuOpen = !menuOpen;
+      let mobileMenu = document.getElementById('mobile-menu');
+      if (!mobileMenu) {
+        mobileMenu = document.createElement('div');
+        mobileMenu.id = 'mobile-menu';
+        mobileMenu.style.cssText = 'position:fixed;top:72px;left:0;right:0;bottom:0;background:rgba(26,26,26,0.98);z-index:999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:32px;backdrop-filter:blur(12px);';
+        mobileMenu.innerHTML = `
+          <a href="#home" onclick="toggleMenu()" style="color:#fff;text-decoration:none;font-size:18px;font-weight:600;letter-spacing:3px;text-transform:uppercase">Home</a>
+          <a href="#sobre" onclick="toggleMenu()" style="color:#fff;text-decoration:none;font-size:18px;font-weight:600;letter-spacing:3px;text-transform:uppercase">Sobre</a>
+          <a href="#servicos" onclick="toggleMenu()" style="color:#fff;text-decoration:none;font-size:18px;font-weight:600;letter-spacing:3px;text-transform:uppercase">Serviços</a>
+          <a href="#produtos" onclick="toggleMenu()" style="color:#fff;text-decoration:none;font-size:18px;font-weight:600;letter-spacing:3px;text-transform:uppercase">Produtos</a>
+          <a href="#contato" onclick="toggleMenu()" style="color:#fff;text-decoration:none;font-size:18px;font-weight:600;letter-spacing:3px;text-transform:uppercase">Contato</a>
+          <a href="https://wa.me/5581999999999" target="_blank" style="background:#FED917;color:#1a1a1a;text-decoration:none;font-size:13px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:16px 40px;border-radius:4px">📲 Agendar</a>
+        `;
+        document.body.appendChild(mobileMenu);
+      }
+      mobileMenu.style.display = menuOpen ? 'flex' : 'none';
+      const spans = document.querySelectorAll('.hamburger span');
+      if (menuOpen) {
+        spans[0].style.transform = 'translateY(7px) rotate(45deg)';
+        spans[1].style.opacity = '0';
+        spans[2].style.transform = 'translateY(-7px) rotate(-45deg)';
+      } else {
+        spans[0].style.transform = '';
+        spans[1].style.opacity = '';
+        spans[2].style.transform = '';
+      }
+    }
+
+    // Smooth scroll for nav links
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', e => {
+        const target = document.querySelector(a.getAttribute('href'));
+        if (target) {
+          e.preventDefault();
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
+  </script>
 </body>
 </html>
