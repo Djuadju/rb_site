@@ -12,6 +12,8 @@
       --charcoal-2: #2e2e2e;
       --gold: #FED917;
       --gold-dark: #c9ab00;
+      --gold-light: #ffe566;
+      --gold-muted: rgba(254,217,23,0.08);
       --white: #ffffff;
       --gray: #888888;
       --gray-light: #cccccc;
@@ -19,647 +21,245 @@
       --danger: #ef4444;
       --info: #3b82f6;
       --warning: #f59e0b;
+      --purple: #a855f7;
       --sidebar-w: 260px;
     }
-
     * { margin: 0; padding: 0; box-sizing: border-box; }
-
-    body {
-      font-family: 'Montserrat', sans-serif;
-      background: var(--black);
-      color: var(--white);
-      min-height: 100vh;
-    }
+    body { font-family: 'Montserrat', sans-serif; background: var(--black); color: var(--white); min-height: 100vh; }
 
     /* ===== LOGIN ===== */
-    #login-screen {
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: radial-gradient(ellipse at center, #252525 0%, #1a1a1a 100%);
-    }
-
-    .login-card {
-      background: var(--charcoal);
-      border: 1px solid rgba(254,217,23,0.15);
-      border-radius: 12px;
-      padding: 48px;
-      width: 100%;
-      max-width: 420px;
-      text-align: center;
-    }
-
-    .login-logo {
-      width: 64px; height: 64px;
-      background: var(--gold);
-      border-radius: 14px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: 'Playfair Display', serif;
-      font-size: 28px;
-      font-weight: 700;
-      color: var(--black);
-      margin: 0 auto 20px;
-      letter-spacing: -2px;
-    }
-
-    .login-title {
-      font-family: 'Playfair Display', serif;
-      font-size: 24px;
-      margin-bottom: 8px;
-    }
-
-    .login-sub {
-      font-size: 12px;
-      color: var(--gray);
-      letter-spacing: 1px;
-      margin-bottom: 32px;
-    }
-
-    .form-group {
-      margin-bottom: 16px;
-      text-align: left;
-    }
-
-    .form-label {
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      color: var(--gray);
-      display: block;
-      margin-bottom: 8px;
-    }
-
-    .form-input {
-      width: 100%;
-      background: var(--black);
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 6px;
-      padding: 12px 16px;
-      color: var(--white);
-      font-family: 'Montserrat', sans-serif;
-      font-size: 14px;
-      outline: none;
-      transition: border-color 0.2s;
-    }
-
-    .form-input:focus { border-color: var(--gold); }
-
-    .btn { 
-      cursor: pointer;
-      transition: all 0.2s;
-      border: none;
-      font-family: 'Montserrat', sans-serif;
-      font-weight: 600;
-      letter-spacing: 1px;
-      border-radius: 6px;
-    }
-
-    .btn-gold {
-      background: var(--gold);
-      color: var(--black);
-      padding: 14px;
-      font-size: 12px;
-      text-transform: uppercase;
-      width: 100%;
-    }
-
-    .btn-gold:hover { background: #ffe135; }
-
-    .login-error {
-      background: rgba(239,68,68,0.1);
-      border: 1px solid rgba(239,68,68,0.3);
-      color: #fca5a5;
-      padding: 10px 16px;
-      border-radius: 6px;
-      font-size: 13px;
-      margin-bottom: 16px;
-      display: none;
-    }
+    #login-screen { min-height:100vh; display:flex; align-items:center; justify-content:center; background:radial-gradient(ellipse at center,#252525 0%,#1a1a1a 100%); }
+    .login-card { background:var(--charcoal); border:1px solid rgba(254,217,23,0.15); border-radius:12px; padding:48px; width:100%; max-width:420px; text-align:center; }
+    .login-logo { width:64px;height:64px;background:var(--gold);border-radius:14px;display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:28px;font-weight:700;color:var(--black);margin:0 auto 20px;letter-spacing:-2px; }
+    .login-title { font-family:'Playfair Display',serif;font-size:24px;margin-bottom:8px; }
+    .login-sub { font-size:12px;color:var(--gray);letter-spacing:1px;margin-bottom:32px; }
+    .form-group { margin-bottom:16px;text-align:left; }
+    .form-label { font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--gray);display:block;margin-bottom:8px; }
+    .form-input { width:100%;background:var(--black);border:1px solid rgba(255,255,255,0.1);border-radius:6px;padding:12px 16px;color:var(--white);font-family:'Montserrat',sans-serif;font-size:14px;outline:none;transition:border-color 0.2s; }
+    .form-input:focus { border-color:var(--gold); }
+    select.form-input { cursor:pointer; appearance:none; }
+    textarea.form-input { resize:vertical;min-height:80px; }
+    .btn { cursor:pointer;transition:all 0.2s;border:none;font-family:'Montserrat',sans-serif;font-weight:600;letter-spacing:1px;border-radius:6px;display:inline-flex;align-items:center;gap:6px; }
+    .btn-gold { background:var(--gold);color:var(--black);padding:14px;font-size:12px;text-transform:uppercase;width:100%; }
+    .btn-gold:hover { background:var(--gold-light); }
+    .login-error { background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.3);color:#fca5a5;padding:10px 16px;border-radius:6px;font-size:13px;margin-bottom:16px;display:none; }
 
     /* ===== ADMIN LAYOUT ===== */
-    #admin-panel { display: none; }
-
-    .admin-layout {
-      display: flex;
-      min-height: 100vh;
-    }
+    #admin-panel { display:none; }
+    .admin-layout { display:flex; min-height:100vh; }
 
     /* SIDEBAR */
-    .sidebar {
-      width: var(--sidebar-w);
-      background: var(--charcoal);
-      border-right: 1px solid rgba(255,255,255,0.05);
-      display: flex;
-      flex-direction: column;
-      position: fixed;
-      top: 0;
-      bottom: 0;
-      left: 0;
-      z-index: 100;
-      overflow-y: auto;
-    }
+    .sidebar { width:var(--sidebar-w);background:var(--charcoal);border-right:1px solid rgba(255,255,255,0.05);display:flex;flex-direction:column;position:fixed;top:0;bottom:0;left:0;z-index:100;overflow-y:auto; }
+    .sidebar-header { padding:22px 20px;border-bottom:1px solid rgba(255,255,255,0.05);display:flex;align-items:center;gap:12px; }
+    .sidebar-logo { width:38px;height:38px;background:var(--gold);border-radius:8px;display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:16px;font-weight:700;color:var(--black);flex-shrink:0; }
+    .sidebar-brand-text { font-size:13px;font-weight:600;letter-spacing:1px; }
+    .sidebar-brand-sub { font-size:10px;color:var(--gold);letter-spacing:1px;margin-top:2px; }
+    .sidebar-nav { flex:1;padding:16px 0; }
+    .nav-section-label { font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gray);padding:0 20px;margin:12px 0 6px; }
+    .nav-item { display:flex;align-items:center;gap:10px;padding:10px 20px;cursor:pointer;transition:all 0.2s;color:var(--gray-light);font-size:13px;font-weight:500;border-left:3px solid transparent;user-select:none; }
+    .nav-item:hover { background:rgba(254,217,23,0.05);color:var(--white); }
+    .nav-item.active { background:var(--gold-muted);color:var(--gold);border-left-color:var(--gold);font-weight:600; }
+    .nav-icon { font-size:15px;width:18px;text-align:center; }
+    .nav-badge { margin-left:auto;background:var(--gold);color:var(--black);font-size:9px;font-weight:700;padding:2px 7px;border-radius:10px; }
+    .sidebar-footer { padding:16px 20px;border-top:1px solid rgba(255,255,255,0.05); }
+    .user-info { display:flex;align-items:center;gap:10px;margin-bottom:12px; }
+    .user-avatar { width:34px;height:34px;background:var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--black);font-size:14px; }
+    .user-name { font-size:12px;font-weight:600; }
+    .user-role { font-size:11px;color:var(--gray); }
+    .btn-logout { background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.2);color:#fca5a5;padding:8px 16px;font-size:11px;width:100%;border-radius:6px;cursor:pointer;font-family:'Montserrat',sans-serif;transition:all 0.2s;font-weight:600; }
+    .btn-logout:hover { background:rgba(239,68,68,0.2); }
 
-    .sidebar-header {
-      padding: 24px 20px;
-      border-bottom: 1px solid rgba(255,255,255,0.05);
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .sidebar-logo {
-      width: 38px; height: 38px;
-      background: var(--gold);
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: 'Playfair Display', serif;
-      font-size: 16px;
-      font-weight: 700;
-      color: var(--black);
-      flex-shrink: 0;
-    }
-
-    .sidebar-brand-text {
-      font-size: 13px;
-      font-weight: 600;
-      letter-spacing: 1px;
-    }
-
-    .sidebar-brand-sub {
-      font-size: 10px;
-      color: var(--gray);
-      letter-spacing: 1px;
-    }
-
-    .sidebar-nav {
-      flex: 1;
-      padding: 20px 0;
-    }
-
-    .nav-section-label {
-      font-size: 10px;
-      font-weight: 700;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      color: var(--gray);
-      padding: 0 20px;
-      margin: 16px 0 8px;
-    }
-
-    .nav-item {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 11px 20px;
-      cursor: pointer;
-      transition: all 0.2s;
-      color: var(--gray-light);
-      font-size: 13px;
-      font-weight: 500;
-      border-left: 3px solid transparent;
-      user-select: none;
-    }
-
-    .nav-item:hover {
-      background: rgba(254,217,23,0.05);
-      color: var(--white);
-    }
-
-    .nav-item.active {
-      background: rgba(254,217,23,0.08);
-      color: var(--gold);
-      border-left-color: var(--gold);
-      font-weight: 600;
-    }
-
-    .nav-icon { font-size: 16px; width: 20px; text-align: center; }
-
-    .sidebar-footer {
-      padding: 20px;
-      border-top: 1px solid rgba(255,255,255,0.05);
-    }
-
-    .user-info {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 12px;
-    }
-
-    .user-avatar {
-      width: 36px; height: 36px;
-      background: var(--gold);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 700;
-      color: var(--black);
-      font-size: 14px;
-    }
-
-    .user-name { font-size: 13px; font-weight: 600; }
-    .user-role { font-size: 11px; color: var(--gray); }
-
-    .btn-logout {
-      background: rgba(239,68,68,0.1);
-      border: 1px solid rgba(239,68,68,0.2);
-      color: #fca5a5;
-      padding: 8px 16px;
-      font-size: 11px;
-      width: 100%;
-      border-radius: 6px;
-    }
-
-    .btn-logout:hover { background: rgba(239,68,68,0.2); }
-
-    /* MAIN CONTENT */
-    .main-content {
-      margin-left: var(--sidebar-w);
-      flex: 1;
-      min-height: 100vh;
-      background: var(--black);
-    }
-
-    .topbar {
-      background: var(--charcoal);
-      border-bottom: 1px solid rgba(255,255,255,0.05);
-      padding: 0 32px;
-      height: 64px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      position: sticky;
-      top: 0;
-      z-index: 50;
-    }
-
-    .page-title {
-      font-size: 18px;
-      font-weight: 600;
-    }
-
-    .topbar-actions { display: flex; gap: 12px; align-items: center; }
-
-    .page-content { padding: 32px; }
-
-    /* CARDS / WIDGETS */
-    .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 20px;
-      margin-bottom: 32px;
-    }
-
-    .stat-card {
-      background: var(--charcoal);
-      border: 1px solid rgba(255,255,255,0.05);
-      border-radius: 10px;
-      padding: 24px;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .stat-card::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 3px;
-    }
-
-    .stat-card.gold::before { background: var(--gold); }
-    .stat-card.green::before { background: var(--success); }
-    .stat-card.red::before { background: var(--danger); }
-    .stat-card.blue::before { background: var(--info); }
-
-    .stat-label {
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      color: var(--gray);
-      margin-bottom: 12px;
-    }
-
-    .stat-value {
-      font-family: 'Playfair Display', serif;
-      font-size: 32px;
-      font-weight: 700;
-      margin-bottom: 4px;
-    }
-
-    .stat-card.gold .stat-value { color: var(--gold); }
-    .stat-card.green .stat-value { color: var(--success); }
-    .stat-card.red .stat-value { color: var(--danger); }
-    .stat-card.blue .stat-value { color: var(--info); }
-
-    .stat-change {
-      font-size: 12px;
-      color: var(--gray);
-    }
-
-    .stat-icon {
-      position: absolute;
-      top: 16px;
-      right: 20px;
-      font-size: 32px;
-      opacity: 0.15;
-    }
-
-    /* TABLES */
-    .card {
-      background: var(--charcoal);
-      border: 1px solid rgba(255,255,255,0.05);
-      border-radius: 10px;
-      overflow: hidden;
-      margin-bottom: 24px;
-    }
-
-    .card-header {
-      padding: 20px 24px;
-      border-bottom: 1px solid rgba(255,255,255,0.05);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .card-title {
-      font-size: 15px;
-      font-weight: 600;
-    }
-
-    .card-body { padding: 24px; }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-    }
-
-    th {
-      text-align: left;
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      color: var(--gray);
-      padding: 12px 16px;
-      border-bottom: 1px solid rgba(255,255,255,0.05);
-    }
-
-    td {
-      padding: 14px 16px;
-      font-size: 13px;
-      border-bottom: 1px solid rgba(255,255,255,0.03);
-      vertical-align: middle;
-    }
-
-    tr:last-child td { border-bottom: none; }
-    tr:hover td { background: rgba(255,255,255,0.02); }
-
-    .badge {
-      display: inline-block;
-      padding: 3px 10px;
-      border-radius: 20px;
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: 0.5px;
-    }
-
-    .badge-gold { background: rgba(254,217,23,0.15); color: var(--gold); }
-    .badge-green { background: rgba(34,197,94,0.15); color: var(--success); }
-    .badge-red { background: rgba(239,68,68,0.15); color: var(--danger); }
-    .badge-blue { background: rgba(59,130,246,0.15); color: var(--info); }
-    .badge-gray { background: rgba(136,136,136,0.15); color: var(--gray-light); }
-
-    /* FORMS */
-    .form-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
-    }
-
-    .form-row.cols-3 { grid-template-columns: 1fr 1fr 1fr; }
-
-    .form-group { margin-bottom: 20px; }
-
-    select.form-input {
-      cursor: pointer;
-    }
-
-    textarea.form-input {
-      resize: vertical;
-      min-height: 100px;
-    }
-
-    .btn-sm {
-      padding: 8px 16px;
-      font-size: 11px;
-      border-radius: 6px;
-    }
-
-    .btn-primary { background: var(--gold); color: var(--black); }
-    .btn-primary:hover { background: #ffe135; }
-    .btn-danger { background: rgba(239,68,68,0.1); color: #fca5a5; border: 1px solid rgba(239,68,68,0.2); }
-    .btn-danger:hover { background: rgba(239,68,68,0.2); }
-    .btn-success { background: rgba(34,197,94,0.1); color: var(--success); border: 1px solid rgba(34,197,94,0.2); }
-    .btn-success:hover { background: rgba(34,197,94,0.2); }
-    .btn-info { background: rgba(59,130,246,0.1); color: var(--info); border: 1px solid rgba(59,130,246,0.2); }
-    .btn-info:hover { background: rgba(59,130,246,0.2); }
-
-    /* MODAL */
-    .modal-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.8);
-      z-index: 999;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      display: none;
-    }
-
-    .modal-overlay.open { display: flex; }
-
-    .modal {
-      background: var(--charcoal);
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 12px;
-      padding: 32px;
-      width: 100%;
-      max-width: 580px;
-      max-height: 90vh;
-      overflow-y: auto;
-    }
-
-    .modal-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 24px;
-    }
-
-    .modal-title { font-size: 18px; font-weight: 600; }
-
-    .modal-close {
-      background: none;
-      border: none;
-      color: var(--gray);
-      font-size: 20px;
-      cursor: pointer;
-      padding: 4px;
-    }
-
-    .modal-close:hover { color: var(--white); }
-
-    /* SWITCH TOGGLE */
-    .switch {
-      position: relative;
-      width: 48px;
-      height: 26px;
-    }
-
-    .switch input { opacity: 0; width: 0; height: 0; }
-
-    .slider {
-      position: absolute;
-      cursor: pointer;
-      inset: 0;
-      background: rgba(255,255,255,0.1);
-      border-radius: 20px;
-      transition: 0.3s;
-    }
-
-    .slider:before {
-      content: '';
-      position: absolute;
-      width: 18px; height: 18px;
-      left: 4px; bottom: 4px;
-      background: var(--white);
-      border-radius: 50%;
-      transition: 0.3s;
-    }
-
-    input:checked + .slider { background: var(--gold); }
-    input:checked + .slider:before { transform: translateX(22px); background: var(--black); }
+    /* MAIN */
+    .main-content { margin-left:var(--sidebar-w);flex:1;min-height:100vh;background:var(--black); }
+    .topbar { background:var(--charcoal);border-bottom:1px solid rgba(255,255,255,0.05);padding:0 28px;height:60px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50; }
+    .page-title { font-size:16px;font-weight:600; }
+    .topbar-actions { display:flex;gap:10px;align-items:center; }
+    .page-content { padding:24px 28px 60px; }
 
     /* SECTIONS */
-    .section { display: none; }
-    .section.active { display: block; }
+    .section { display:none; }
+    .section.active { display:block; }
 
-    /* CHART BARS */
-    .chart-bar-container {
-      display: flex;
-      gap: 8px;
-      align-items: flex-end;
-      height: 160px;
-      padding: 16px 0 8px;
-    }
+    /* CARDS */
+    .stats-grid { display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px; }
+    .stat-card { background:var(--charcoal);border:1px solid rgba(255,255,255,0.05);border-radius:10px;padding:20px;position:relative;overflow:hidden; }
+    .stat-card::before { content:'';position:absolute;top:0;left:0;right:0;height:3px; }
+    .stat-card.gold::before { background:var(--gold); }
+    .stat-card.green::before { background:var(--success); }
+    .stat-card.red::before { background:var(--danger); }
+    .stat-card.blue::before { background:var(--info); }
+    .stat-card.purple::before { background:var(--purple); }
+    .stat-label { font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--gray);margin-bottom:10px; }
+    .stat-value { font-family:'Playfair Display',serif;font-size:28px;font-weight:700;margin-bottom:4px; }
+    .stat-card.gold .stat-value { color:var(--gold); }
+    .stat-card.green .stat-value { color:var(--success); }
+    .stat-card.red .stat-value { color:var(--danger); }
+    .stat-card.blue .stat-value { color:var(--info); }
+    .stat-card.purple .stat-value { color:var(--purple); }
+    .stat-change { font-size:12px;color:var(--gray); }
+    .stat-icon { position:absolute;top:16px;right:20px;font-size:30px;opacity:0.12; }
 
-    .chart-bar-wrap {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 6px;
-      height: 100%;
-      justify-content: flex-end;
-    }
+    .card { background:var(--charcoal);border:1px solid rgba(255,255,255,0.05);border-radius:10px;overflow:hidden;margin-bottom:20px; }
+    .card-header { padding:16px 20px;border-bottom:1px solid rgba(255,255,255,0.05);display:flex;align-items:center;justify-content:space-between; }
+    .card-title { font-size:14px;font-weight:600; }
+    .card-body { padding:20px; }
 
-    .chart-bar {
-      width: 100%;
-      border-radius: 4px 4px 0 0;
-      min-height: 4px;
-      transition: height 0.5s ease;
-    }
+    /* TABLE */
+    table { width:100%;border-collapse:collapse; }
+    th { text-align:left;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--gray);padding:10px 16px;border-bottom:1px solid rgba(255,255,255,0.05); }
+    td { padding:12px 16px;font-size:13px;border-bottom:1px solid rgba(255,255,255,0.03);vertical-align:middle; }
+    tr:last-child td { border-bottom:none; }
+    tr:hover td { background:rgba(255,255,255,0.02); }
 
-    .chart-bar.gold { background: var(--gold); }
-    .chart-bar.red { background: var(--danger); opacity: 0.7; }
+    /* BADGES */
+    .badge { display:inline-block;padding:3px 10px;border-radius:20px;font-size:10px;font-weight:700;letter-spacing:0.5px;white-space:nowrap; }
+    .badge-gold { background:rgba(254,217,23,0.12);color:var(--gold); }
+    .badge-green { background:rgba(34,197,94,0.12);color:var(--success); }
+    .badge-red { background:rgba(239,68,68,0.12);color:var(--danger); }
+    .badge-blue { background:rgba(59,130,246,0.12);color:var(--info); }
+    .badge-gray { background:rgba(136,136,136,0.12);color:var(--gray-light); }
+    .badge-purple { background:rgba(168,85,247,0.12);color:var(--purple); }
 
-    .chart-label {
-      font-size: 10px;
-      color: var(--gray);
-      letter-spacing: 0.5px;
-    }
+    /* BTNS */
+    .btn-sm { padding:7px 13px;font-size:10px;border-radius:6px;text-transform:uppercase; }
+    .btn-primary { background:var(--gold);color:var(--black); }
+    .btn-primary:hover { background:var(--gold-light);transform:translateY(-1px); }
+    .btn-danger { background:rgba(239,68,68,0.1);color:#fca5a5;border:1px solid rgba(239,68,68,0.2); }
+    .btn-danger:hover { background:rgba(239,68,68,0.2); }
+    .btn-success { background:rgba(34,197,94,0.1);color:var(--success);border:1px solid rgba(34,197,94,0.2); }
+    .btn-success:hover { background:rgba(34,197,94,0.2); }
+    .btn-info { background:rgba(59,130,246,0.1);color:var(--info);border:1px solid rgba(59,130,246,0.2); }
+    .btn-info:hover { background:rgba(59,130,246,0.2); }
+    .btn-outline { background:transparent;border:1px solid rgba(255,255,255,0.12);color:var(--gray-light); }
+    .btn-outline:hover { border-color:var(--gold);color:var(--gold); }
+    .btn-gold-outline { background:var(--gold-muted);border:1px solid rgba(254,217,23,0.2);color:var(--gold); }
+    .btn-gold-outline:hover { background:rgba(254,217,23,0.15); }
+    .btn-wide { width:100%;justify-content:center;padding:13px; }
 
-    .chart-value-label {
-      font-size: 11px;
-      font-weight: 600;
-      color: var(--gray-light);
-    }
+    /* SWITCH */
+    .switch { position:relative;width:44px;height:24px;flex-shrink:0; }
+    .switch input { opacity:0;width:0;height:0; }
+    .slider { position:absolute;cursor:pointer;inset:0;background:rgba(255,255,255,0.1);border-radius:20px;transition:0.3s; }
+    .slider:before { content:'';position:absolute;width:16px;height:16px;left:4px;bottom:4px;background:var(--white);border-radius:50%;transition:0.3s; }
+    input:checked+.slider { background:var(--gold); }
+    input:checked+.slider:before { transform:translateX(20px);background:var(--black); }
+
+    /* MODAL */
+    .modal-overlay { position:fixed;inset:0;background:rgba(0,0,0,0.78);z-index:1000;display:none;align-items:center;justify-content:center;padding:20px; }
+    .modal-overlay.open { display:flex; }
+    .modal { background:var(--charcoal);border:1px solid rgba(254,217,23,0.12);border-radius:12px;width:100%;max-width:720px;max-height:90vh;overflow-y:auto; }
+    .modal-header { padding:18px 22px;border-bottom:1px solid rgba(255,255,255,0.05);display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:var(--charcoal);z-index:2; }
+    .modal-title { font-size:15px;font-weight:700; }
+    .modal-title em { color:var(--gold);font-style:normal; }
+    .modal-close { background:none;border:none;color:var(--gray);font-size:20px;cursor:pointer;padding:4px;line-height:1; }
+    .modal-close:hover { color:var(--white); }
+    .modal-body { padding:22px; }
+    .modal-footer { padding:14px 22px;border-top:1px solid rgba(255,255,255,0.05);display:flex;gap:10px;justify-content:flex-end; }
+
+    /* FORMS */
+    .form-row { display:grid;grid-template-columns:1fr 1fr;gap:14px; }
+    .form-row.cols-3 { grid-template-columns:1fr 1fr 1fr; }
+    .field { margin-bottom:16px; }
+    label.lbl { display:block;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--gray-light);margin-bottom:7px; }
+
+    /* GRID */
+    .grid-2 { display:grid;grid-template-columns:1fr 1fr;gap:20px; }
+    .grid-3 { display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px; }
+
+    /* CHART */
+    .chart-bar-container { display:flex;gap:8px;align-items:flex-end;height:160px;padding:16px 0 8px; }
+    .chart-bar-wrap { flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;height:100%;justify-content:flex-end; }
+    .chart-bar { width:100%;border-radius:4px 4px 0 0;min-height:4px; }
+    .chart-bar.gold { background:var(--gold); }
+    .chart-bar.red { background:var(--danger);opacity:0.7; }
+    .chart-label { font-size:10px;color:var(--gray); }
 
     /* ALERT */
-    .alert {
-      padding: 12px 16px;
-      border-radius: 6px;
-      font-size: 13px;
-      margin-bottom: 16px;
-    }
+    .alert { padding:12px 16px;border-radius:7px;font-size:12px;margin-bottom:14px; }
+    .alert-success { background:rgba(34,197,94,0.1);border:1px solid rgba(34,197,94,0.2);color:var(--success); }
+    .alert-error { background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.2);color:#fca5a5; }
 
-    .alert-success { background: rgba(34,197,94,0.1); border: 1px solid rgba(34,197,94,0.2); color: var(--success); }
-    .alert-error { background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.2); color: #fca5a5; }
+    /* EMPTY */
+    .empty { text-align:center;padding:32px;color:var(--gray);font-size:13px; }
+    .empty-icon { font-size:32px;display:block;margin-bottom:8px;opacity:0.4; }
 
-    /* GRID HELPERS */
-    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-    .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; }
+    /* DIVIDER */
+    .divider { height:1px;background:rgba(255,255,255,0.06);margin:14px 0; }
 
-    /* PRODUCT DISPLAY TOGGLE */
-    .toggle-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 14px 0;
-      border-bottom: 1px solid rgba(255,255,255,0.03);
-    }
-
-    .toggle-row:last-child { border-bottom: none; }
+    /* COMANDA SPECIFIC */
+    .num-badge { display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:50%;background:var(--gold-muted);border:1px solid rgba(254,217,23,0.2);font-size:11px;font-weight:700;color:var(--gold); }
+    .selectable-grid { display:grid;grid-template-columns:repeat(auto-fill,minmax(145px,1fr));gap:8px; }
+    .selectable-item { background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:7px;padding:10px 12px;cursor:pointer;transition:all 0.2s; }
+    .selectable-item:hover { border-color:rgba(254,217,23,0.3);background:rgba(254,217,23,0.04); }
+    .selectable-item.active { border-color:var(--gold);background:var(--gold-muted); }
+    .selectable-item .s-emoji { font-size:18px;margin-bottom:4px; }
+    .selectable-item .s-name { font-size:11px;font-weight:600;color:var(--white); }
+    .selectable-item .s-price { font-size:10px;color:var(--gold);margin-top:2px; }
+    .selectable-item .s-sub { font-size:10px;color:var(--gray);margin-top:1px; }
+    .item-list { display:flex;flex-direction:column;gap:7px;margin-bottom:14px; }
+    .item-row { display:flex;align-items:center;gap:10px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:7px;padding:10px 13px; }
+    .item-emoji { font-size:17px;flex-shrink:0; }
+    .item-info { flex:1; }
+    .item-name { font-size:13px;font-weight:600; }
+    .item-sub { font-size:11px;color:var(--gray);margin-top:2px; }
+    .item-price { font-size:14px;font-weight:700;color:var(--gold);white-space:nowrap; }
+    .item-remove { background:none;border:none;color:var(--gray);cursor:pointer;font-size:15px;padding:4px;line-height:1;transition:color 0.2s; }
+    .item-remove:hover { color:var(--danger); }
+    .totals-box { background:var(--black);border:1px solid rgba(254,217,23,0.1);border-radius:8px;padding:14px 16px; }
+    .total-row { display:flex;justify-content:space-between;align-items:center;padding:5px 0; }
+    .total-row+.total-row { border-top:1px solid rgba(255,255,255,0.05); }
+    .total-label { font-size:12px;color:var(--gray); }
+    .total-val { font-size:13px;font-weight:600; }
+    .total-row.grand .total-label { font-size:14px;font-weight:700;color:var(--white); }
+    .total-row.grand .total-val { font-size:20px;font-weight:700;color:var(--gold);font-family:'Playfair Display',serif; }
+    .comissao-breakdown { background:rgba(168,85,247,0.06);border:1px solid rgba(168,85,247,0.15);border-radius:8px;padding:14px 16px; }
+    .comissao-title { font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--purple);margin-bottom:10px; }
+    .comissao-row { display:flex;justify-content:space-between;font-size:12px;padding:4px 0; }
+    .comissao-row span:first-child { color:var(--gray-light); }
+    .comissao-row span:last-child { color:var(--purple);font-weight:600; }
+    .comissao-total { border-top:1px solid rgba(168,85,247,0.2);margin-top:8px;padding-top:8px;font-weight:700; }
+    .filter-row { display:flex;gap:10px;align-items:center;margin-bottom:16px;flex-wrap:wrap; }
+    .filter-select { width:auto;padding:7px 12px;font-size:12px; }
+    .toggle-row { display:flex;align-items:center;justify-content:space-between;padding:14px 0;border-bottom:1px solid rgba(255,255,255,0.03); }
+    .toggle-row:last-child { border-bottom:none; }
 
     /* RESPONSIVE */
-    @media (max-width: 1200px) {
-      .stats-grid { grid-template-columns: repeat(2, 1fr); }
-    }
+    @media (max-width:1200px) { .stats-grid { grid-template-columns:repeat(2,1fr); } }
+    @media (max-width:900px) { .sidebar { display:none; } .main-content { margin-left:0; } .stats-grid { grid-template-columns:1fr 1fr; } .form-row.cols-3 { grid-template-columns:1fr 1fr; } .grid-2 { grid-template-columns:1fr; } }
+    @media (max-width:600px) { .stats-grid { grid-template-columns:1fr; } .form-row { grid-template-columns:1fr; } }
 
-    @media (max-width: 800px) {
-      .sidebar { display: none; }
-      .main-content { margin-left: 0; }
-      .stats-grid { grid-template-columns: 1fr 1fr; }
-      .form-row { grid-template-columns: 1fr; }
-    }
+    ::-webkit-scrollbar { width:5px; }
+    ::-webkit-scrollbar-track { background:var(--black); }
+    ::-webkit-scrollbar-thumb { background:rgba(254,217,23,0.2);border-radius:3px; }
+    ::-webkit-scrollbar-thumb:hover { background:rgba(254,217,23,0.4); }
+
+    @keyframes fadeUp { from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)} }
+    .animate-in { animation:fadeUp 0.3s ease; }
   </style>
 </head>
 <body>
 
-<!-- ===== LOGIN ===== -->
+<!-- LOGIN -->
 <div id="login-screen">
   <div class="login-card">
     <div class="login-logo">RB</div>
     <h1 class="login-title">Área Administrativa</h1>
     <p class="login-sub">RB Barbearia · Acesso Restrito</p>
-
     <div id="login-error" class="login-error">Usuário ou senha incorretos.</div>
-
     <div class="form-group">
       <label class="form-label">Usuário</label>
       <input type="text" class="form-input" id="inp-user" placeholder="admin" />
     </div>
     <div class="form-group">
       <label class="form-label">Senha</label>
-      <input type="password" class="form-input" id="inp-pass" placeholder="••••••••" onkeydown="if(event.key==='Enter') doLogin()" />
+      <input type="password" class="form-input" id="inp-pass" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()" />
     </div>
     <button class="btn btn-gold" onclick="doLogin()">🔐 Entrar</button>
-
-    <p style="margin-top:20px;font-size:11px;color:var(--gray)">
-      Acesso restrito aos proprietários.
-    </p>
+    <p style="margin-top:20px;font-size:11px;color:var(--gray)">Acesso restrito aos proprietários.</p>
   </div>
 </div>
 
-<!-- ===== ADMIN PANEL ===== -->
+<!-- ADMIN PANEL -->
 <div id="admin-panel">
   <div class="admin-layout">
 
@@ -669,52 +269,38 @@
         <div class="sidebar-logo">RB</div>
         <div>
           <div class="sidebar-brand-text">RB Barbearia</div>
-          <div class="sidebar-brand-sub">Painel Admin</div>
+          <div class="sidebar-brand-sub">✂️ Painel Admin</div>
         </div>
       </div>
-
       <nav class="sidebar-nav">
         <div class="nav-section-label">Principal</div>
-        <div class="nav-item active" onclick="goTo('dashboard')">
-          <span class="nav-icon">📊</span> Dashboard
-        </div>
-        <div class="nav-item" onclick="goTo('financeiro')">
-          <span class="nav-icon">💰</span> Financeiro
-        </div>
+        <div class="nav-item active" onclick="goTo('dashboard')"><span class="nav-icon">📊</span> Dashboard</div>
+        <div class="nav-item" onclick="goTo('financeiro')"><span class="nav-icon">💰</span> Financeiro</div>
+
+        <div class="nav-section-label">🧾 Comanda</div>
+        <div class="nav-item" onclick="goTo('nova-comanda')"><span class="nav-icon">➕</span> Nova Comanda</div>
+        <div class="nav-item" onclick="goTo('comandas')"><span class="nav-icon">📋</span> Comandas <span class="nav-badge" id="badge-abertas">0</span></div>
+        <div class="nav-item" onclick="goTo('comissoes')"><span class="nav-icon">💜</span> Comissões</div>
 
         <div class="nav-section-label">Site</div>
-        <div class="nav-item" onclick="goTo('servicos')">
-          <span class="nav-icon">✂️</span> Serviços
-        </div>
-        <div class="nav-item" onclick="goTo('produtos-admin')">
-          <span class="nav-icon">🛍️</span> Produtos
-        </div>
-        <div class="nav-item" onclick="goTo('conteudo')">
-          <span class="nav-icon">📝</span> Conteúdo
-        </div>
-        <div class="nav-item" onclick="goTo('galeria-admin')">
-          <span class="nav-icon">🖼️</span> Galeria
-        </div>
+        <div class="nav-item" onclick="goTo('adm-servicos')"><span class="nav-icon">✂️</span> Serviços</div>
+        <div class="nav-item" onclick="goTo('adm-barbeiros')"><span class="nav-icon">💈</span> Barbeiros</div>
+        <div class="nav-item" onclick="goTo('adm-produtos')"><span class="nav-icon">🛍️</span> Produtos</div>
+        <div class="nav-item" onclick="goTo('conteudo')"><span class="nav-icon">📝</span> Conteúdo</div>
+        <div class="nav-item" onclick="goTo('galeria-admin')"><span class="nav-icon">🖼️</span> Galeria</div>
 
         <div class="nav-section-label">Financeiro</div>
-        <div class="nav-item" onclick="goTo('receitas')">
-          <span class="nav-icon">📈</span> Receitas
-        </div>
-        <div class="nav-item" onclick="goTo('despesas')">
-          <span class="nav-icon">📉</span> Despesas
-        </div>
-        <div class="nav-item" onclick="goTo('relatorio')">
-          <span class="nav-icon">📋</span> Relatório
-        </div>
-      </nav>
+        <div class="nav-item" onclick="goTo('receitas')"><span class="nav-icon">📈</span> Receitas</div>
+        <div class="nav-item" onclick="goTo('despesas')"><span class="nav-icon">📉</span> Despesas</div>
+        <div class="nav-item" onclick="goTo('relatorio')"><span class="nav-icon">📋</span> Relatório</div>
 
+        <div class="divider" style="margin:6px 14px;"></div>
+        <div class="nav-item" onclick="window.open('index.html','_blank')"><span class="nav-icon">🏠</span> Ver Site</div>
+      </nav>
       <div class="sidebar-footer">
         <div class="user-info">
           <div class="user-avatar">A</div>
-          <div>
-            <div class="user-name">Administrador</div>
-            <div class="user-role">Proprietário</div>
-          </div>
+          <div><div class="user-name">Administrador</div><div class="user-role">Proprietário</div></div>
         </div>
         <button class="btn btn-logout" onclick="doLogout()">🚪 Sair</button>
       </div>
@@ -726,551 +312,324 @@
         <span class="page-title" id="page-title">Dashboard</span>
         <div class="topbar-actions">
           <span style="font-size:12px;color:var(--gray)">🕐 <span id="current-time"></span></span>
-          <a href="index.html" target="_blank" style="background:rgba(254,217,23,0.1);color:var(--gold);padding:8px 16px;border-radius:6px;font-size:11px;font-weight:600;text-decoration:none;letter-spacing:1px;">
-            👁️ Ver Site
-          </a>
+          <button class="btn btn-primary btn-sm" onclick="goTo('nova-comanda')">➕ Nova Comanda</button>
+          <a href="index.html" target="_blank" style="background:rgba(254,217,23,0.1);color:var(--gold);padding:7px 14px;border-radius:6px;font-size:11px;font-weight:600;text-decoration:none;letter-spacing:1px;">👁️ Ver Site</a>
         </div>
       </div>
 
       <div class="page-content">
 
-        <!-- ===== DASHBOARD ===== -->
-        <div id="sec-dashboard" class="section active">
+        <!-- ══════════════════════════════════
+             DASHBOARD
+        ════════════════════════════════════ -->
+        <div id="sec-dashboard" class="section active animate-in">
           <div class="stats-grid">
-            <div class="stat-card gold">
-              <div class="stat-icon">💰</div>
-              <div class="stat-label">Receita Mensal</div>
-              <div class="stat-value" id="dash-receita">R$ 0</div>
-              <div class="stat-change">Mês atual</div>
-            </div>
-            <div class="stat-card red">
-              <div class="stat-icon">💸</div>
-              <div class="stat-label">Despesas Mensais</div>
-              <div class="stat-value" id="dash-despesa">R$ 0</div>
-              <div class="stat-change">Mês atual</div>
-            </div>
-            <div class="stat-card green">
-              <div class="stat-icon">📊</div>
-              <div class="stat-label">Lucro Líquido</div>
-              <div class="stat-value" id="dash-lucro">R$ 0</div>
-              <div class="stat-change">Mês atual</div>
-            </div>
-            <div class="stat-card blue">
-              <div class="stat-icon">🛍️</div>
-              <div class="stat-label">Produtos Vendidos</div>
-              <div class="stat-value" id="dash-produtos">0</div>
-              <div class="stat-change">Mês atual</div>
-            </div>
+            <div class="stat-card gold"><div class="stat-icon">💰</div><div class="stat-label">Faturamento Hoje</div><div class="stat-value" id="dash-fat-hoje">R$ 0</div><div class="stat-change" id="dash-fat-sub">0 atendimentos</div></div>
+            <div class="stat-card red"><div class="stat-icon">💸</div><div class="stat-label">Despesas Mensais</div><div class="stat-value" id="dash-despesa">R$ 0</div><div class="stat-change">Mês atual</div></div>
+            <div class="stat-card green"><div class="stat-icon">📊</div><div class="stat-label">Lucro Líquido</div><div class="stat-value" id="dash-lucro">R$ 0</div><div class="stat-change">Mês atual</div></div>
+            <div class="stat-card blue"><div class="stat-icon">📋</div><div class="stat-label">Comandas Abertas</div><div class="stat-value" id="dash-abertas-val">0</div><div class="stat-change">em andamento</div></div>
           </div>
 
           <div class="grid-2">
             <div class="card">
-              <div class="card-header">
-                <span class="card-title">📈 Receitas vs Despesas (últimos 6 meses)</span>
-              </div>
+              <div class="card-header"><span class="card-title">📈 Receitas vs Despesas (6 meses)</span></div>
               <div class="card-body">
-                <div class="chart-bar-container" id="chart-container">
-                  <!-- Rendered by JS -->
-                </div>
-                <div style="display:flex;gap:16px;margin-top:8px;font-size:11px;color:var(--gray)">
+                <div class="chart-bar-container" id="chart-container"></div>
+                <div style="display:flex;gap:16px;margin-top:6px;font-size:11px;color:var(--gray)">
                   <span><span style="color:var(--gold)">■</span> Receitas</span>
                   <span><span style="color:var(--danger)">■</span> Despesas</span>
                 </div>
               </div>
             </div>
-
             <div class="card">
-              <div class="card-header">
-                <span class="card-title">📋 Últimas Transações</span>
-              </div>
-              <div class="card-body" style="padding:0">
-                <table>
-                  <thead>
-                    <tr>
-                      <th>Tipo</th>
-                      <th>Descrição</th>
-                      <th>Valor</th>
-                    </tr>
-                  </thead>
-                  <tbody id="dash-recent"></tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-
-          <div class="card">
-            <div class="card-header">
-              <span class="card-title">🛍️ Produtos em Destaque no Site</span>
-              <button class="btn btn-primary btn-sm" onclick="goTo('produtos-admin')">Gerenciar →</button>
-            </div>
-            <div class="card-body" style="padding:0">
-              <table>
-                <thead>
-                  <tr>
-                    <th>Produto</th>
-                    <th>Custo</th>
-                    <th>Preço Venda</th>
-                    <th>Margem</th>
-                    <th>No Site</th>
-                  </tr>
-                </thead>
-                <tbody id="dash-produtos-table"></tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-
-        <!-- ===== FINANCEIRO (VISÃO GERAL) ===== -->
-        <div id="sec-financeiro" class="section">
-          <div class="stats-grid">
-            <div class="stat-card gold">
-              <div class="stat-icon">💰</div>
-              <div class="stat-label">Total Receitas</div>
-              <div class="stat-value" id="fin-total-rec">R$ 0</div>
-            </div>
-            <div class="stat-card red">
-              <div class="stat-icon">💸</div>
-              <div class="stat-label">Total Despesas</div>
-              <div class="stat-value" id="fin-total-desp">R$ 0</div>
-            </div>
-            <div class="stat-card green">
-              <div class="stat-icon">🏆</div>
-              <div class="stat-label">Lucro Total</div>
-              <div class="stat-value" id="fin-lucro">R$ 0</div>
-            </div>
-            <div class="stat-card blue">
-              <div class="stat-icon">📦</div>
-              <div class="stat-label">Receita Produtos</div>
-              <div class="stat-value" id="fin-rec-prod">R$ 0</div>
-            </div>
-          </div>
-
-          <div class="card">
-            <div class="card-header">
-              <span class="card-title">💵 Registrar Nova Venda de Serviço</span>
-            </div>
-            <div class="card-body">
-              <div class="form-row">
-                <div class="form-group">
-                  <label class="form-label">Serviço</label>
-                  <select class="form-input" id="fin-servico">
-                    <option>Corte Clássico - R$ 45</option>
-                    <option>Corte Moderno - R$ 55</option>
-                    <option>Corte Premium - R$ 80</option>
-                    <option>Barba Completa - R$ 40</option>
-                    <option>Combo Corte + Barba - R$ 75</option>
-                    <option>Hidratação Capilar - R$ 60</option>
-                    <option>Coloração - R$ 90</option>
-                    <option>Progressiva - R$ 150</option>
-                    <option>Massagem - R$ 50</option>
-                    <option>Limpeza Facial - R$ 70</option>
-                    <option>Design Sobrancelha - R$ 25</option>
-                    <option>Epilação Nasal - R$ 20</option>
-                    <option value="custom">Outro (digitar valor)</option>
-                  </select>
-                </div>
-                <div class="form-group">
-                  <label class="form-label">Valor (R$)</label>
-                  <input type="number" class="form-input" id="fin-val-servico" placeholder="0,00" step="0.01" />
-                </div>
-              </div>
-              <div class="form-row">
-                <div class="form-group">
-                  <label class="form-label">Data</label>
-                  <input type="date" class="form-input" id="fin-data-servico" />
-                </div>
-                <div class="form-group">
-                  <label class="form-label">Observação (opcional)</label>
-                  <input type="text" class="form-input" id="fin-obs-servico" placeholder="Ex: Pagamento PIX" />
-                </div>
-              </div>
-              <button class="btn btn-primary btn-sm" onclick="addReceita('servico')">✅ Registrar Serviço</button>
-            </div>
-          </div>
-
-          <div class="card">
-            <div class="card-header">
-              <span class="card-title">🛍️ Registrar Venda de Produto</span>
-            </div>
-            <div class="card-body">
-              <div class="form-row">
-                <div class="form-group">
-                  <label class="form-label">Produto</label>
-                  <select class="form-input" id="fin-produto-venda">
-                    <!-- Populated by JS -->
-                  </select>
-                </div>
-                <div class="form-group">
-                  <label class="form-label">Quantidade</label>
-                  <input type="number" class="form-input" id="fin-qtd-produto" value="1" min="1" />
-                </div>
-                <div class="form-group">
-                  <label class="form-label">Valor Unitário (R$)</label>
-                  <input type="number" class="form-input" id="fin-val-produto" placeholder="0,00" step="0.01" />
-                </div>
-              </div>
-              <div class="form-group">
-                <label class="form-label">Data</label>
-                <input type="date" class="form-input" id="fin-data-produto" style="max-width:240px" />
-              </div>
-              <button class="btn btn-primary btn-sm" onclick="addReceita('produto')">✅ Registrar Venda</button>
-            </div>
-          </div>
-
-          <div class="card">
-            <div class="card-header">
-              <span class="card-title">📉 Registrar Despesa</span>
-            </div>
-            <div class="card-body">
-              <div class="form-row cols-3">
-                <div class="form-group">
-                  <label class="form-label">Categoria</label>
-                  <select class="form-input" id="desp-cat">
-                    <option>Aluguel</option>
-                    <option>Compra de Produtos</option>
-                    <option>Salário / Pró-labore</option>
-                    <option>Energia Elétrica</option>
-                    <option>Água</option>
-                    <option>Internet</option>
-                    <option>Marketing</option>
-                    <option>Manutenção</option>
-                    <option>Material de Limpeza</option>
-                    <option>Outro</option>
-                  </select>
-                </div>
-                <div class="form-group">
-                  <label class="form-label">Descrição</label>
-                  <input type="text" class="form-input" id="desp-desc" placeholder="Detalhe a despesa" />
-                </div>
-                <div class="form-group">
-                  <label class="form-label">Valor (R$)</label>
-                  <input type="number" class="form-input" id="desp-val" placeholder="0,00" step="0.01" />
-                </div>
-              </div>
-              <div class="form-group" style="max-width:240px">
-                <label class="form-label">Data</label>
-                <input type="date" class="form-input" id="desp-data" />
-              </div>
-              <button class="btn btn-danger btn-sm" onclick="addDespesa()">📉 Registrar Despesa</button>
-            </div>
-          </div>
-        </div>
-
-        <!-- ===== SERVIÇOS ===== -->
-        <div id="sec-servicos" class="section">
-          <div class="card" style="margin-bottom:24px">
-            <div class="card-header">
-              <span class="card-title">➕ Adicionar Novo Serviço</span>
-            </div>
-            <div class="card-body">
-              <div class="form-row cols-3">
-                <div class="form-group">
-                  <label class="form-label">Nome do Serviço</label>
-                  <input type="text" class="form-input" id="srv-nome" placeholder="Ex: Corte Executivo" />
-                </div>
-                <div class="form-group">
-                  <label class="form-label">Categoria</label>
-                  <select class="form-input" id="srv-cat">
-                    <option>Cabelo</option>
-                    <option>Barba</option>
-                    <option>Química Capilar</option>
-                    <option>Estética</option>
-                  </select>
-                </div>
-                <div class="form-group">
-                  <label class="form-label">Preço (R$)</label>
-                  <input type="number" class="form-input" id="srv-preco" placeholder="0,00" step="0.01" />
-                </div>
-              </div>
-              <div class="form-group">
-                <label class="form-label">Descrição</label>
-                <input type="text" class="form-input" id="srv-desc" placeholder="Breve descrição do serviço" />
-              </div>
-              <div class="form-row">
-                <div class="form-group">
-                  <label class="form-label">Emoji / Ícone</label>
-                  <input type="text" class="form-input" id="srv-emoji" placeholder="✂️" />
-                </div>
-                <div class="form-group" style="display:flex;align-items:flex-end;gap:12px">
-                  <button class="btn btn-primary btn-sm" onclick="addServico()">✅ Adicionar Serviço</button>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="card">
-            <div class="card-header">
-              <span class="card-title">✂️ Serviços Cadastrados</span>
-            </div>
-            <div class="card-body" style="padding:0">
-              <table>
-                <thead>
-                  <tr>
-                    <th>Ícone</th>
-                    <th>Serviço</th>
-                    <th>Categoria</th>
-                    <th>Preço</th>
-                    <th>Ações</th>
-                  </tr>
-                </thead>
-                <tbody id="servicos-table"></tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-
-        <!-- ===== PRODUTOS ADMIN ===== -->
-        <div id="sec-produtos-admin" class="section">
-          <div class="card" style="margin-bottom:24px">
-            <div class="card-header">
-              <span class="card-title">➕ Cadastrar Novo Produto</span>
-            </div>
-            <div class="card-body">
-              <div class="form-row">
-                <div class="form-group">
-                  <label class="form-label">Nome do Produto</label>
-                  <input type="text" class="form-input" id="prod-nome" placeholder="Ex: Pomada Premium" />
-                </div>
-                <div class="form-group">
-                  <label class="form-label">Categoria</label>
-                  <select class="form-input" id="prod-cat">
-                    <option>Cabelo</option>
-                    <option>Barba</option>
-                    <option>Cuidados</option>
-                    <option>Acessórios</option>
-                  </select>
-                </div>
-              </div>
-              <div class="form-row cols-3">
-                <div class="form-group">
-                  <label class="form-label">Custo (R$)</label>
-                  <input type="number" class="form-input" id="prod-custo" placeholder="0,00" step="0.01" />
-                </div>
-                <div class="form-group">
-                  <label class="form-label">Preço de Venda (R$)</label>
-                  <input type="number" class="form-input" id="prod-preco" placeholder="0,00" step="0.01" />
-                </div>
-                <div class="form-group">
-                  <label class="form-label">Emoji</label>
-                  <input type="text" class="form-input" id="prod-emoji" placeholder="🧴" />
-                </div>
-              </div>
-              <div class="form-row">
-                <div class="form-group">
-                  <label class="form-label">Descrição</label>
-                  <input type="text" class="form-input" id="prod-desc" placeholder="Breve descrição" />
-                </div>
-                <div class="form-group" style="display:flex;flex-direction:column;justify-content:flex-end">
-                  <button class="btn btn-primary btn-sm" onclick="addProduto()">✅ Cadastrar Produto</button>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="card">
-            <div class="card-header">
-              <span class="card-title">🛍️ Produtos Cadastrados</span>
-            </div>
-            <div class="card-body" style="padding:0">
-              <table>
-                <thead>
-                  <tr>
-                    <th>Produto</th>
-                    <th>Cat.</th>
-                    <th>Custo</th>
-                    <th>Venda</th>
-                    <th>Margem</th>
-                    <th>Exibir no Site</th>
-                    <th>Ações</th>
-                  </tr>
-                </thead>
-                <tbody id="produtos-table"></tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-
-        <!-- ===== CONTEÚDO DO SITE ===== -->
-        <div id="sec-conteudo" class="section">
-          <div class="card" style="margin-bottom:24px">
-            <div class="card-header">
-              <span class="card-title">✏️ Editar Textos do Site</span>
-            </div>
-            <div class="card-body">
-              <div class="form-group">
-                <label class="form-label">Título Principal (Hero)</label>
-                <input type="text" class="form-input" id="cont-hero-title" value="Arte & Estilo Masculino" />
-              </div>
-              <div class="form-group">
-                <label class="form-label">Subtítulo / Descrição Hero</label>
-                <textarea class="form-input" id="cont-hero-desc">Um espaço exclusivamente masculino onde tradição e modernidade se encontram. Cada detalhe pensado para a sua melhor versão.</textarea>
-              </div>
-              <div class="form-group">
-                <label class="form-label">Texto Sobre Nós</label>
-                <textarea class="form-input" id="cont-sobre">A RB Barbearia é um refúgio exclusivamente masculino, onde o homem moderno encontra cuidado, estilo e bem-estar em um só lugar.</textarea>
-              </div>
-              <div class="form-row cols-3">
-                <div class="form-group">
-                  <label class="form-label">WhatsApp</label>
-                  <input type="text" class="form-input" id="cont-whats" placeholder="5581998767139" />
-                </div>
-                <div class="form-group">
-                  <label class="form-label">Instagram</label>
-                  <input type="text" class="form-input" id="cont-instagram" placeholder="@diego_teixeira_barbeiro" />
-                </div>
-                <div class="form-group">
-                  <label class="form-label">E-mail</label>
-                  <input type="text" class="form-input" id="cont-email" placeholder="contato@rb.com.br" />
-                </div>
-              </div>
-              <div class="form-row">
-                <div class="form-group">
-                  <label class="form-label">Endereço</label>
-                  <input type="text" class="form-input" id="cont-endereco" placeholder="PE-095 - Passira, PE, 55702-419" />
-                </div>
-                <div class="form-group">
-                  <label class="form-label">Telefone Fixo</label>
-                  <input type="text" class="form-input" id="cont-telefone" placeholder="(81) 3333-3333" />
-                </div>
-              </div>
-              <div style="display:flex;gap:12px;align-items:center">
-                <button class="btn btn-primary btn-sm" onclick="saveConteudo()">💾 Salvar Alterações</button>
-                <span id="save-feedback" style="font-size:12px;color:var(--success);display:none">✅ Salvo com sucesso!</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- ===== GALERIA ADMIN ===== -->
-        <div id="sec-galeria-admin" class="section">
-          <div class="card">
-            <div class="card-header">
-              <span class="card-title">🖼️ Gerenciar Galeria</span>
-            </div>
-            <div class="card-body">
-              <p style="color:var(--gray);font-size:13px;margin-bottom:24px">
-                Configure os slots de imagem da galeria. Na versão de produção, faça upload de fotos reais da unidade.
-              </p>
-              <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;" id="galeria-slots">
-                <!-- Rendered by JS -->
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- ===== RECEITAS ===== -->
-        <div id="sec-receitas" class="section">
-          <div class="card">
-            <div class="card-header">
-              <span class="card-title">📈 Histórico de Receitas</span>
-              <div style="display:flex;gap:8px">
-                <select class="form-input" id="rec-filter" style="width:auto;padding:6px 12px;font-size:12px" onchange="renderReceitas()">
-                  <option value="">Todos os meses</option>
-                  <option value="2025-05">Maio 2025</option>
-                  <option value="2025-04">Abril 2025</option>
-                  <option value="2025-03">Março 2025</option>
-                </select>
-              </div>
-            </div>
-            <div class="card-body" style="padding:0">
-              <table>
-                <thead>
-                  <tr>
-                    <th>Data</th>
-                    <th>Tipo</th>
-                    <th>Descrição</th>
-                    <th>Valor</th>
-                    <th>Ação</th>
-                  </tr>
-                </thead>
-                <tbody id="receitas-table"></tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-
-        <!-- ===== DESPESAS ===== -->
-        <div id="sec-despesas" class="section">
-          <div class="card">
-            <div class="card-header">
-              <span class="card-title">📉 Histórico de Despesas</span>
-            </div>
-            <div class="card-body" style="padding:0">
-              <table>
-                <thead>
-                  <tr>
-                    <th>Data</th>
-                    <th>Categoria</th>
-                    <th>Descrição</th>
-                    <th>Valor</th>
-                    <th>Ação</th>
-                  </tr>
-                </thead>
-                <tbody id="despesas-table"></tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-
-        <!-- ===== RELATÓRIO ===== -->
-        <div id="sec-relatorio" class="section">
-          <div class="stats-grid" style="margin-bottom:32px">
-            <div class="stat-card gold">
-              <div class="stat-label">Total Receitas</div>
-              <div class="stat-value" id="rel-rec">R$ 0</div>
-            </div>
-            <div class="stat-card red">
-              <div class="stat-label">Total Despesas</div>
-              <div class="stat-value" id="rel-desp">R$ 0</div>
-            </div>
-            <div class="stat-card green">
-              <div class="stat-label">Lucro Líquido</div>
-              <div class="stat-value" id="rel-lucro">R$ 0</div>
-            </div>
-            <div class="stat-card blue">
-              <div class="stat-label">Margem de Lucro</div>
-              <div class="stat-value" id="rel-margem">0%</div>
+              <div class="card-header"><span class="card-title">📋 Últimas Transações</span></div>
+              <div class="card-body" style="padding:0"><table><thead><tr><th>Tipo</th><th>Descrição</th><th>Valor</th></tr></thead><tbody id="dash-recent"></tbody></table></div>
             </div>
           </div>
 
           <div class="grid-2">
             <div class="card">
-              <div class="card-header"><span class="card-title">📊 Receitas por Tipo</span></div>
-              <div class="card-body" style="padding:0">
-                <table>
-                  <thead>
-                    <tr><th>Tipo</th><th>Total</th><th>%</th></tr>
-                  </thead>
-                  <tbody id="rel-por-tipo"></tbody>
-                </table>
-              </div>
+              <div class="card-header"><span class="card-title">🧾 Comandas Abertas</span><button class="btn btn-outline btn-sm" onclick="goTo('comandas')">Ver todas →</button></div>
+              <div class="card-body" style="padding:0"><table><thead><tr><th>Nº</th><th>Cliente</th><th>Barbeiro</th><th>Total</th><th>Ação</th></tr></thead><tbody id="dash-cmd-abertas"></tbody></table></div>
             </div>
-
             <div class="card">
-              <div class="card-header"><span class="card-title">💸 Despesas por Categoria</span></div>
-              <div class="card-body" style="padding:0">
-                <table>
-                  <thead>
-                    <tr><th>Categoria</th><th>Total</th><th>%</th></tr>
-                  </thead>
-                  <tbody id="rel-por-cat"></tbody>
-                </table>
-              </div>
+              <div class="card-header"><span class="card-title">🏆 Ranking Hoje</span></div>
+              <div class="card-body" style="padding:0"><table><thead><tr><th>Barbeiro</th><th>Atend.</th><th>Faturado</th><th>Comissão</th></tr></thead><tbody id="dash-ranking"></tbody></table></div>
             </div>
           </div>
 
           <div class="card">
-            <div class="card-header">
-              <span class="card-title">🏆 Produtos Mais Rentáveis</span>
+            <div class="card-header"><span class="card-title">🛍️ Produtos em Destaque no Site</span><button class="btn btn-primary btn-sm" onclick="goTo('adm-produtos')">Gerenciar →</button></div>
+            <div class="card-body" style="padding:0"><table><thead><tr><th>Produto</th><th>Custo</th><th>Preço Venda</th><th>Margem</th><th>No Site</th></tr></thead><tbody id="dash-produtos-table"></tbody></table></div>
+          </div>
+        </div>
+
+        <!-- ══════════════════════════════════
+             FINANCEIRO (VISÃO GERAL)
+        ════════════════════════════════════ -->
+        <div id="sec-financeiro" class="section">
+          <div class="stats-grid">
+            <div class="stat-card gold"><div class="stat-icon">💰</div><div class="stat-label">Total Receitas</div><div class="stat-value" id="fin-total-rec">R$ 0</div></div>
+            <div class="stat-card red"><div class="stat-icon">💸</div><div class="stat-label">Total Despesas</div><div class="stat-value" id="fin-total-desp">R$ 0</div></div>
+            <div class="stat-card green"><div class="stat-icon">🏆</div><div class="stat-label">Lucro Total</div><div class="stat-value" id="fin-lucro">R$ 0</div></div>
+            <div class="stat-card blue"><div class="stat-icon">📦</div><div class="stat-label">Receita Produtos</div><div class="stat-value" id="fin-rec-prod">R$ 0</div></div>
+          </div>
+          <div class="card">
+            <div class="card-header"><span class="card-title">💵 Registrar Nova Venda de Serviço</span></div>
+            <div class="card-body">
+              <div class="form-row"><div class="form-group"><label class="form-label">Serviço</label><select class="form-input" id="fin-servico"><option>Corte Clássico - R$ 45</option><option>Corte Moderno - R$ 55</option><option>Corte Premium - R$ 80</option><option>Barba Completa - R$ 40</option><option>Combo Corte + Barba - R$ 75</option><option>Hidratação Capilar - R$ 60</option><option>Coloração - R$ 90</option><option>Progressiva - R$ 150</option><option>Massagem - R$ 50</option><option>Limpeza Facial - R$ 70</option><option>Design Sobrancelha - R$ 25</option><option>Epilação Nasal - R$ 20</option></select></div><div class="form-group"><label class="form-label">Valor (R$)</label><input type="number" class="form-input" id="fin-val-servico" placeholder="0,00" step="0.01"/></div></div>
+              <div class="form-row"><div class="form-group"><label class="form-label">Data</label><input type="date" class="form-input" id="fin-data-servico"/></div><div class="form-group"><label class="form-label">Observação (opcional)</label><input type="text" class="form-input" id="fin-obs-servico" placeholder="Ex: Pagamento PIX"/></div></div>
+              <button class="btn btn-primary btn-sm" onclick="addReceita('servico')">✅ Registrar Serviço</button>
             </div>
-            <div class="card-body" style="padding:0">
-              <table>
-                <thead>
-                  <tr><th>Produto</th><th>Custo</th><th>Preço</th><th>Margem</th><th>Vendas</th><th>Receita</th></tr>
-                </thead>
-                <tbody id="rel-produtos"></tbody>
-              </table>
+          </div>
+          <div class="card">
+            <div class="card-header"><span class="card-title">🛍️ Registrar Venda de Produto</span></div>
+            <div class="card-body">
+              <div class="form-row"><div class="form-group"><label class="form-label">Produto</label><select class="form-input" id="fin-produto-venda"></select></div><div class="form-group"><label class="form-label">Quantidade</label><input type="number" class="form-input" id="fin-qtd-produto" value="1" min="1"/></div><div class="form-group"><label class="form-label">Valor Unitário (R$)</label><input type="number" class="form-input" id="fin-val-produto" placeholder="0,00" step="0.01"/></div></div>
+              <div class="form-group"><label class="form-label">Data</label><input type="date" class="form-input" id="fin-data-produto" style="max-width:240px"/></div>
+              <button class="btn btn-primary btn-sm" onclick="addReceita('produto')">✅ Registrar Venda</button>
             </div>
+          </div>
+          <div class="card">
+            <div class="card-header"><span class="card-title">📉 Registrar Despesa</span></div>
+            <div class="card-body">
+              <div class="form-row cols-3"><div class="form-group"><label class="form-label">Categoria</label><select class="form-input" id="desp-cat"><option>Aluguel</option><option>Compra de Produtos</option><option>Salário / Pró-labore</option><option>Energia Elétrica</option><option>Água</option><option>Internet</option><option>Marketing</option><option>Manutenção</option><option>Material de Limpeza</option><option>Outro</option></select></div><div class="form-group"><label class="form-label">Descrição</label><input type="text" class="form-input" id="desp-desc" placeholder="Detalhe a despesa"/></div><div class="form-group"><label class="form-label">Valor (R$)</label><input type="number" class="form-input" id="desp-val" placeholder="0,00" step="0.01"/></div></div>
+              <div class="form-group" style="max-width:240px"><label class="form-label">Data</label><input type="date" class="form-input" id="desp-data"/></div>
+              <button class="btn btn-danger btn-sm" onclick="addDespesa()">📉 Registrar Despesa</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ══════════════════════════════════
+             NOVA COMANDA
+        ════════════════════════════════════ -->
+        <div id="sec-nova-comanda" class="section animate-in">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
+            <div><div style="font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--gold);">Nova Comanda</div><div style="font-size:20px;font-weight:700;margin-top:4px">Abrir Atendimento</div></div>
+          </div>
+          <div class="grid-2">
+            <div>
+              <div class="card">
+                <div class="card-header"><span class="card-title">👤 Informações do Cliente</span></div>
+                <div class="card-body">
+                  <div class="form-row"><div class="field"><label class="lbl">Nome do Cliente *</label><input type="text" class="form-input" id="nc-cliente" placeholder="Ex: João Silva"/></div><div class="field"><label class="lbl">WhatsApp</label><input type="tel" class="form-input" id="nc-whats" placeholder="(81) 99999-9999"/></div></div>
+                  <div class="form-row"><div class="field"><label class="lbl">Barbeiro Responsável *</label><select class="form-input" id="nc-barbeiro"><option value="">— Selecione —</option></select></div><div class="field"><label class="lbl">Data do Atendimento</label><input type="date" class="form-input" id="nc-data"/></div></div>
+                  <div class="field"><label class="lbl">Observações</label><textarea class="form-input" id="nc-obs" placeholder="Preferências, alergias, solicitações especiais..."></textarea></div>
+                </div>
+              </div>
+              <div class="card">
+                <div class="card-header"><span class="card-title">✂️ Serviços</span></div>
+                <div class="card-body"><div class="selectable-grid" id="nc-servicos-grid"></div></div>
+              </div>
+              <div class="card">
+                <div class="card-header"><span class="card-title">🛍️ Produtos</span></div>
+                <div class="card-body">
+                  <div class="selectable-grid" id="nc-produtos-grid"></div>
+                  <div id="nc-prod-qty" style="display:none;margin-top:14px;">
+                    <label class="lbl">Quantidade do produto selecionado</label>
+                    <div style="display:flex;gap:10px;align-items:center;margin-top:8px">
+                      <button class="btn btn-outline btn-sm" onclick="changeProdQty(-1)">−</button>
+                      <span id="nc-qty-val" style="font-size:16px;font-weight:700;min-width:28px;text-align:center">1</span>
+                      <button class="btn btn-outline btn-sm" onclick="changeProdQty(1)">+</button>
+                      <button class="btn btn-primary btn-sm" onclick="addProdutoToComanda()">Adicionar ✓</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div>
+              <div class="card" style="position:sticky;top:70px;">
+                <div class="card-header"><span class="card-title">🧾 Prévia da Comanda</span><span style="font-size:11px;color:var(--gray);font-family:monospace" id="nc-preview-num">—</span></div>
+                <div class="card-body">
+                  <div id="nc-client-preview" style="margin-bottom:14px;display:none;">
+                    <div style="background:var(--gold-muted);border:1px solid rgba(254,217,23,0.15);border-radius:7px;padding:12px 14px;">
+                      <div style="font-size:13px;font-weight:700" id="nc-prev-nome">—</div>
+                      <div style="font-size:11px;color:var(--gray);margin-top:2px" id="nc-prev-barb">—</div>
+                    </div>
+                  </div>
+                  <div style="font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--gray);margin-bottom:8px;">Itens</div>
+                  <div class="item-list" id="nc-items-list"><div class="empty"><span class="empty-icon">📋</span>Nenhum item ainda</div></div>
+                  <div class="divider"></div>
+                  <div class="totals-box">
+                    <div class="total-row"><span class="total-label">Subtotal Serviços</span><span class="total-val" id="nc-tot-serv">R$ 0,00</span></div>
+                    <div class="total-row"><span class="total-label">Subtotal Produtos</span><span class="total-val" id="nc-tot-prod">R$ 0,00</span></div>
+                    <div class="total-row grand"><span class="total-label">Total</span><span class="total-val" id="nc-tot-total">R$ 0,00</span></div>
+                  </div>
+                  <div class="divider"></div>
+                  <div class="comissao-breakdown" id="nc-comissao-box" style="display:none;">
+                    <div class="comissao-title">💜 Comissão do Barbeiro</div>
+                    <div id="nc-comissao-rows"></div>
+                    <div class="comissao-row comissao-total"><span>Total Comissão</span><span id="nc-comissao-total">R$ 0,00</span></div>
+                  </div>
+                  <div style="margin-top:14px;">
+                    <div class="form-row" style="margin-bottom:10px;">
+                      <div class="field" style="margin:0"><label class="lbl">Pagamento</label><select class="form-input" id="nc-pagamento"><option value="pix">PIX</option><option value="dinheiro">Dinheiro</option><option value="debito">Débito</option><option value="credito">Crédito</option></select></div>
+                      <div class="field" style="margin:0"><label class="lbl">Status</label><select class="form-input" id="nc-status"><option value="aberta">Aberta</option><option value="fechada">Fechada</option></select></div>
+                    </div>
+                    <button class="btn btn-primary btn-wide" onclick="salvarComanda()">✅ Salvar Comanda</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ══════════════════════════════════
+             COMANDAS LIST
+        ════════════════════════════════════ -->
+        <div id="sec-comandas" class="section animate-in">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
+            <div><div style="font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--gold);">Comandas</div><div style="font-size:20px;font-weight:700;margin-top:4px">Gerenciar Atendimentos</div></div>
+            <button class="btn btn-primary" onclick="goTo('nova-comanda')">➕ Nova Comanda</button>
+          </div>
+          <div class="filter-row">
+            <input type="text" class="form-input filter-select" id="cmd-search" placeholder="🔍 Buscar cliente ou nº..." oninput="renderComandas()" style="max-width:260px;"/>
+            <select class="form-input filter-select" id="cmd-status-f" onchange="renderComandas()" style="width:140px;"><option value="">Todos status</option><option value="aberta">Abertas</option><option value="fechada">Fechadas</option><option value="cancelada">Canceladas</option></select>
+            <select class="form-input filter-select" id="cmd-barbeiro-f" onchange="renderComandas()" style="width:160px;"><option value="">Todos barbeiros</option></select>
+            <input type="date" class="form-input filter-select" id="cmd-data-f" onchange="renderComandas()" style="width:150px;"/>
+          </div>
+          <div class="card"><div class="card-body" style="padding:0"><table><thead><tr><th>Nº</th><th>Cliente</th><th>Barbeiro</th><th>Serviços</th><th>Produtos</th><th>Total</th><th>Pgto</th><th>Data</th><th>Status</th><th>Ações</th></tr></thead><tbody id="comandas-table"></tbody></table></div></div>
+        </div>
+
+        <!-- ══════════════════════════════════
+             BARBEIROS
+        ════════════════════════════════════ -->
+        <div id="sec-adm-barbeiros" class="section animate-in">
+          <div style="margin-bottom:20px;"><div style="font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--gold);">Cadastro</div><div style="font-size:20px;font-weight:700;margin-top:4px">Barbeiros</div></div>
+          <div class="grid-2">
+            <div class="card">
+              <div class="card-header"><span class="card-title">➕ Cadastrar Barbeiro</span></div>
+              <div class="card-body">
+                <div class="field"><label class="lbl">Nome do Barbeiro *</label><input type="text" class="form-input" id="barb-nome" placeholder="Ex: Diego Teixeira"/></div>
+                <div class="field"><label class="lbl">WhatsApp</label><input type="tel" class="form-input" id="barb-whats" placeholder="(81) 99999-9999"/></div>
+                <div class="field"><label class="lbl">Comissão por Serviço (%)</label><input type="number" class="form-input" id="barb-comissao" placeholder="Ex: 40" min="0" max="100"/><div style="font-size:11px;color:var(--gray);margin-top:5px;">Percentual sobre cada serviço. Produtos têm comissão própria.</div></div>
+                <div class="field"><label class="lbl">Emoji / Avatar</label><input type="text" class="form-input" id="barb-emoji" placeholder="💈"/></div>
+                <div class="field"><label class="lbl">Status</label><select class="form-input" id="barb-status"><option value="ativo">Ativo</option><option value="inativo">Inativo</option></select></div>
+                <button class="btn btn-primary btn-sm" onclick="addBarbeiro()">✅ Cadastrar</button>
+              </div>
+            </div>
+            <div class="card"><div class="card-header"><span class="card-title">💈 Barbeiros Cadastrados</span></div><div class="card-body" style="padding:0"><table><thead><tr><th>Nome</th><th>Comissão Serv.</th><th>Atend.</th><th>Status</th><th>Ações</th></tr></thead><tbody id="barbeiros-table"></tbody></table></div></div>
+          </div>
+        </div>
+
+        <!-- ══════════════════════════════════
+             SERVIÇOS
+        ════════════════════════════════════ -->
+        <div id="sec-adm-servicos" class="section animate-in">
+          <div style="margin-bottom:20px;"><div style="font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--gold);">Cadastro</div><div style="font-size:20px;font-weight:700;margin-top:4px">Serviços</div></div>
+          <div class="grid-2">
+            <div class="card">
+              <div class="card-header"><span class="card-title">➕ Cadastrar Serviço</span></div>
+              <div class="card-body">
+                <div class="form-row"><div class="field"><label class="lbl">Nome *</label><input type="text" class="form-input" id="srv-nome" placeholder="Ex: Corte Clássico"/></div><div class="field"><label class="lbl">Categoria</label><select class="form-input" id="srv-cat"><option>Cabelo</option><option>Barba</option><option>Química</option><option>Estética</option></select></div></div>
+                <div class="form-row"><div class="field"><label class="lbl">Preço (R$) *</label><input type="number" class="form-input" id="srv-preco" placeholder="0,00" step="0.01" min="0"/></div><div class="field"><label class="lbl">Emoji</label><input type="text" class="form-input" id="srv-emoji" placeholder="✂️"/></div></div>
+                <div class="field"><label class="lbl">Descrição</label><input type="text" class="form-input" id="srv-desc" placeholder="Breve descrição"/></div>
+                <button class="btn btn-primary btn-sm" onclick="addServico()">✅ Cadastrar</button>
+              </div>
+            </div>
+            <div class="card"><div class="card-header"><span class="card-title">✂️ Serviços Cadastrados</span></div><div class="card-body" style="padding:0"><table><thead><tr><th>Serviço</th><th>Cat.</th><th>Preço</th><th>Ações</th></tr></thead><tbody id="servicos-table"></tbody></table></div></div>
+          </div>
+        </div>
+
+        <!-- ══════════════════════════════════
+             PRODUTOS ADMIN
+        ════════════════════════════════════ -->
+        <div id="sec-adm-produtos" class="section animate-in">
+          <div style="margin-bottom:20px;"><div style="font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--gold);">Cadastro</div><div style="font-size:20px;font-weight:700;margin-top:4px">Produtos</div></div>
+          <div class="grid-2">
+            <div class="card">
+              <div class="card-header"><span class="card-title">➕ Cadastrar Produto</span></div>
+              <div class="card-body">
+                <div class="form-row"><div class="field"><label class="lbl">Nome *</label><input type="text" class="form-input" id="prod-nome" placeholder="Ex: Pomada Premium"/></div><div class="field"><label class="lbl">Categoria</label><select class="form-input" id="prod-cat"><option>Cabelo</option><option>Barba</option><option>Cuidados</option><option>Acessórios</option></select></div></div>
+                <div class="form-row cols-3"><div class="field"><label class="lbl">Custo (R$)</label><input type="number" class="form-input" id="prod-custo" placeholder="0,00" step="0.01" min="0"/></div><div class="field"><label class="lbl">Preço Venda (R$) *</label><input type="number" class="form-input" id="prod-preco" placeholder="0,00" step="0.01" min="0"/></div><div class="field"><label class="lbl">Estoque</label><input type="number" class="form-input" id="prod-estoque" placeholder="0" min="0"/></div></div>
+                <div class="field"><label class="lbl">Comissão do Barbeiro por Produto (%)</label><input type="number" class="form-input" id="prod-comissao" placeholder="Ex: 15" min="0" max="100"/><div style="font-size:11px;color:var(--gray);margin-top:5px;">Cada produto tem comissão própria, independente do percentual do serviço.</div></div>
+                <div class="form-row"><div class="field"><label class="lbl">Emoji</label><input type="text" class="form-input" id="prod-emoji" placeholder="🧴"/></div><div class="field"><label class="lbl">Exibir no Site</label><br><label class="switch" style="margin-top:8px"><input type="checkbox" id="prod-noSite"><span class="slider"></span></label></div></div>
+                <div class="field"><label class="lbl">Descrição</label><input type="text" class="form-input" id="prod-desc" placeholder="Breve descrição"/></div>
+                <button class="btn btn-primary btn-sm" onclick="addProduto()">✅ Cadastrar</button>
+              </div>
+            </div>
+            <div class="card"><div class="card-header"><span class="card-title">🛍️ Produtos Cadastrados</span></div><div class="card-body" style="padding:0"><table><thead><tr><th>Produto</th><th>Preço</th><th>Comissão</th><th>Estoque</th><th>Site</th><th>Ações</th></tr></thead><tbody id="produtos-table"></tbody></table></div></div>
+          </div>
+        </div>
+
+        <!-- ══════════════════════════════════
+             COMISSÕES
+        ════════════════════════════════════ -->
+        <div id="sec-comissoes" class="section animate-in">
+          <div style="margin-bottom:20px;"><div style="font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--gold);">Financeiro</div><div style="font-size:20px;font-weight:700;margin-top:4px">Painel de Comissões</div></div>
+          <div class="filter-row" style="margin-bottom:20px;">
+            <input type="date" class="form-input filter-select" id="com-de" style="width:150px;"/>
+            <span style="color:var(--gray);font-size:12px;">até</span>
+            <input type="date" class="form-input filter-select" id="com-ate" style="width:150px;"/>
+            <button class="btn btn-primary btn-sm" onclick="renderComissoes()">Filtrar</button>
+            <button class="btn btn-outline btn-sm" onclick="setComissoesPeriodo('hoje');renderComissoes()">Hoje</button>
+            <button class="btn btn-outline btn-sm" onclick="setComissoesPeriodo('semana');renderComissoes()">Semana</button>
+            <button class="btn btn-outline btn-sm" onclick="setComissoesPeriodo('mes');renderComissoes()">Mês</button>
+          </div>
+          <div class="stats-grid" id="com-stats"></div>
+          <div class="card"><div class="card-header"><span class="card-title">💜 Detalhamento por Barbeiro</span></div><div class="card-body" style="padding:0"><table><thead><tr><th>Barbeiro</th><th>Nº</th><th>Cliente</th><th>Serviços</th><th>Comis. Serv.</th><th>Produtos</th><th>Comis. Prod.</th><th>Total Comissão</th><th>Data</th></tr></thead><tbody id="comissoes-table"></tbody></table></div></div>
+          <div class="card"><div class="card-header"><span class="card-title">📊 Resumo por Barbeiro</span></div><div class="card-body" style="padding:0"><table><thead><tr><th>Barbeiro</th><th>Atend.</th><th>Fat. Serv.</th><th>Comis. Serv.</th><th>Fat. Prod.</th><th>Comis. Prod.</th><th>Total a Pagar</th></tr></thead><tbody id="resumo-barbeiros"></tbody></table></div></div>
+        </div>
+
+        <!-- ══════════════════════════════════
+             CONTEÚDO
+        ════════════════════════════════════ -->
+        <div id="sec-conteudo" class="section">
+          <div class="card">
+            <div class="card-header"><span class="card-title">✏️ Editar Textos do Site</span></div>
+            <div class="card-body">
+              <div class="form-group"><label class="form-label">Título Principal (Hero)</label><input type="text" class="form-input" id="cont-hero-title" value="Arte & Estilo Masculino"/></div>
+              <div class="form-group"><label class="form-label">Subtítulo / Descrição Hero</label><textarea class="form-input" id="cont-hero-desc">Um espaço exclusivamente masculino onde tradição e modernidade se encontram.</textarea></div>
+              <div class="form-group"><label class="form-label">Texto Sobre Nós</label><textarea class="form-input" id="cont-sobre">A RB Barbearia é um refúgio exclusivamente masculino.</textarea></div>
+              <div class="form-row cols-3"><div class="form-group"><label class="form-label">WhatsApp</label><input type="text" class="form-input" id="cont-whats" placeholder="5581998767139"/></div><div class="form-group"><label class="form-label">Instagram</label><input type="text" class="form-input" id="cont-instagram" placeholder="@diego_teixeira_barbeiro"/></div><div class="form-group"><label class="form-label">E-mail</label><input type="text" class="form-input" id="cont-email" placeholder="contato@rb.com.br"/></div></div>
+              <div class="form-row"><div class="form-group"><label class="form-label">Endereço</label><input type="text" class="form-input" id="cont-endereco" placeholder="PE-095 - Passira, PE"/></div><div class="form-group"><label class="form-label">Telefone</label><input type="text" class="form-input" id="cont-telefone" placeholder="(81) 3333-3333"/></div></div>
+              <div style="display:flex;gap:12px;align-items:center"><button class="btn btn-primary btn-sm" onclick="saveConteudo()">💾 Salvar Alterações</button><span id="save-feedback" style="font-size:12px;color:var(--success);display:none">✅ Salvo!</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ══════════════════════════════════
+             GALERIA
+        ════════════════════════════════════ -->
+        <div id="sec-galeria-admin" class="section">
+          <div class="card"><div class="card-header"><span class="card-title">🖼️ Gerenciar Galeria</span></div><div class="card-body"><p style="color:var(--gray);font-size:13px;margin-bottom:24px">Configure os slots de imagem da galeria.</p><div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;" id="galeria-slots"></div></div></div>
+        </div>
+
+        <!-- ══════════════════════════════════
+             RECEITAS
+        ════════════════════════════════════ -->
+        <div id="sec-receitas" class="section">
+          <div class="card"><div class="card-header"><span class="card-title">📈 Histórico de Receitas</span></div><div class="card-body" style="padding:0"><table><thead><tr><th>Data</th><th>Tipo</th><th>Descrição</th><th>Valor</th><th>Ação</th></tr></thead><tbody id="receitas-table"></tbody></table></div></div>
+        </div>
+
+        <!-- ══════════════════════════════════
+             DESPESAS
+        ════════════════════════════════════ -->
+        <div id="sec-despesas" class="section">
+          <div class="card"><div class="card-header"><span class="card-title">📉 Histórico de Despesas</span></div><div class="card-body" style="padding:0"><table><thead><tr><th>Data</th><th>Categoria</th><th>Descrição</th><th>Valor</th><th>Ação</th></tr></thead><tbody id="despesas-table"></tbody></table></div></div>
+        </div>
+
+        <!-- ══════════════════════════════════
+             RELATÓRIO
+        ════════════════════════════════════ -->
+        <div id="sec-relatorio" class="section animate-in">
+          <div style="margin-bottom:20px;"><div style="font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--gold);">Financeiro</div><div style="font-size:20px;font-weight:700;margin-top:4px">Relatório Completo</div></div>
+          <div class="filter-row" style="margin-bottom:20px;">
+            <input type="date" class="form-input filter-select" id="rel-de" style="width:150px;"/>
+            <span style="color:var(--gray);font-size:12px;">até</span>
+            <input type="date" class="form-input filter-select" id="rel-ate" style="width:150px;"/>
+            <button class="btn btn-primary btn-sm" onclick="renderRelatorio()">Filtrar</button>
+            <button class="btn btn-outline btn-sm" onclick="setRelatorioPeriodo('hoje');renderRelatorio()">Hoje</button>
+            <button class="btn btn-outline btn-sm" onclick="setRelatorioPeriodo('mes');renderRelatorio()">Este Mês</button>
+          </div>
+          <div class="stats-grid" id="rel-stats"></div>
+          <div class="grid-2">
+            <div class="card"><div class="card-header"><span class="card-title">✂️ Serviços mais realizados</span></div><div class="card-body" style="padding:0"><table><thead><tr><th>Serviço</th><th>Qty</th><th>Receita</th></tr></thead><tbody id="rel-servicos"></tbody></table></div></div>
+            <div class="card"><div class="card-header"><span class="card-title">🛍️ Produtos mais vendidos</span></div><div class="card-body" style="padding:0"><table><thead><tr><th>Produto</th><th>Qty</th><th>Receita</th></tr></thead><tbody id="rel-produtos-rel"></tbody></table></div></div>
+          </div>
+          <div class="grid-2">
+            <div class="card"><div class="card-header"><span class="card-title">💳 Pagamentos</span></div><div class="card-body" style="padding:0"><table><thead><tr><th>Forma</th><th>Qty</th><th>Total</th><th>%</th></tr></thead><tbody id="rel-pagamentos"></tbody></table></div></div>
+            <div class="card"><div class="card-header"><span class="card-title">📋 Receitas vs Despesas (Fin.)</span></div><div class="card-body" style="padding:0"><table><thead><tr><th>Tipo</th><th>Total</th><th>%</th></tr></thead><tbody id="rel-por-tipo"></tbody></table></div></div>
           </div>
         </div>
 
@@ -1279,567 +638,484 @@
   </div>
 </div>
 
-<!-- MODAL EDITAR SERVIÇO -->
-<div class="modal-overlay" id="modal-servico">
-  <div class="modal">
-    <div class="modal-header">
-      <span class="modal-title">✏️ Editar Serviço</span>
-      <button class="modal-close" onclick="closeModal('modal-servico')">✕</button>
-    </div>
-    <div class="form-group">
-      <label class="form-label">Nome</label>
-      <input type="text" class="form-input" id="edit-srv-nome" />
-    </div>
-    <div class="form-group">
-      <label class="form-label">Preço (R$)</label>
-      <input type="number" class="form-input" id="edit-srv-preco" step="0.01" />
-    </div>
-    <div class="form-group">
-      <label class="form-label">Descrição</label>
-      <input type="text" class="form-input" id="edit-srv-desc" />
-    </div>
-    <input type="hidden" id="edit-srv-idx" />
-    <div style="display:flex;gap:12px">
-      <button class="btn btn-primary btn-sm" onclick="saveServico()">💾 Salvar</button>
-      <button class="btn btn-danger btn-sm" onclick="closeModal('modal-servico')">Cancelar</button>
+<!-- MODAL VER COMANDA -->
+<div class="modal-overlay" id="modal-ver">
+  <div class="modal" style="max-width:640px;">
+    <div class="modal-header"><span class="modal-title">🧾 Comanda <em id="mv-num">—</em></span><button class="modal-close" onclick="closeModal('modal-ver')">✕</button></div>
+    <div class="modal-body" id="modal-ver-body"></div>
+    <div class="modal-footer">
+      <button class="btn btn-success btn-sm" onclick="fecharComandaById()">✅ Fechar Comanda</button>
+      <button class="btn btn-danger btn-sm" onclick="cancelarComandaById()">🚫 Cancelar</button>
+      <button class="btn btn-outline btn-sm" onclick="closeModal('modal-ver')">Fechar</button>
     </div>
   </div>
 </div>
 
+<!-- MODAL EDITAR STATUS -->
+<div class="modal-overlay" id="modal-editar">
+  <div class="modal" style="max-width:380px;">
+    <div class="modal-header"><span class="modal-title">✏️ Editar Comanda</span><button class="modal-close" onclick="closeModal('modal-editar')">✕</button></div>
+    <div class="modal-body">
+      <div class="field"><label class="lbl">Status</label><select class="form-input" id="edit-status"><option value="aberta">Aberta</option><option value="fechada">Fechada</option><option value="cancelada">Cancelada</option></select></div>
+      <div class="field"><label class="lbl">Forma de Pagamento</label><select class="form-input" id="edit-pgto"><option value="pix">PIX</option><option value="dinheiro">Dinheiro</option><option value="debito">Débito</option><option value="credito">Crédito</option></select></div>
+      <input type="hidden" id="edit-idx"/>
+    </div>
+    <div class="modal-footer"><button class="btn btn-primary btn-sm" onclick="salvarEdicaoStatus()">💾 Salvar</button><button class="btn btn-outline btn-sm" onclick="closeModal('modal-editar')">Cancelar</button></div>
+  </div>
+</div>
+
+<!-- MODAL EDITAR SERVIÇO (legado admin) -->
+<div class="modal-overlay" id="modal-servico">
+  <div class="modal" style="max-width:440px;">
+    <div class="modal-header"><span class="modal-title">✏️ Editar Serviço</span><button class="modal-close" onclick="closeModal('modal-servico')">✕</button></div>
+    <div class="modal-body">
+      <div class="form-group"><label class="form-label">Nome</label><input type="text" class="form-input" id="edit-srv-nome"/></div>
+      <div class="form-group"><label class="form-label">Preço (R$)</label><input type="number" class="form-input" id="edit-srv-preco" step="0.01"/></div>
+      <div class="form-group"><label class="form-label">Descrição</label><input type="text" class="form-input" id="edit-srv-desc"/></div>
+      <input type="hidden" id="edit-srv-idx"/>
+    </div>
+    <div class="modal-footer"><button class="btn btn-primary btn-sm" onclick="saveServicoEdit()">💾 Salvar</button><button class="btn btn-danger btn-sm" onclick="closeModal('modal-servico')">Cancelar</button></div>
+  </div>
+</div>
+
 <script>
-// ============================================================
-// STATE
-// ============================================================
+// ════════════════════════════════════════════
+// ESTADO UNIFICADO
+// ════════════════════════════════════════════
 let state = {
-  receitas: [],
-  despesas: [],
+  // legado financeiro
+  receitas: [], despesas: [],
+  // comanda
+  barbeiros: [
+    { id:1, nome:'Diego Teixeira', whats:'81998767139', comissao:40, emoji:'💈', status:'ativo' },
+    { id:2, nome:'Carlos Mendes', whats:'81988887777', comissao:35, emoji:'✂️', status:'ativo' },
+  ],
   servicos: [
-    { nome: 'Corte Clássico', cat: 'Cabelo', preco: 45, desc: 'Corte tradicional com acabamento impecável.', emoji: '✂️' },
-    { nome: 'Corte Moderno', cat: 'Cabelo', preco: 55, desc: 'Tendências atuais com técnicas de degradê.', emoji: '💈' },
-    { nome: 'Barba Completa', cat: 'Barba', preco: 40, desc: 'Modelagem, navalha quente, toalha quente.', emoji: '🪒' },
-    { nome: 'Combo Corte + Barba', cat: 'Barba', preco: 75, desc: 'O pacote mais completo.', emoji: '⚡' },
-    { nome: 'Limpeza Facial', cat: 'Estética', preco: 70, desc: 'Limpeza profunda de poros.', emoji: '🧖' },
-    { nome: 'Massagem', cat: 'Estética', preco: 50, desc: 'Massagem relaxante.', emoji: '💆' },
+    { id:1, nome:'Corte Clássico', cat:'Cabelo', preco:45, emoji:'✂️', desc:'Corte tradicional com acabamento impecável.' },
+    { id:2, nome:'Corte Moderno', cat:'Cabelo', preco:55, emoji:'💈', desc:'Tendências atuais com técnicas de degradê.' },
+    { id:3, nome:'Corte Premium', cat:'Cabelo', preco:80, emoji:'👑', desc:'Experiência completa com consultoria.' },
+    { id:4, nome:'Barba Completa', cat:'Barba', preco:40, emoji:'🪒', desc:'Modelagem com navalha e toalha quente.' },
+    { id:5, nome:'Combo Corte + Barba', cat:'Barba', preco:75, emoji:'⚡', desc:'O pacote mais completo.' },
+    { id:6, nome:'Hidratação Capilar', cat:'Química', preco:60, emoji:'🧴', desc:'Restaura brilho e saúde dos fios.' },
+    { id:7, nome:'Coloração', cat:'Química', preco:90, emoji:'🎨', desc:'Coloração profissional.' },
+    { id:8, nome:'Progressiva Masc.', cat:'Química', preco:150, emoji:'✨', desc:'Alisa e disciplina os fios.' },
+    { id:9, nome:'Massagem', cat:'Estética', preco:50, emoji:'💆', desc:'Relaxante após atendimento.' },
+    { id:10, nome:'Limpeza Facial', cat:'Estética', preco:70, emoji:'🧖', desc:'Limpeza profunda de poros.' },
+    { id:11, nome:'Design Sobrancelha', cat:'Estética', preco:25, emoji:'👁️', desc:'Modelagem masculina.' },
+    { id:12, nome:'Epilação Nasal', cat:'Barba', preco:20, emoji:'👃', desc:'Remoção de pelos nasais com cera.' },
   ],
   produtos: [
-    { nome: 'Pomada Modeladora', cat: 'Cabelo', custo: 18, preco: 35, emoji: '🧴', desc: 'Fixação forte com brilho natural.', noSite: true, vendas: 0 },
-    { nome: 'Balm para Barba', cat: 'Barba', custo: 22, preco: 45, emoji: '🫙', desc: 'Hidratação e maciez para a barba.', noSite: true, vendas: 0 },
-    { nome: 'Óleo de Barba', cat: 'Barba', custo: 28, preco: 55, emoji: '💧', desc: 'Nutrição profunda.', noSite: true, vendas: 0 },
-    { nome: 'Shampoo Premium', cat: 'Cuidados', custo: 20, preco: 40, emoji: '🧼', desc: 'Limpeza profunda sem agredir.', noSite: false, vendas: 0 },
-  ]
+    { id:1, nome:'Pomada Modeladora', cat:'Cabelo', custo:18, preco:35, comissao:15, emoji:'🧴', desc:'Fixação forte com brilho natural.', estoque:10, noSite:true, vendas:0 },
+    { id:2, nome:'Balm para Barba', cat:'Barba', custo:22, preco:45, comissao:15, emoji:'🫙', desc:'Hidratação e maciez.', estoque:8, noSite:true, vendas:0 },
+    { id:3, nome:'Óleo de Barba', cat:'Barba', custo:28, preco:55, comissao:20, emoji:'💧', desc:'Nutrição profunda.', estoque:6, noSite:true, vendas:0 },
+    { id:4, nome:'Shampoo Premium', cat:'Cuidados', custo:20, preco:40, comissao:10, emoji:'🧼', desc:'Limpeza profunda sem agredir.', estoque:12, noSite:false, vendas:0 },
+  ],
+  comandas: [], nextId: 1001,
 };
 
-// Load from localStorage
-function loadState() {
-  try {
-    const saved = localStorage.getItem('rb_admin_state');
-    if (saved) state = { ...state, ...JSON.parse(saved) };
-  } catch(e) {}
-}
-
-function saveState() {
-  localStorage.setItem('rb_admin_state', JSON.stringify(state));
-}
-
+function loadState() { try { const s = localStorage.getItem('rb_admin_v2'); if(s) state = JSON.parse(s); } catch(e){} }
+function saveState() { localStorage.setItem('rb_admin_v2', JSON.stringify(state)); }
 loadState();
 
-// ============================================================
+// Estado nova comanda
+let nc = { servicosSel:[], produtosSel:[], prodQtySel:{id:null, qty:1} };
+let prodQtyAtual = 1;
+let modalComandaIdx = null;
+
+// Helpers
+const fmt = v => 'R$ ' + Number(v).toFixed(2).replace('.', ',');
+const today = () => new Date().toISOString().split('T')[0];
+const fmtDate = d => d ? new Date(d+'T00:00:00').toLocaleDateString('pt-BR') : '—';
+const getBarbeiro = id => state.barbeiros.find(b => b.id == id);
+const pgtoLabel = p => ({pix:'PIX',dinheiro:'Dinheiro',debito:'Débito',credito:'Crédito'}[p]||p||'—');
+
+// ════════════════════════════════════════════
 // AUTH
-// ============================================================
+// ════════════════════════════════════════════
 function doLogin() {
-  const user = document.getElementById('inp-user').value.trim();
-  const pass = document.getElementById('inp-pass').value.trim();
-  if (user === 'admin' && pass === 'rb2025') {
+  const u = document.getElementById('inp-user').value.trim();
+  const p = document.getElementById('inp-pass').value.trim();
+  if (u === 'admin' && p === 'rb2025') {
     document.getElementById('login-screen').style.display = 'none';
     document.getElementById('admin-panel').style.display = 'block';
     initAdmin();
-  } else {
-    document.getElementById('login-error').style.display = 'block';
-  }
+  } else { document.getElementById('login-error').style.display = 'block'; }
 }
-
 function doLogout() {
-  if (confirm('Deseja sair do painel?')) {
+  if (confirm('Deseja sair?')) {
     document.getElementById('login-screen').style.display = 'flex';
     document.getElementById('admin-panel').style.display = 'none';
     document.getElementById('inp-pass').value = '';
   }
 }
 
-// ============================================================
-// NAVIGATION
-// ============================================================
-const titles = {
-  dashboard: 'Dashboard', financeiro: 'Financeiro', servicos: 'Gerenciar Serviços',
-  'produtos-admin': 'Gerenciar Produtos', conteudo: 'Conteúdo do Site',
-  'galeria-admin': 'Galeria', receitas: 'Receitas', despesas: 'Despesas', relatorio: 'Relatório Financeiro'
-};
+// ════════════════════════════════════════════
+// NAVEGAÇÃO
+// ════════════════════════════════════════════
+const pageTitles = { dashboard:'Dashboard', financeiro:'Financeiro', 'nova-comanda':'Nova Comanda', comandas:'Comandas', 'adm-barbeiros':'Barbeiros', 'adm-servicos':'Serviços', 'adm-produtos':'Produtos', conteudo:'Conteúdo do Site', 'galeria-admin':'Galeria', receitas:'Receitas', despesas:'Despesas', relatorio:'Relatório', comissoes:'Comissões' };
 
-function goTo(section) {
+function goTo(sec) {
   document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
   document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  const el = document.getElementById('sec-'+sec);
+  if (el) el.classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(n => { if(n.getAttribute('onclick')?.includes("'"+sec+"'")) n.classList.add('active'); });
+  document.getElementById('page-title').textContent = pageTitles[sec] || sec;
 
-  document.getElementById(`sec-${section}`).classList.add('active');
-  document.querySelectorAll('.nav-item').forEach(n => {
-    if (n.textContent.trim().toLowerCase().includes(titles[section]?.split(' ')[0].toLowerCase()) ||
-        n.getAttribute('onclick')?.includes(`'${section}'`)) {
-      n.classList.add('active');
-    }
-  });
-  document.getElementById('page-title').textContent = titles[section] || section;
-
-  renderAll();
+  if (sec==='dashboard') renderDashboard();
+  if (sec==='financeiro') { renderFinOverview(); setDefaultDates(); updateProdutoVendaSelect(); }
+  if (sec==='nova-comanda') initNovaComanda();
+  if (sec==='comandas') renderComandas();
+  if (sec==='adm-barbeiros') renderBarbeiros();
+  if (sec==='adm-servicos') renderServicosTable();
+  if (sec==='adm-produtos') renderProdutosTable();
+  if (sec==='comissoes') { setComissoesPeriodo('mes'); renderComissoes(); }
+  if (sec==='receitas') renderReceitas();
+  if (sec==='despesas') renderDespesas();
+  if (sec==='relatorio') { setRelatorioPeriodo('mes'); renderRelatorio(); }
+  if (sec==='galeria-admin') renderGaleriaSlots();
+  updateBadgeAbertas();
 }
 
-// ============================================================
+// ════════════════════════════════════════════
 // INIT
-// ============================================================
+// ════════════════════════════════════════════
 function initAdmin() {
   setDefaultDates();
   updateClock();
   setInterval(updateClock, 1000);
   renderAll();
-  renderGaleriaSlots();
+  updateBadgeAbertas();
 }
-
 function setDefaultDates() {
-  const today = new Date().toISOString().split('T')[0];
-  ['fin-data-servico','fin-data-produto','desp-data'].forEach(id => {
-    const el = document.getElementById(id);
-    if (el) el.value = today;
-  });
+  const t = today();
+  ['fin-data-servico','fin-data-produto','desp-data'].forEach(id => { const el=document.getElementById(id); if(el) el.value=t; });
 }
+function updateClock() { const el=document.getElementById('current-time'); if(el) el.textContent=new Date().toLocaleTimeString('pt-BR'); }
+function renderAll() { renderDashboard(); renderServicosTable(); renderProdutosTable(); renderBarbeiros(); renderReceitas(); renderDespesas(); renderFinOverview(); updateProdutoVendaSelect(); updateBadgeAbertas(); }
+function updateBadgeAbertas() { const n=state.comandas.filter(c=>c.status==='aberta').length; const el=document.getElementById('badge-abertas'); if(el) el.textContent=n; }
 
-function updateClock() {
-  const el = document.getElementById('current-time');
-  if (el) el.textContent = new Date().toLocaleTimeString('pt-BR');
-}
-
-function renderAll() {
-  renderDashboard();
-  renderServicosTable();
-  renderProdutosTable();
-  renderReceitas();
-  renderDespesas();
-  renderRelatorio();
-  renderFinOverview();
-  updateProdutoVendaSelect();
-}
-
-// ============================================================
-// FORMAT
-// ============================================================
-const fmt = (v) => 'R$ ' + Number(v).toFixed(2).replace('.', ',');
-const pct = (v, t) => t > 0 ? ((v/t)*100).toFixed(1)+'%' : '0%';
-
-// ============================================================
+// ════════════════════════════════════════════
 // DASHBOARD
-// ============================================================
+// ════════════════════════════════════════════
 function renderDashboard() {
-  const now = new Date();
-  const mes = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}`;
+  const t = today();
+  const mes = t.substring(0,7);
+  const cmdHoje = state.comandas.filter(c=>c.data===t&&c.status==='fechada');
+  const abertas = state.comandas.filter(c=>c.status==='aberta');
+  const fatHoje = cmdHoje.reduce((a,c)=>a+c.total,0);
+  const comHoje = cmdHoje.reduce((a,c)=>a+(c.comissaoTotal||0),0);
+  const despMes = state.despesas.filter(d=>d.data.startsWith(mes)).reduce((a,d)=>a+d.valor,0);
+  const recMes = state.receitas.filter(r=>r.data.startsWith(mes)).reduce((a,r)=>a+r.valor,0);
+  const cmdMes = state.comandas.filter(c=>c.data.startsWith(mes)&&c.status==='fechada').reduce((a,c)=>a+c.total,0);
+  const totalRecMes = recMes + cmdMes;
 
-  const recMes = state.receitas.filter(r => r.data.startsWith(mes)).reduce((a,r) => a+r.valor, 0);
-  const despMes = state.despesas.filter(d => d.data.startsWith(mes)).reduce((a,d) => a+d.valor, 0);
-  const prodMes = state.receitas.filter(r => r.data.startsWith(mes) && r.tipo === 'produto').length;
-
-  document.getElementById('dash-receita').textContent = fmt(recMes);
+  document.getElementById('dash-fat-hoje').textContent = fmt(fatHoje);
+  document.getElementById('dash-fat-sub').textContent = cmdHoje.length + ' atendimentos hoje';
   document.getElementById('dash-despesa').textContent = fmt(despMes);
-  document.getElementById('dash-lucro').textContent = fmt(recMes - despMes);
-  document.getElementById('dash-produtos').textContent = prodMes;
+  document.getElementById('dash-lucro').textContent = fmt(totalRecMes - despMes);
+  document.getElementById('dash-abertas-val').textContent = abertas.length;
 
   renderChart();
-  renderDashRecent();
+
+  // Últimas transações
+  const items = [...state.receitas.map(r=>({...r,dir:'rec'})), ...state.despesas.map(d=>({...d,dir:'desp'})), ...state.comandas.filter(c=>c.status==='fechada').map(c=>({desc:c.cliente+' (Comanda #'+c.num+')',valor:c.total,data:c.data,dir:'rec'}))].sort((a,b)=>new Date(b.data)-new Date(a.data)).slice(0,6);
+  const tbody = document.getElementById('dash-recent');
+  tbody.innerHTML = items.length ? items.map(i=>`<tr><td><span class="badge ${i.dir==='rec'?'badge-green':'badge-red'}">${i.dir==='rec'?'Receita':'Despesa'}</span></td><td>${i.desc||i.descricao||''}</td><td style="color:${i.dir==='rec'?'var(--success)':'var(--danger)'};">${i.dir==='rec'?'+':'-'}${fmt(i.valor)}</td></tr>`).join('') : '<tr><td colspan="3" class="empty">Sem transações</td></tr>';
+
+  // Comandas abertas
+  const tb2 = document.getElementById('dash-cmd-abertas');
+  tb2.innerHTML = abertas.length ? abertas.slice(0,5).map(c=>`<tr><td><span class="num-badge">${c.num}</span></td><td><strong>${c.cliente}</strong></td><td>${getBarbeiro(c.barbeiroId)?.nome||'—'}</td><td style="color:var(--gold);font-weight:600">${fmt(c.total)}</td><td><button class="btn btn-info btn-sm" onclick="verComanda(${c.idx})">Ver →</button></td></tr>`).join('') : '<tr><td colspan="5" class="empty">Nenhuma aberta</td></tr>';
+
+  // Ranking hoje
+  const rank = {}; cmdHoje.forEach(c=>{ if(!rank[c.barbeiroId]) rank[c.barbeiroId]={fat:0,count:0,com:0}; rank[c.barbeiroId].fat+=c.total; rank[c.barbeiroId].count++; rank[c.barbeiroId].com+=c.comissaoTotal||0; });
+  const rankArr = Object.entries(rank).sort((a,b)=>b[1].fat-a[1].fat);
+  const tb3 = document.getElementById('dash-ranking');
+  tb3.innerHTML = rankArr.length ? rankArr.map(([id,r])=>`<tr><td><strong>${getBarbeiro(parseInt(id))?.nome||'—'}</strong></td><td><span class="badge badge-blue">${r.count}</span></td><td style="color:var(--gold);font-weight:600">${fmt(r.fat)}</td><td style="color:var(--purple);font-weight:600">${fmt(r.com)}</td></tr>`).join('') : '<tr><td colspan="4" class="empty">Nenhum atendimento hoje</td></tr>';
+
+  // Produtos dashboard
   renderDashProdutos();
 }
 
 function renderChart() {
   const container = document.getElementById('chart-container');
+  if (!container) return;
   const months = [];
-  for (let i = 5; i >= 0; i--) {
-    const d = new Date();
-    d.setMonth(d.getMonth() - i);
-    months.push({ key: `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`, label: d.toLocaleDateString('pt-BR', {month:'short'}) });
-  }
-  const maxVal = Math.max(...months.map(m => {
-    const r = state.receitas.filter(x => x.data.startsWith(m.key)).reduce((a,x) => a+x.valor, 0);
-    const d = state.despesas.filter(x => x.data.startsWith(m.key)).reduce((a,x) => a+x.valor, 0);
-    return Math.max(r, d);
-  }), 1);
-
-  container.innerHTML = months.map(m => {
-    const r = state.receitas.filter(x => x.data.startsWith(m.key)).reduce((a,x) => a+x.valor, 0);
-    const d = state.despesas.filter(x => x.data.startsWith(m.key)).reduce((a,x) => a+x.valor, 0);
-    const rH = Math.max((r/maxVal)*120, 2);
-    const dH = Math.max((d/maxVal)*120, 2);
-    return `
-      <div class="chart-bar-wrap">
-        <div style="display:flex;gap:4px;align-items:flex-end;height:120px">
-          <div class="chart-bar gold" style="height:${rH}px;width:50%;"></div>
-          <div class="chart-bar red" style="height:${dH}px;width:50%;"></div>
-        </div>
-        <div class="chart-label">${m.label}</div>
-      </div>
-    `;
-  }).join('');
-}
-
-function renderDashRecent() {
-  const tbody = document.getElementById('dash-recent');
-  const items = [
-    ...state.receitas.map(r => ({...r, dir:'rec'})),
-    ...state.despesas.map(d => ({...d, dir:'desp'}))
-  ].sort((a,b) => new Date(b.data)-new Date(a.data)).slice(0,6);
-
-  tbody.innerHTML = items.length ? items.map(i => `
-    <tr>
-      <td><span class="badge ${i.dir==='rec'?'badge-green':'badge-red'}">${i.dir==='rec'?'Receita':'Despesa'}</span></td>
-      <td>${i.desc || i.descricao || i.servico || ''}</td>
-      <td style="color:${i.dir==='rec'?'var(--success)':'var(--danger)'}">
-        ${i.dir==='rec'?'+':'-'}${fmt(i.valor)}
-      </td>
-    </tr>
-  `).join('') : '<tr><td colspan="3" style="text-align:center;color:var(--gray);padding:24px">Nenhuma transação registrada</td></tr>';
+  for (let i=5;i>=0;i--) { const d=new Date(); d.setMonth(d.getMonth()-i); months.push({key:`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`,label:d.toLocaleDateString('pt-BR',{month:'short'})}); }
+  const maxVal = Math.max(...months.map(m=>{ const r=state.receitas.filter(x=>x.data.startsWith(m.key)).reduce((a,x)=>a+x.valor,0); const cmdR=state.comandas.filter(c=>c.data.startsWith(m.key)&&c.status==='fechada').reduce((a,c)=>a+c.total,0); const d=state.despesas.filter(x=>x.data.startsWith(m.key)).reduce((a,x)=>a+x.valor,0); return Math.max(r+cmdR,d); }),1);
+  container.innerHTML = months.map(m=>{ const r=state.receitas.filter(x=>x.data.startsWith(m.key)).reduce((a,x)=>a+x.valor,0)+state.comandas.filter(c=>c.data.startsWith(m.key)&&c.status==='fechada').reduce((a,c)=>a+c.total,0); const d=state.despesas.filter(x=>x.data.startsWith(m.key)).reduce((a,x)=>a+x.valor,0); const rH=Math.max((r/maxVal)*120,2); const dH=Math.max((d/maxVal)*120,2); return `<div class="chart-bar-wrap"><div style="display:flex;gap:4px;align-items:flex-end;height:120px"><div class="chart-bar gold" style="height:${rH}px;width:50%;"></div><div class="chart-bar red" style="height:${dH}px;width:50%;"></div></div><div class="chart-label">${m.label}</div></div>`; }).join('');
 }
 
 function renderDashProdutos() {
   const tbody = document.getElementById('dash-produtos-table');
-  tbody.innerHTML = state.produtos.map((p, i) => {
-    const margem = ((p.preco - p.custo) / p.custo * 100).toFixed(0);
-    return `
-      <tr>
-        <td>${p.emoji} ${p.nome}</td>
-        <td>${fmt(p.custo)}</td>
-        <td>${fmt(p.preco)}</td>
-        <td><span class="badge badge-green">${margem}%</span></td>
-        <td>
-          <label class="switch">
-            <input type="checkbox" ${p.noSite?'checked':''} onchange="toggleProdutoSite(${i},this.checked)">
-            <span class="slider"></span>
-          </label>
-        </td>
-      </tr>
-    `;
-  }).join('');
-}
-
-// ============================================================
-// FINANCEIRO
-// ============================================================
-function renderFinOverview() {
-  const totRec = state.receitas.reduce((a,r) => a+r.valor, 0);
-  const totDesp = state.despesas.reduce((a,d) => a+d.valor, 0);
-  const recProd = state.receitas.filter(r => r.tipo==='produto').reduce((a,r) => a+r.valor, 0);
-
-  document.getElementById('fin-total-rec').textContent = fmt(totRec);
-  document.getElementById('fin-total-desp').textContent = fmt(totDesp);
-  document.getElementById('fin-lucro').textContent = fmt(totRec - totDesp);
-  document.getElementById('fin-rec-prod').textContent = fmt(recProd);
-}
-
-function addReceita(tipo) {
-  let val, desc, data;
-  if (tipo === 'servico') {
-    const srv = document.getElementById('fin-servico').value;
-    val = parseFloat(document.getElementById('fin-val-servico').value);
-    desc = document.getElementById('fin-obs-servico').value || srv;
-    data = document.getElementById('fin-data-servico').value;
-    if (!val) { const m = srv.match(/R\$ (\d+)/); val = m ? parseFloat(m[1]) : 0; }
-  } else {
-    const p = document.getElementById('fin-produto-venda');
-    const qtd = parseInt(document.getElementById('fin-qtd-produto').value) || 1;
-    val = parseFloat(document.getElementById('fin-val-produto').value) * qtd;
-    desc = `Venda: ${p.options[p.selectedIndex].text} (x${qtd})`;
-    data = document.getElementById('fin-data-produto').value;
-    // update product sales count
-    const idx = parseInt(p.value);
-    if (!isNaN(idx)) state.produtos[idx].vendas = (state.produtos[idx].vendas || 0) + qtd;
-  }
-
-  if (!val || val <= 0) { alert('Informe o valor!'); return; }
-  if (!data) { alert('Informe a data!'); return; }
-
-  state.receitas.push({ tipo, desc, valor: val, data });
-  saveState();
-  renderAll();
-  alert('✅ Receita registrada com sucesso!');
-}
-
-function addDespesa() {
-  const cat = document.getElementById('desp-cat').value;
-  const desc = document.getElementById('desp-desc').value || cat;
-  const val = parseFloat(document.getElementById('desp-val').value);
-  const data = document.getElementById('desp-data').value;
-
-  if (!val || val <= 0) { alert('Informe o valor!'); return; }
-  if (!data) { alert('Informe a data!'); return; }
-
-  state.despesas.push({ cat, desc, valor: val, data });
-  saveState();
-  renderAll();
-  alert('✅ Despesa registrada com sucesso!');
-}
-
-function updateProdutoVendaSelect() {
-  const sel = document.getElementById('fin-produto-venda');
-  if (!sel) return;
-  sel.innerHTML = state.produtos.map((p,i) => `<option value="${i}">${p.emoji} ${p.nome} (R$ ${p.preco})</option>`).join('');
-}
-
-// ============================================================
-// SERVIÇOS
-// ============================================================
-function addServico() {
-  const nome = document.getElementById('srv-nome').value.trim();
-  const cat = document.getElementById('srv-cat').value;
-  const preco = parseFloat(document.getElementById('srv-preco').value);
-  const desc = document.getElementById('srv-desc').value.trim();
-  const emoji = document.getElementById('srv-emoji').value.trim() || '✂️';
-  if (!nome || !preco) { alert('Preencha nome e preço!'); return; }
-  state.servicos.push({ nome, cat, preco, desc, emoji });
-  saveState();
-  renderServicosTable();
-  ['srv-nome','srv-preco','srv-desc','srv-emoji'].forEach(id => document.getElementById(id).value = '');
-}
-
-function renderServicosTable() {
-  const tbody = document.getElementById('servicos-table');
   if (!tbody) return;
-  tbody.innerHTML = state.servicos.map((s,i) => `
-    <tr>
-      <td style="font-size:24px">${s.emoji}</td>
-      <td><strong>${s.nome}</strong><br><small style="color:var(--gray)">${s.desc}</small></td>
-      <td><span class="badge badge-blue">${s.cat}</span></td>
-      <td style="color:var(--gold);font-weight:600">${fmt(s.preco)}</td>
-      <td style="display:flex;gap:8px">
-        <button class="btn btn-info btn-sm" onclick="editServico(${i})">✏️</button>
-        <button class="btn btn-danger btn-sm" onclick="delServico(${i})">🗑️</button>
-      </td>
-    </tr>
-  `).join('') || '<tr><td colspan="5" style="text-align:center;color:var(--gray);padding:24px">Nenhum serviço cadastrado</td></tr>';
+  tbody.innerHTML = state.produtos.map((p,i)=>{ const m=p.custo>0?((p.preco-p.custo)/p.custo*100).toFixed(0)+'%':'—'; return `<tr><td>${p.emoji} ${p.nome}</td><td>${fmt(p.custo)}</td><td>${fmt(p.preco)}</td><td><span class="badge badge-green">${m}</span></td><td><label class="switch"><input type="checkbox" ${p.noSite?'checked':''} onchange="toggleProdutoSite(${i},this.checked)"><span class="slider"></span></label></td></tr>`; }).join('');
 }
 
-function editServico(i) {
-  const s = state.servicos[i];
-  document.getElementById('edit-srv-nome').value = s.nome;
-  document.getElementById('edit-srv-preco').value = s.preco;
-  document.getElementById('edit-srv-desc').value = s.desc;
-  document.getElementById('edit-srv-idx').value = i;
-  document.getElementById('modal-servico').classList.add('open');
+// ════════════════════════════════════════════
+// NOVA COMANDA
+// ════════════════════════════════════════════
+function initNovaComanda() {
+  nc = { servicosSel:[], produtosSel:[], prodQtySel:{id:null,qty:1} };
+  prodQtyAtual = 1;
+  const sel = document.getElementById('nc-barbeiro');
+  sel.innerHTML = '<option value="">— Selecione —</option>';
+  state.barbeiros.filter(b=>b.status==='ativo').forEach(b=>{ sel.innerHTML += `<option value="${b.id}">${b.emoji} ${b.nome} (${b.comissao}% comissão)</option>`; });
+  document.getElementById('nc-data').value = today();
+  document.getElementById('nc-preview-num').textContent = '#'+state.nextId;
+  document.getElementById('nc-cliente').oninput = updatePreview;
+  document.getElementById('nc-barbeiro').onchange = updatePreview;
+  renderNCServicosGrid(); renderNCProdutosGrid(); updatePreview();
 }
 
-function saveServico() {
-  const i = parseInt(document.getElementById('edit-srv-idx').value);
-  state.servicos[i].nome = document.getElementById('edit-srv-nome').value;
-  state.servicos[i].preco = parseFloat(document.getElementById('edit-srv-preco').value);
-  state.servicos[i].desc = document.getElementById('edit-srv-desc').value;
-  saveState();
-  renderServicosTable();
-  closeModal('modal-servico');
+function renderNCServicosGrid() {
+  document.getElementById('nc-servicos-grid').innerHTML = state.servicos.map(s=>{ const sel=nc.servicosSel.find(x=>x.id===s.id); return `<div class="selectable-item ${sel?'active':''}" onclick="toggleServico(${s.id})"><div class="s-emoji">${s.emoji}</div><div class="s-name">${s.nome}</div><div class="s-price">${fmt(s.preco)}</div><div class="s-sub">${s.cat}</div></div>`; }).join('');
+}
+function renderNCProdutosGrid() {
+  document.getElementById('nc-produtos-grid').innerHTML = state.produtos.map(p=>{ const sel=nc.produtosSel.find(x=>x.id===p.id); return `<div class="selectable-item ${sel?'active':''}" onclick="selectProduto(${p.id})"><div class="s-emoji">${p.emoji}</div><div class="s-name">${p.nome}</div><div class="s-price">${fmt(p.preco)}</div><div class="s-sub">Comis.: ${p.comissao}%</div></div>`; }).join('');
 }
 
-function delServico(i) {
-  if (confirm('Excluir este serviço?')) {
-    state.servicos.splice(i, 1);
-    saveState();
-    renderServicosTable();
-  }
+function toggleServico(id) { const i=nc.servicosSel.findIndex(x=>x.id===id); if(i>-1) nc.servicosSel.splice(i,1); else nc.servicosSel.push({id,qty:1}); renderNCServicosGrid(); updatePreview(); }
+function selectProduto(id) { nc.prodQtySel={id,qty:1}; prodQtyAtual=1; document.getElementById('nc-qty-val').textContent=1; document.getElementById('nc-prod-qty').style.display='block'; renderNCProdutosGrid(); }
+function changeProdQty(d) { prodQtyAtual=Math.max(1,prodQtyAtual+d); document.getElementById('nc-qty-val').textContent=prodQtyAtual; }
+function addProdutoToComanda() { const id=nc.prodQtySel.id; if(!id) return; const ex=nc.produtosSel.find(x=>x.id===id); if(ex) ex.qty+=prodQtyAtual; else nc.produtosSel.push({id,qty:prodQtyAtual}); nc.prodQtySel={id:null,qty:1}; document.getElementById('nc-prod-qty').style.display='none'; renderNCProdutosGrid(); updatePreview(); }
+function removeProdutoNC(id) { nc.produtosSel=nc.produtosSel.filter(x=>x.id!==id); renderNCProdutosGrid(); updatePreview(); }
+
+function updatePreview() {
+  const nome = document.getElementById('nc-cliente')?.value.trim();
+  const bId = parseInt(document.getElementById('nc-barbeiro')?.value);
+  const barb = getBarbeiro(bId);
+  const cp = document.getElementById('nc-client-preview');
+  if (nome||barb) { cp.style.display='block'; document.getElementById('nc-prev-nome').textContent=nome||'(sem nome)'; document.getElementById('nc-prev-barb').textContent=barb?`${barb.emoji} ${barb.nome} • ${barb.comissao}% comissão serviços`:'— sem barbeiro —'; } else { cp.style.display='none'; }
+
+  let html='', totServ=0, totProd=0, comRows='', comTotal=0;
+  nc.servicosSel.forEach(item=>{ const s=state.servicos.find(x=>x.id===item.id); if(!s) return; const val=s.preco*item.qty; totServ+=val; html+=`<div class="item-row"><span class="item-emoji">${s.emoji}</span><div class="item-info"><div class="item-name">${s.nome}</div><div class="item-sub">Serviço • x${item.qty}</div></div><span class="item-price">${fmt(val)}</span><button class="item-remove" onclick="toggleServico(${s.id})">✕</button></div>`; if(barb){ const c=val*barb.comissao/100; comTotal+=c; comRows+=`<div class="comissao-row"><span>${s.emoji} ${s.nome}</span><span>${fmt(c)} (${barb.comissao}%)</span></div>`; } });
+  nc.produtosSel.forEach(item=>{ const p=state.produtos.find(x=>x.id===item.id); if(!p) return; const val=p.preco*item.qty; totProd+=val; html+=`<div class="item-row"><span class="item-emoji">${p.emoji}</span><div class="item-info"><div class="item-name">${p.nome}</div><div class="item-sub">Produto • x${item.qty} • Comis.: ${p.comissao}%</div></div><span class="item-price">${fmt(val)}</span><button class="item-remove" onclick="removeProdutoNC(${p.id})">✕</button></div>`; const c=val*p.comissao/100; comTotal+=c; comRows+=`<div class="comissao-row"><span>${p.emoji} ${p.nome} x${item.qty}</span><span>${fmt(c)} (${p.comissao}%)</span></div>`; });
+
+  document.getElementById('nc-items-list').innerHTML = html||'<div class="empty"><span class="empty-icon">📋</span>Nenhum item ainda</div>';
+  document.getElementById('nc-tot-serv').textContent=fmt(totServ);
+  document.getElementById('nc-tot-prod').textContent=fmt(totProd);
+  document.getElementById('nc-tot-total').textContent=fmt(totServ+totProd);
+  const cb=document.getElementById('nc-comissao-box');
+  if(comTotal>0){ cb.style.display='block'; document.getElementById('nc-comissao-rows').innerHTML=comRows; document.getElementById('nc-comissao-total').textContent=fmt(comTotal); } else { cb.style.display='none'; }
 }
 
-// ============================================================
-// PRODUTOS
-// ============================================================
-function addProduto() {
-  const nome = document.getElementById('prod-nome').value.trim();
-  const cat = document.getElementById('prod-cat').value;
-  const custo = parseFloat(document.getElementById('prod-custo').value);
-  const preco = parseFloat(document.getElementById('prod-preco').value);
-  const emoji = document.getElementById('prod-emoji').value.trim() || '🛍️';
-  const desc = document.getElementById('prod-desc').value.trim();
-  if (!nome || !custo || !preco) { alert('Preencha todos os campos!'); return; }
-  state.produtos.push({ nome, cat, custo, preco, emoji, desc, noSite: false, vendas: 0 });
-  saveState();
-  renderProdutosTable();
-  updateProdutoVendaSelect();
-  ['prod-nome','prod-custo','prod-preco','prod-emoji','prod-desc'].forEach(id => document.getElementById(id).value = '');
+function salvarComanda() {
+  const cliente = document.getElementById('nc-cliente').value.trim();
+  const bId = parseInt(document.getElementById('nc-barbeiro').value);
+  const data = document.getElementById('nc-data').value || today();
+  const obs = document.getElementById('nc-obs').value.trim();
+  const pgto = document.getElementById('nc-pagamento').value;
+  const status = document.getElementById('nc-status').value;
+
+  if (!cliente) { alert('Informe o nome do cliente!'); return; }
+  if (!bId) { alert('Selecione o barbeiro!'); return; }
+  if (!nc.servicosSel.length && !nc.produtosSel.length) { alert('Adicione pelo menos um serviço ou produto!'); return; }
+
+  const barb = getBarbeiro(bId);
+  let totServ=0, totProd=0;
+  const servicosCmd = nc.servicosSel.map(item=>{ const s=state.servicos.find(x=>x.id===item.id); const val=s.preco*item.qty; totServ+=val; return {id:s.id,nome:s.nome,emoji:s.emoji,preco:s.preco,qty:item.qty,total:val}; });
+  const produtosCmd = nc.produtosSel.map(item=>{ const p=state.produtos.find(x=>x.id===item.id); const val=p.preco*item.qty; totProd+=val; p.estoque=Math.max(0,(p.estoque||0)-item.qty); return {id:p.id,nome:p.nome,emoji:p.emoji,preco:p.preco,comissaoPct:p.comissao,qty:item.qty,total:val}; });
+
+  const total=totServ+totProd;
+  let comServ=0, comProd=0;
+  servicosCmd.forEach(s=>{ if(barb) comServ+=s.total*barb.comissao/100; });
+  produtosCmd.forEach(p=>{ comProd+=p.total*p.comissaoPct/100; });
+
+  const comanda = { idx:state.comandas.length, num:state.nextId++, cliente, barbeiroId:bId, data, obs, servicos:servicosCmd, produtos:produtosCmd, totalServicos:totServ, totalProdutos:totProd, total, comissaoServ:comServ, comissaoProd:comProd, comissaoTotal:comServ+comProd, pagamento:pgto, status, criadoEm:new Date().toISOString() };
+  state.comandas.push(comanda);
+  saveState(); updateBadgeAbertas();
+  alert('✅ Comanda #'+comanda.num+' salva com sucesso!');
+  goTo('comandas');
 }
 
-function renderProdutosTable() {
-  const tbody = document.getElementById('produtos-table');
-  if (!tbody) return;
-  tbody.innerHTML = state.produtos.map((p,i) => {
-    const margem = ((p.preco - p.custo) / p.custo * 100).toFixed(0);
-    return `
-      <tr>
-        <td>${p.emoji} <strong>${p.nome}</strong></td>
-        <td><span class="badge badge-blue">${p.cat}</span></td>
-        <td>${fmt(p.custo)}</td>
-        <td style="color:var(--gold)">${fmt(p.preco)}</td>
-        <td><span class="badge badge-green">+${margem}%</span></td>
-        <td>
-          <label class="switch">
-            <input type="checkbox" ${p.noSite?'checked':''} onchange="toggleProdutoSite(${i},this.checked)">
-            <span class="slider"></span>
-          </label>
-        </td>
-        <td>
-          <button class="btn btn-danger btn-sm" onclick="delProduto(${i})">🗑️</button>
-        </td>
-      </tr>
-    `;
-  }).join('') || '<tr><td colspan="7" style="text-align:center;color:var(--gray);padding:24px">Nenhum produto cadastrado</td></tr>';
+// ════════════════════════════════════════════
+// COMANDAS LIST
+// ════════════════════════════════════════════
+function renderComandas() {
+  const search = document.getElementById('cmd-search')?.value.toLowerCase()||'';
+  const stF = document.getElementById('cmd-status-f')?.value||'';
+  const bF = document.getElementById('cmd-barbeiro-f')?.value||'';
+  const dF = document.getElementById('cmd-data-f')?.value||'';
+  const sel = document.getElementById('cmd-barbeiro-f');
+  if (sel) { const cv=sel.value; sel.innerHTML='<option value="">Todos barbeiros</option>'; state.barbeiros.forEach(b=>sel.innerHTML+=`<option value="${b.id}" ${b.id==cv?'selected':''}>${b.nome}</option>`); }
+  const filtrados = state.comandas.filter(c=>{ if(search&&!c.cliente.toLowerCase().includes(search)&&!String(c.num).includes(search)) return false; if(stF&&c.status!==stF) return false; if(bF&&c.barbeiroId!=bF) return false; if(dF&&c.data!==dF) return false; return true; }).sort((a,b)=>b.idx-a.idx);
+  const tbody=document.getElementById('comandas-table');
+  tbody.innerHTML = filtrados.length ? filtrados.map(c=>{ const b=getBarbeiro(c.barbeiroId); return `<tr><td><span class="num-badge">${c.num}</span></td><td><strong>${c.cliente}</strong></td><td>${b?b.emoji+' '+b.nome:'—'}</td><td style="font-size:11px;color:var(--gray-light)">${c.servicos.map(s=>s.emoji+' '+s.nome).join('<br>')||'—'}</td><td style="font-size:11px;color:var(--gray-light)">${c.produtos.map(p=>p.emoji+' '+p.nome+' x'+p.qty).join('<br>')||'—'}</td><td style="color:var(--gold);font-weight:700">${fmt(c.total)}</td><td><span class="badge badge-gray">${pgtoLabel(c.pagamento)}</span></td><td style="font-size:12px;color:var(--gray)">${fmtDate(c.data)}</td><td>${statusBadge(c.status)}</td><td><div style="display:flex;gap:5px"><button class="btn btn-info btn-sm" onclick="verComanda(${c.idx})">👁️</button><button class="btn btn-gold-outline btn-sm" onclick="editarStatus(${c.idx})">✏️</button><button class="btn btn-danger btn-sm" onclick="deletarComanda(${c.idx})">🗑️</button></div></td></tr>`; }).join('') : '<tr><td colspan="10" class="empty"><span class="empty-icon">📋</span>Nenhuma comanda encontrada</td></tr>';
 }
 
-function toggleProdutoSite(i, val) {
-  state.produtos[i].noSite = val;
-  saveState();
-  renderDashProdutos();
-}
+function statusBadge(s) { return s==='aberta'?'<span class="badge badge-gold">🟡 Aberta</span>':s==='fechada'?'<span class="badge badge-green">✅ Fechada</span>':s==='cancelada'?'<span class="badge badge-red">🚫 Cancelada</span>':'<span class="badge badge-gray">'+s+'</span>'; }
 
-function delProduto(i) {
-  if (confirm('Excluir este produto?')) {
-    state.produtos.splice(i, 1);
-    saveState();
-    renderProdutosTable();
-    updateProdutoVendaSelect();
-  }
-}
-
-// ============================================================
-// RECEITAS / DESPESAS TABLES
-// ============================================================
-function renderReceitas() {
-  const tbody = document.getElementById('receitas-table');
-  if (!tbody) return;
-  const filter = document.getElementById('rec-filter')?.value || '';
-  const items = state.receitas
-    .filter(r => !filter || r.data.startsWith(filter))
-    .sort((a,b) => new Date(b.data)-new Date(a.data));
-  tbody.innerHTML = items.length ? items.map((r,i) => `
-    <tr>
-      <td>${new Date(r.data).toLocaleDateString('pt-BR')}</td>
-      <td><span class="badge ${r.tipo==='produto'?'badge-blue':'badge-green'}">${r.tipo==='produto'?'Produto':'Serviço'}</span></td>
-      <td>${r.desc}</td>
-      <td style="color:var(--success);font-weight:600">+${fmt(r.valor)}</td>
-      <td><button class="btn btn-danger btn-sm" onclick="delReceita(${i})">🗑️</button></td>
-    </tr>
-  `).join('') : '<tr><td colspan="5" style="text-align:center;color:var(--gray);padding:24px">Nenhuma receita registrada</td></tr>';
-}
-
-function delReceita(i) {
-  if (confirm('Remover esta receita?')) { state.receitas.splice(i,1); saveState(); renderAll(); }
-}
-
-function renderDespesas() {
-  const tbody = document.getElementById('despesas-table');
-  if (!tbody) return;
-  const items = [...state.despesas].sort((a,b) => new Date(b.data)-new Date(a.data));
-  tbody.innerHTML = items.length ? items.map((d,i) => `
-    <tr>
-      <td>${new Date(d.data).toLocaleDateString('pt-BR')}</td>
-      <td><span class="badge badge-red">${d.cat}</span></td>
-      <td>${d.desc}</td>
-      <td style="color:var(--danger);font-weight:600">-${fmt(d.valor)}</td>
-      <td><button class="btn btn-danger btn-sm" onclick="delDespesa(${i})">🗑️</button></td>
-    </tr>
-  `).join('') : '<tr><td colspan="5" style="text-align:center;color:var(--gray);padding:24px">Nenhuma despesa registrada</td></tr>';
-}
-
-function delDespesa(i) {
-  if (confirm('Remover esta despesa?')) { state.despesas.splice(i,1); saveState(); renderAll(); }
-}
-
-// ============================================================
-// RELATÓRIO
-// ============================================================
-function renderRelatorio() {
-  const totRec = state.receitas.reduce((a,r) => a+r.valor, 0);
-  const totDesp = state.despesas.reduce((a,d) => a+d.valor, 0);
-  const lucro = totRec - totDesp;
-  const margem = totRec > 0 ? (lucro/totRec*100).toFixed(1)+'%' : '0%';
-
-  const setEl = (id, val) => { const el = document.getElementById(id); if(el) el.textContent = val; };
-  setEl('rel-rec', fmt(totRec));
-  setEl('rel-desp', fmt(totDesp));
-  setEl('rel-lucro', fmt(lucro));
-  setEl('rel-margem', margem);
-
-  // Por tipo
-  const recServico = state.receitas.filter(r => r.tipo==='servico').reduce((a,r) => a+r.valor, 0);
-  const recProduto = state.receitas.filter(r => r.tipo==='produto').reduce((a,r) => a+r.valor, 0);
-  const tbody1 = document.getElementById('rel-por-tipo');
-  if (tbody1) tbody1.innerHTML = `
-    <tr><td>💈 Serviços</td><td>${fmt(recServico)}</td><td>${pct(recServico,totRec)}</td></tr>
-    <tr><td>🛍️ Produtos</td><td>${fmt(recProduto)}</td><td>${pct(recProduto,totRec)}</td></tr>
-  `;
-
-  // Por categoria de despesa
-  const despCats = {};
-  state.despesas.forEach(d => { despCats[d.cat] = (despCats[d.cat]||0) + d.valor; });
-  const tbody2 = document.getElementById('rel-por-cat');
-  if (tbody2) tbody2.innerHTML = Object.entries(despCats)
-    .sort((a,b) => b[1]-a[1])
-    .map(([cat,val]) => `<tr><td>${cat}</td><td>${fmt(val)}</td><td>${pct(val,totDesp)}</td></tr>`)
-    .join('') || '<tr><td colspan="3" style="text-align:center;color:var(--gray)">Sem despesas</td></tr>';
-
-  // Produtos
-  const tbody3 = document.getElementById('rel-produtos');
-  if (tbody3) tbody3.innerHTML = state.produtos.map(p => {
-    const margem = ((p.preco - p.custo) / p.custo * 100).toFixed(0);
-    const receitaTotal = (p.vendas || 0) * p.preco;
-    return `
-      <tr>
-        <td>${p.emoji} ${p.nome}</td>
-        <td>${fmt(p.custo)}</td>
-        <td>${fmt(p.preco)}</td>
-        <td><span class="badge badge-green">+${margem}%</span></td>
-        <td>${p.vendas || 0}</td>
-        <td style="color:var(--gold)">${fmt(receitaTotal)}</td>
-      </tr>
-    `;
-  }).join('') || '<tr><td colspan="6" style="text-align:center;color:var(--gray)">Sem dados</td></tr>';
-}
-
-// ============================================================
-// CONTEÚDO
-// ============================================================
-function saveConteudo() {
-  // In production, this would save to a backend
-  const feedback = document.getElementById('save-feedback');
-  feedback.style.display = 'inline';
-  setTimeout(() => feedback.style.display = 'none', 3000);
-}
-
-// ============================================================
-// GALERIA
-// ============================================================
-function renderGaleriaSlots() {
-  const container = document.getElementById('galeria-slots');
-  if (!container) return;
-  const emojis = ['🏠', '💈', '✂️', '🪒', '🏆', '⭐'];
-  const labels = ['Fachada', 'Interior', 'Atendimento', 'Barba', 'Produtos', 'Detalhes'];
-  container.innerHTML = emojis.map((e,i) => `
-    <div style="background:var(--black);border:1px dashed rgba(255,255,255,0.1);border-radius:8px;padding:20px;text-align:center">
-      <div style="font-size:40px;margin-bottom:8px">${e}</div>
-      <div style="font-size:12px;color:var(--gray);margin-bottom:12px">${labels[i]}</div>
-      <button class="btn btn-info btn-sm" onclick="alert('Upload de imagem seria implementado com backend')">📤 Upload</button>
+function verComanda(idx) {
+  const c=state.comandas[idx]; if(!c) return;
+  modalComandaIdx=idx;
+  document.getElementById('mv-num').textContent='#'+c.num;
+  const barb=getBarbeiro(c.barbeiroId);
+  document.getElementById('modal-ver-body').innerHTML=`
+    <div style="display:flex;gap:12px;margin-bottom:18px;flex-wrap:wrap;">
+      <div style="flex:1;min-width:160px;background:var(--gold-muted);border:1px solid rgba(254,217,23,0.15);border-radius:8px;padding:13px;"><div style="font-size:10px;color:var(--gray);margin-bottom:3px;">Cliente</div><div style="font-size:14px;font-weight:700">${c.cliente}</div>${c.obs?`<div style="font-size:11px;color:var(--gray);margin-top:3px">${c.obs}</div>`:''}</div>
+      <div style="flex:1;min-width:160px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:8px;padding:13px;"><div style="font-size:10px;color:var(--gray);margin-bottom:3px;">Barbeiro</div><div style="font-size:14px;font-weight:700">${barb?barb.emoji+' '+barb.nome:'—'}</div><div style="font-size:11px;color:var(--gray)">Comissão serv.: ${barb?.comissao||0}%</div></div>
+      <div style="flex:0.5;min-width:110px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:8px;padding:13px;"><div style="font-size:10px;color:var(--gray);margin-bottom:3px;">Data / Pgto</div><div style="font-size:13px;font-weight:600">${fmtDate(c.data)}</div><div style="font-size:11px;color:var(--gray)">${pgtoLabel(c.pagamento)}</div></div>
+      <div style="flex:0.4;min-width:90px;text-align:center;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:8px;padding:13px;display:flex;align-items:center;justify-content:center;">${statusBadge(c.status)}</div>
     </div>
-  `).join('');
+    ${c.servicos.length?`<div style="margin-bottom:14px;"><div style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gray);margin-bottom:8px;">Serviços (${barb?.comissao||0}% comissão)</div><table><thead><tr><th>Serviço</th><th>Preço</th><th>Qty</th><th>Total</th><th>Comissão</th></tr></thead><tbody>${c.servicos.map(s=>{ const com=s.total*(barb?.comissao||0)/100; return `<tr><td>${s.emoji} ${s.nome}</td><td>${fmt(s.preco)}</td><td>${s.qty}</td><td style="color:var(--gold);font-weight:600">${fmt(s.total)}</td><td style="color:var(--purple)">${fmt(com)}</td></tr>`; }).join('')}</tbody></table></div>`:''}
+    ${c.produtos.length?`<div style="margin-bottom:14px;"><div style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gray);margin-bottom:8px;">Produtos (comissão individual)</div><table><thead><tr><th>Produto</th><th>Preço</th><th>Qty</th><th>Total</th><th>Comis.%</th><th>Comissão</th></tr></thead><tbody>${c.produtos.map(p=>{ const com=p.total*p.comissaoPct/100; return `<tr><td>${p.emoji} ${p.nome}</td><td>${fmt(p.preco)}</td><td>${p.qty}</td><td style="color:var(--gold);font-weight:600">${fmt(p.total)}</td><td><span class="badge badge-purple">${p.comissaoPct}%</span></td><td style="color:var(--purple)">${fmt(com)}</td></tr>`; }).join('')}</tbody></table></div>`:''}
+    <div style="background:var(--black);border:1px solid rgba(254,217,23,0.1);border-radius:8px;padding:14px;"><div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+      <div><div class="total-row"><span class="total-label">Serviços</span><span class="total-val">${fmt(c.totalServicos)}</span></div><div class="total-row"><span class="total-label">Produtos</span><span class="total-val">${fmt(c.totalProdutos)}</span></div><div class="total-row grand"><span class="total-label">TOTAL</span><span class="total-val">${fmt(c.total)}</span></div></div>
+      <div class="comissao-breakdown"><div class="comissao-title">💜 Comissão Total</div><div class="comissao-row"><span>Serviços</span><span>${fmt(c.comissaoServ)}</span></div><div class="comissao-row"><span>Produtos</span><span>${fmt(c.comissaoProd)}</span></div><div class="comissao-row comissao-total"><span>Total a Pagar</span><span>${fmt(c.comissaoTotal)}</span></div></div>
+    </div></div>`;
+  openModal('modal-ver');
 }
 
-// ============================================================
-// MODAL
-// ============================================================
-function closeModal(id) {
-  document.getElementById(id).classList.remove('open');
+function fecharComandaById() { if(modalComandaIdx===null) return; state.comandas[modalComandaIdx].status='fechada'; saveState(); closeModal('modal-ver'); renderComandas(); updateBadgeAbertas(); renderDashboard(); }
+function cancelarComandaById() { if(modalComandaIdx===null||!confirm('Cancelar esta comanda?')) return; state.comandas[modalComandaIdx].status='cancelada'; saveState(); closeModal('modal-ver'); renderComandas(); updateBadgeAbertas(); }
+function editarStatus(idx) { const c=state.comandas[idx]; document.getElementById('edit-idx').value=idx; document.getElementById('edit-status').value=c.status; document.getElementById('edit-pgto').value=c.pagamento; openModal('modal-editar'); }
+function salvarEdicaoStatus() { const idx=parseInt(document.getElementById('edit-idx').value); state.comandas[idx].status=document.getElementById('edit-status').value; state.comandas[idx].pagamento=document.getElementById('edit-pgto').value; saveState(); closeModal('modal-editar'); renderComandas(); updateBadgeAbertas(); }
+function deletarComanda(idx) { if(!confirm('Excluir comanda permanentemente?')) return; state.comandas.splice(idx,1); state.comandas.forEach((c,i)=>c.idx=i); saveState(); renderComandas(); updateBadgeAbertas(); }
+
+// ════════════════════════════════════════════
+// BARBEIROS
+// ════════════════════════════════════════════
+function addBarbeiro() {
+  const nome=document.getElementById('barb-nome').value.trim();
+  const com=parseFloat(document.getElementById('barb-comissao').value);
+  if(!nome) { alert('Informe o nome!'); return; }
+  if(isNaN(com)) { alert('Informe a comissão!'); return; }
+  state.barbeiros.push({ id:Date.now(), nome, whats:document.getElementById('barb-whats').value.trim(), comissao:com, emoji:document.getElementById('barb-emoji').value.trim()||'💈', status:document.getElementById('barb-status').value });
+  saveState(); renderBarbeiros();
+  ['barb-nome','barb-whats','barb-comissao','barb-emoji'].forEach(id=>document.getElementById(id).value='');
+}
+function renderBarbeiros() {
+  const tbody=document.getElementById('barbeiros-table'); if(!tbody) return;
+  tbody.innerHTML=state.barbeiros.map((b,i)=>{ const ats=state.comandas.filter(c=>c.barbeiroId===b.id&&c.status==='fechada').length; return `<tr><td>${b.emoji} <strong>${b.nome}</strong></td><td><span class="badge badge-purple">${b.comissao}%</span></td><td><span class="badge badge-blue">${ats}</span></td><td>${b.status==='ativo'?'<span class="badge badge-green">Ativo</span>':'<span class="badge badge-red">Inativo</span>'}</td><td><button class="btn btn-danger btn-sm" onclick="delBarbeiro(${i})">🗑️</button></td></tr>`; }).join('')||'<tr><td colspan="5" class="empty">Nenhum barbeiro cadastrado</td></tr>';
+}
+function delBarbeiro(i) { if(!confirm('Excluir barbeiro?')) return; state.barbeiros.splice(i,1); saveState(); renderBarbeiros(); }
+
+// ════════════════════════════════════════════
+// SERVIÇOS
+// ════════════════════════════════════════════
+function addServico() {
+  const nome=document.getElementById('srv-nome').value.trim();
+  const preco=parseFloat(document.getElementById('srv-preco').value);
+  if(!nome||!preco) { alert('Preencha nome e preço!'); return; }
+  state.servicos.push({ id:Date.now(), nome, cat:document.getElementById('srv-cat').value, preco, emoji:document.getElementById('srv-emoji').value.trim()||'✂️', desc:document.getElementById('srv-desc').value.trim() });
+  saveState(); renderServicosTable();
+  ['srv-nome','srv-preco','srv-emoji','srv-desc'].forEach(id=>document.getElementById(id).value='');
+}
+function renderServicosTable() {
+  const tbody=document.getElementById('servicos-table'); if(!tbody) return;
+  tbody.innerHTML=state.servicos.map((s,i)=>`<tr><td>${s.emoji} <strong>${s.nome}</strong><br><span style="font-size:11px;color:var(--gray)">${s.desc||''}</span></td><td><span class="badge badge-blue">${s.cat}</span></td><td style="color:var(--gold);font-weight:600">${fmt(s.preco)}</td><td style="display:flex;gap:6px"><button class="btn btn-info btn-sm" onclick="editServicoModal(${i})">✏️</button><button class="btn btn-danger btn-sm" onclick="delServico(${i})">🗑️</button></td></tr>`).join('')||'<tr><td colspan="4" class="empty">Nenhum serviço</td></tr>';
+}
+function editServicoModal(i) { const s=state.servicos[i]; document.getElementById('edit-srv-nome').value=s.nome; document.getElementById('edit-srv-preco').value=s.preco; document.getElementById('edit-srv-desc').value=s.desc||''; document.getElementById('edit-srv-idx').value=i; openModal('modal-servico'); }
+function saveServicoEdit() { const i=parseInt(document.getElementById('edit-srv-idx').value); state.servicos[i].nome=document.getElementById('edit-srv-nome').value; state.servicos[i].preco=parseFloat(document.getElementById('edit-srv-preco').value); state.servicos[i].desc=document.getElementById('edit-srv-desc').value; saveState(); renderServicosTable(); closeModal('modal-servico'); }
+function delServico(i) { if(!confirm('Excluir serviço?')) return; state.servicos.splice(i,1); saveState(); renderServicosTable(); }
+
+// ════════════════════════════════════════════
+// PRODUTOS
+// ════════════════════════════════════════════
+function addProduto() {
+  const nome=document.getElementById('prod-nome').value.trim();
+  const preco=parseFloat(document.getElementById('prod-preco').value);
+  if(!nome||!preco) { alert('Preencha nome e preço!'); return; }
+  state.produtos.push({ id:Date.now(), nome, cat:document.getElementById('prod-cat').value, custo:parseFloat(document.getElementById('prod-custo').value)||0, preco, comissao:parseFloat(document.getElementById('prod-comissao').value)||0, emoji:document.getElementById('prod-emoji').value.trim()||'🛍️', desc:document.getElementById('prod-desc').value.trim(), estoque:parseInt(document.getElementById('prod-estoque').value)||0, noSite:document.getElementById('prod-noSite').checked, vendas:0 });
+  saveState(); renderProdutosTable(); updateProdutoVendaSelect();
+  ['prod-nome','prod-custo','prod-preco','prod-comissao','prod-emoji','prod-desc','prod-estoque'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('prod-noSite').checked=false;
+}
+function renderProdutosTable() {
+  const tbody=document.getElementById('produtos-table'); if(!tbody) return;
+  tbody.innerHTML=state.produtos.map((p,i)=>{ const m=p.custo>0?((p.preco-p.custo)/p.custo*100).toFixed(0)+'%':'—'; return `<tr><td>${p.emoji} <strong>${p.nome}</strong><br><span style="font-size:11px;color:var(--gray)">${p.desc||''}</span></td><td style="color:var(--gold);font-weight:600">${fmt(p.preco)}</td><td><span class="badge badge-purple">${p.comissao}%</span><div style="font-size:10px;color:var(--gray);margin-top:2px">${fmt(p.preco*p.comissao/100)}/un</div></td><td>${p.estoque<=3?`<span class="badge badge-red">⚠️ ${p.estoque}</span>`:`<span class="badge badge-green">${p.estoque}</span>`}</td><td><label class="switch"><input type="checkbox" ${p.noSite?'checked':''} onchange="toggleProdutoSite(${i},this.checked)"><span class="slider"></span></label></td><td><button class="btn btn-danger btn-sm" onclick="delProduto(${i})">🗑️</button></td></tr>`; }).join('')||'<tr><td colspan="6" class="empty">Nenhum produto</td></tr>';
+}
+function toggleProdutoSite(i,val) { state.produtos[i].noSite=val; saveState(); renderDashProdutos(); }
+function delProduto(i) { if(!confirm('Excluir produto?')) return; state.produtos.splice(i,1); saveState(); renderProdutosTable(); updateProdutoVendaSelect(); }
+
+// ════════════════════════════════════════════
+// COMISSÕES
+// ════════════════════════════════════════════
+function setComissoesPeriodo(p) {
+  const now=new Date(); let de,ate;
+  if(p==='hoje') { de=ate=today(); }
+  else if(p==='semana') { const d=new Date(); d.setDate(d.getDate()-d.getDay()); de=d.toISOString().split('T')[0]; ate=today(); }
+  else { de=`${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-01`; ate=today(); }
+  document.getElementById('com-de').value=de; document.getElementById('com-ate').value=ate;
+}
+function renderComissoes() {
+  const de=document.getElementById('com-de').value, ate=document.getElementById('com-ate').value;
+  const cmds=state.comandas.filter(c=>c.status==='fechada'&&(!de||c.data>=de)&&(!ate||c.data<=ate));
+  const stats={}; state.barbeiros.forEach(b=>stats[b.id]={nome:b.nome,emoji:b.emoji,count:0,fatServ:0,comServ:0,fatProd:0,comProd:0});
+  cmds.forEach(c=>{ if(!stats[c.barbeiroId]) return; stats[c.barbeiroId].count++; stats[c.barbeiroId].fatServ+=c.totalServicos; stats[c.barbeiroId].comServ+=c.comissaoServ; stats[c.barbeiroId].fatProd+=c.totalProdutos; stats[c.barbeiroId].comProd+=c.comissaoProd; });
+  document.getElementById('com-stats').innerHTML=Object.values(stats).map(s=>`<div class="stat-card purple"><div class="stat-icon">${s.emoji}</div><div class="stat-label">${s.nome}</div><div class="stat-value">${fmt(s.comServ+s.comProd)}</div><div class="stat-change">${s.count} atend. • Serv: ${fmt(s.comServ)} • Prod: ${fmt(s.comProd)}</div></div>`).join('');
+  const tbody=document.getElementById('comissoes-table');
+  tbody.innerHTML=cmds.length?cmds.sort((a,b)=>b.idx-a.idx).map(c=>{ const b=getBarbeiro(c.barbeiroId); return `<tr><td>${b?b.emoji+' <strong>'+b.nome+'</strong>':'—'}</td><td><span class="num-badge">${c.num}</span></td><td>${c.cliente}</td><td style="font-size:11px">${c.servicos.map(s=>s.nome).join(', ')||'—'}</td><td style="color:var(--purple);font-weight:600">${fmt(c.comissaoServ)}</td><td style="font-size:11px">${c.produtos.map(p=>p.nome+' x'+p.qty).join(', ')||'—'}</td><td style="color:var(--purple);font-weight:600">${fmt(c.comissaoProd)}</td><td style="color:var(--purple);font-weight:700;font-size:14px">${fmt(c.comissaoTotal)}</td><td style="color:var(--gray);font-size:12px">${fmtDate(c.data)}</td></tr>`; }).join(''):'<tr><td colspan="9" class="empty">Nenhuma comanda fechada no período</td></tr>';
+  const tbody2=document.getElementById('resumo-barbeiros');
+  tbody2.innerHTML=Object.values(stats).filter(s=>s.count>0).map(s=>`<tr><td>${s.emoji} <strong>${s.nome}</strong></td><td><span class="badge badge-blue">${s.count}</span></td><td>${fmt(s.fatServ)}</td><td style="color:var(--purple);font-weight:600">${fmt(s.comServ)}</td><td>${fmt(s.fatProd)}</td><td style="color:var(--purple);font-weight:600">${fmt(s.comProd)}</td><td style="color:var(--purple);font-weight:700;font-size:15px">${fmt(s.comServ+s.comProd)}</td></tr>`).join('')||'<tr><td colspan="7" class="empty">Sem dados no período</td></tr>';
 }
 
-// Check if URL has admin param for direct access
-if (window.location.search.includes('auth=rb2025admin')) {
-  document.getElementById('inp-user').value = 'admin';
-  document.getElementById('inp-pass').value = 'rb2025';
-  doLogin();
+// ════════════════════════════════════════════
+// FINANCEIRO LEGADO
+// ════════════════════════════════════════════
+function renderFinOverview() {
+  const totRec=state.receitas.reduce((a,r)=>a+r.valor,0); const totDesp=state.despesas.reduce((a,d)=>a+d.valor,0); const recProd=state.receitas.filter(r=>r.tipo==='produto').reduce((a,r)=>a+r.valor,0);
+  ['fin-total-rec','fin-total-desp','fin-lucro','fin-rec-prod'].forEach((id,i)=>{ const el=document.getElementById(id); if(el) el.textContent=fmt([totRec,totDesp,totRec-totDesp,recProd][i]); });
 }
+function addReceita(tipo) {
+  let val,desc,data;
+  if(tipo==='servico') { const srv=document.getElementById('fin-servico').value; val=parseFloat(document.getElementById('fin-val-servico').value); if(!val){ const m=srv.match(/R\$ (\d+)/); val=m?parseFloat(m[1]):0; } desc=document.getElementById('fin-obs-servico').value||srv; data=document.getElementById('fin-data-servico').value; }
+  else { const p=document.getElementById('fin-produto-venda'); const qtd=parseInt(document.getElementById('fin-qtd-produto').value)||1; val=parseFloat(document.getElementById('fin-val-produto').value)*qtd; desc='Venda: '+p.options[p.selectedIndex].text+' (x'+qtd+')'; data=document.getElementById('fin-data-produto').value; const idx=parseInt(p.value); if(!isNaN(idx)) state.produtos[idx].vendas=(state.produtos[idx].vendas||0)+qtd; }
+  if(!val||val<=0) { alert('Informe o valor!'); return; }
+  if(!data) { alert('Informe a data!'); return; }
+  state.receitas.push({tipo,desc,valor:val,data}); saveState(); renderAll(); alert('✅ Receita registrada!');
+}
+function addDespesa() {
+  const cat=document.getElementById('desp-cat').value; const desc=document.getElementById('desp-desc').value||cat; const val=parseFloat(document.getElementById('desp-val').value); const data=document.getElementById('desp-data').value;
+  if(!val||val<=0) { alert('Informe o valor!'); return; }
+  if(!data) { alert('Informe a data!'); return; }
+  state.despesas.push({cat,desc,valor:val,data}); saveState(); renderAll(); alert('✅ Despesa registrada!');
+}
+function updateProdutoVendaSelect() { const sel=document.getElementById('fin-produto-venda'); if(!sel) return; sel.innerHTML=state.produtos.map((p,i)=>`<option value="${i}">${p.emoji} ${p.nome} (R$ ${p.preco})</option>`).join(''); }
+function renderReceitas() { const tbody=document.getElementById('receitas-table'); if(!tbody) return; const items=[...state.receitas].sort((a,b)=>new Date(b.data)-new Date(a.data)); tbody.innerHTML=items.length?items.map((r,i)=>`<tr><td>${new Date(r.data).toLocaleDateString('pt-BR')}</td><td><span class="badge ${r.tipo==='produto'?'badge-blue':'badge-green'}">${r.tipo==='produto'?'Produto':'Serviço'}</span></td><td>${r.desc}</td><td style="color:var(--success);font-weight:600">+${fmt(r.valor)}</td><td><button class="btn btn-danger btn-sm" onclick="delReceita(${i})">🗑️</button></td></tr>`).join(''):'<tr><td colspan="5" class="empty">Nenhuma receita registrada</td></tr>'; }
+function delReceita(i) { if(confirm('Remover?')) { state.receitas.splice(i,1); saveState(); renderAll(); } }
+function renderDespesas() { const tbody=document.getElementById('despesas-table'); if(!tbody) return; const items=[...state.despesas].sort((a,b)=>new Date(b.data)-new Date(a.data)); tbody.innerHTML=items.length?items.map((d,i)=>`<tr><td>${new Date(d.data).toLocaleDateString('pt-BR')}</td><td><span class="badge badge-red">${d.cat}</span></td><td>${d.desc}</td><td style="color:var(--danger);font-weight:600">-${fmt(d.valor)}</td><td><button class="btn btn-danger btn-sm" onclick="delDespesa(${i})">🗑️</button></td></tr>`).join(''):'<tr><td colspan="5" class="empty">Nenhuma despesa registrada</td></tr>'; }
+function delDespesa(i) { if(confirm('Remover?')) { state.despesas.splice(i,1); saveState(); renderAll(); } }
+
+// ════════════════════════════════════════════
+// RELATÓRIO
+// ════════════════════════════════════════════
+function setRelatorioPeriodo(p) { const now=new Date(); let de,ate; if(p==='hoje'){de=ate=today();}else{de=`${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-01`;ate=today();} document.getElementById('rel-de').value=de; document.getElementById('rel-ate').value=ate; }
+function renderRelatorio() {
+  const de=document.getElementById('rel-de')?.value, ate=document.getElementById('rel-ate')?.value;
+  const cmds=state.comandas.filter(c=>c.status==='fechada'&&(!de||c.data>=de)&&(!ate||c.data<=ate));
+  const fatCmd=cmds.reduce((a,c)=>a+c.total,0);
+  const recFin=state.receitas.filter(r=>(!de||r.data>=de)&&(!ate||r.data<=ate)).reduce((a,r)=>a+r.valor,0);
+  const despFin=state.despesas.filter(d=>(!de||d.data>=de)&&(!ate||d.data<=ate)).reduce((a,d)=>a+d.valor,0);
+  const totFat=fatCmd+recFin; const comTotal=cmds.reduce((a,c)=>a+(c.comissaoTotal||0),0);
+  const el=n=>document.getElementById(n);
+  el('rel-stats').innerHTML=`<div class="stat-card gold"><div class="stat-icon">💰</div><div class="stat-label">Faturamento Total</div><div class="stat-value">${fmt(totFat)}</div><div class="stat-change">${cmds.length} atendimentos + registros</div></div><div class="stat-card blue"><div class="stat-icon">✂️</div><div class="stat-label">Receita Comandas</div><div class="stat-value">${fmt(fatCmd)}</div></div><div class="stat-card green"><div class="stat-icon">📦</div><div class="stat-label">Receita Manual</div><div class="stat-value">${fmt(recFin)}</div></div><div class="stat-card purple"><div class="stat-icon">💜</div><div class="stat-label">Total Comissões</div><div class="stat-value">${fmt(comTotal)}</div><div class="stat-change">Líquido: ${fmt(totFat-comTotal-despFin)}</div></div>`;
+  const srvCount={};cmds.forEach(c=>c.servicos.forEach(s=>{if(!srvCount[s.id])srvCount[s.id]={nome:s.emoji+' '+s.nome,qty:0,rec:0};srvCount[s.id].qty+=s.qty;srvCount[s.id].rec+=s.total;}));
+  el('rel-servicos').innerHTML=Object.values(srvCount).sort((a,b)=>b.qty-a.qty).map(s=>`<tr><td>${s.nome}</td><td><span class="badge badge-blue">${s.qty}</span></td><td style="color:var(--gold);font-weight:600">${fmt(s.rec)}</td></tr>`).join('')||'<tr><td colspan="3" class="empty">Sem dados</td></tr>';
+  const prdCount={};cmds.forEach(c=>c.produtos.forEach(p=>{if(!prdCount[p.id])prdCount[p.id]={nome:p.emoji+' '+p.nome,qty:0,rec:0};prdCount[p.id].qty+=p.qty;prdCount[p.id].rec+=p.total;}));
+  el('rel-produtos-rel').innerHTML=Object.values(prdCount).sort((a,b)=>b.qty-a.qty).map(p=>`<tr><td>${p.nome}</td><td><span class="badge badge-green">${p.qty}</span></td><td style="color:var(--gold);font-weight:600">${fmt(p.rec)}</td></tr>`).join('')||'<tr><td colspan="3" class="empty">Sem dados</td></tr>';
+  const pgtos={};cmds.forEach(c=>{pgtos[c.pagamento]=pgtos[c.pagamento]||{qty:0,total:0};pgtos[c.pagamento].qty++;pgtos[c.pagamento].total+=c.total;});
+  el('rel-pagamentos').innerHTML=Object.entries(pgtos).sort((a,b)=>b[1].total-a[1].total).map(([p,d])=>`<tr><td><span class="badge badge-gold">${pgtoLabel(p)}</span></td><td>${d.qty}</td><td style="color:var(--gold);font-weight:600">${fmt(d.total)}</td><td style="color:var(--gray)">${totFat>0?(d.total/totFat*100).toFixed(1)+'%':'0%'}</td></tr>`).join('')||'<tr><td colspan="4" class="empty">Sem dados</td></tr>';
+  const totR=state.receitas.filter(r=>(!de||r.data>=de)&&(!ate||r.data<=ate)).reduce((a,r)=>a+r.valor,0);
+  el('rel-por-tipo').innerHTML=`<tr><td>💈 Comandas</td><td style="color:var(--gold);font-weight:600">${fmt(fatCmd)}</td><td style="color:var(--gray)">${totFat>0?(fatCmd/totFat*100).toFixed(1)+'%':'0%'}</td></tr><tr><td>🛍️ Receitas Manuais</td><td style="color:var(--gold);font-weight:600">${fmt(totR)}</td><td style="color:var(--gray)">${totFat>0?(totR/totFat*100).toFixed(1)+'%':'0%'}</td></tr><tr><td>💸 Despesas</td><td style="color:var(--danger);font-weight:600">-${fmt(despFin)}</td><td style="color:var(--gray)">—</td></tr>`;
+}
+
+// ════════════════════════════════════════════
+// CONTEÚDO / GALERIA
+// ════════════════════════════════════════════
+function saveConteudo() { const fb=document.getElementById('save-feedback'); fb.style.display='inline'; setTimeout(()=>fb.style.display='none',2500); }
+function renderGaleriaSlots() { const c=document.getElementById('galeria-slots'); if(!c) return; const emojis=['🏠','💈','✂️','🪒','🏆','⭐'],labels=['Fachada','Interior','Atendimento','Barba','Produtos','Detalhes']; c.innerHTML=emojis.map((e,i)=>`<div style="background:var(--black);border:1px dashed rgba(255,255,255,0.1);border-radius:8px;padding:18px;text-align:center"><div style="font-size:36px;margin-bottom:8px">${e}</div><div style="font-size:12px;color:var(--gray);margin-bottom:12px">${labels[i]}</div><button class="btn btn-info btn-sm" onclick="alert('Upload implementado com backend')">📤 Upload</button></div>`).join(''); }
+
+// ════════════════════════════════════════════
+// MODAL UTILS
+// ════════════════════════════════════════════
+function openModal(id) { document.getElementById(id).classList.add('open'); }
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+document.querySelectorAll('.modal-overlay').forEach(o=>o.addEventListener('click',e=>{ if(e.target===o) o.classList.remove('open'); }));
+
+// Auto-login por URL param
+if (window.location.search.includes('auth=rb2025admin')) { document.getElementById('inp-user').value='admin'; document.getElementById('inp-pass').value='rb2025'; doLogin(); }
 </script>
 </body>
 </html>

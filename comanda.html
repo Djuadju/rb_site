@@ -1,0 +1,1967 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Comanda — RB Barbearia</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --black: #1a1a1a;
+      --charcoal: #252525;
+      --charcoal-2: #2e2e2e;
+      --charcoal-3: #333333;
+      --gold: #FED917;
+      --gold-dark: #d4b800;
+      --gold-light: #ffe566;
+      --gold-muted: rgba(254,217,23,0.08);
+      --white: #ffffff;
+      --gray: #888888;
+      --gray-light: #cccccc;
+      --success: #22c55e;
+      --success-bg: rgba(34,197,94,0.1);
+      --danger: #ef4444;
+      --danger-bg: rgba(239,68,68,0.1);
+      --info: #3b82f6;
+      --info-bg: rgba(59,130,246,0.1);
+      --warning: #f59e0b;
+      --warning-bg: rgba(245,158,11,0.1);
+      --sidebar-w: 260px;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Montserrat', sans-serif; background: var(--black); color: var(--white); min-height: 100vh; }
+
+    /* ── LAYOUT ── */
+    .layout { display: flex; min-height: 100vh; }
+
+    /* ── SIDEBAR ── */
+    .sidebar {
+      width: var(--sidebar-w); background: var(--charcoal);
+      border-right: 1px solid rgba(254,217,23,0.08);
+      display: flex; flex-direction: column;
+      position: fixed; top: 0; bottom: 0; left: 0; z-index: 100;
+      overflow-y: auto;
+    }
+    .sidebar-header {
+      padding: 24px 20px; border-bottom: 1px solid rgba(255,255,255,0.05);
+      display: flex; align-items: center; gap: 12px;
+    }
+    .sidebar-logo {
+      width: 38px; height: 38px; background: var(--gold); border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Playfair Display', serif; font-size: 16px; font-weight: 700;
+      color: var(--black); flex-shrink: 0;
+    }
+    .sidebar-brand { font-size: 13px; font-weight: 600; }
+    .sidebar-brand-sub { font-size: 10px; color: var(--gold); letter-spacing: 2px; text-transform: uppercase; margin-top: 2px; }
+
+    .sidebar-nav { flex: 1; padding: 16px 0; }
+    .nav-label {
+      font-size: 9px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
+      color: var(--gray); padding: 0 20px; margin: 12px 0 6px;
+    }
+    .nav-item {
+      display: flex; align-items: center; gap: 10px; padding: 10px 20px;
+      cursor: pointer; transition: all 0.2s; color: var(--gray-light);
+      font-size: 13px; font-weight: 500; border-left: 3px solid transparent; user-select: none;
+    }
+    .nav-item:hover { background: rgba(254,217,23,0.05); color: var(--white); }
+    .nav-item.active { background: var(--gold-muted); color: var(--gold); border-left-color: var(--gold); font-weight: 600; }
+    .nav-icon { font-size: 15px; width: 18px; text-align: center; }
+    .nav-badge {
+      margin-left: auto; background: var(--gold); color: var(--black);
+      font-size: 9px; font-weight: 700; padding: 2px 7px; border-radius: 10px;
+    }
+    .sidebar-footer { padding: 16px 20px; border-top: 1px solid rgba(255,255,255,0.05); }
+    .user-info { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+    .user-avatar {
+      width: 34px; height: 34px; background: var(--gold); border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 700; color: var(--black); font-size: 13px;
+    }
+    .user-name { font-size: 12px; font-weight: 600; }
+    .user-role { font-size: 10px; color: var(--gray); }
+    .btn-logout {
+      background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.2);
+      color: #fca5a5; padding: 7px 14px; font-size: 11px; width: 100%;
+      border-radius: 6px; cursor: pointer; font-family: 'Montserrat', sans-serif;
+      transition: all 0.2s; font-weight: 600;
+    }
+    .btn-logout:hover { background: rgba(239,68,68,0.15); }
+
+    /* ── MAIN ── */
+    .main { margin-left: var(--sidebar-w); flex: 1; min-height: 100vh; }
+    .topbar {
+      background: var(--charcoal); border-bottom: 1px solid rgba(255,255,255,0.05);
+      padding: 0 28px; height: 60px; display: flex; align-items: center;
+      justify-content: space-between; position: sticky; top: 0; z-index: 50;
+    }
+    .page-title { font-size: 16px; font-weight: 600; }
+    .topbar-right { display: flex; gap: 10px; align-items: center; }
+    .clock { font-size: 12px; color: var(--gray); }
+
+    .page-content { padding: 24px 28px 60px; }
+
+    /* ── SECTION VISIBILITY ── */
+    .section { display: none; }
+    .section.active { display: block; }
+
+    /* ── CARDS / WIDGETS ── */
+    .stats-row { display: grid; grid-template-columns: repeat(4,1fr); gap: 16px; margin-bottom: 24px; }
+    .stat-card {
+      background: var(--charcoal); border: 1px solid rgba(255,255,255,0.05);
+      border-radius: 10px; padding: 20px; position: relative; overflow: hidden;
+    }
+    .stat-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; }
+    .stat-card.gold::before { background: var(--gold); }
+    .stat-card.green::before { background: var(--success); }
+    .stat-card.blue::before { background: var(--info); }
+    .stat-card.purple::before { background: #a855f7; }
+    .stat-label { font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--gray); margin-bottom: 10px; }
+    .stat-value { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 700; }
+    .stat-card.gold .stat-value { color: var(--gold); }
+    .stat-card.green .stat-value { color: var(--success); }
+    .stat-card.blue .stat-value { color: var(--info); }
+    .stat-card.purple .stat-value { color: #a855f7; }
+    .stat-sub { font-size: 11px; color: var(--gray); margin-top: 4px; }
+    .stat-icon { position: absolute; top: 16px; right: 16px; font-size: 28px; opacity: 0.12; }
+
+    .card {
+      background: var(--charcoal); border: 1px solid rgba(255,255,255,0.05);
+      border-radius: 10px; overflow: hidden; margin-bottom: 20px;
+    }
+    .card-header {
+      padding: 16px 20px; border-bottom: 1px solid rgba(255,255,255,0.05);
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .card-title { font-size: 14px; font-weight: 600; }
+    .card-body { padding: 20px; }
+    .card-body-table { padding: 0; }
+
+    /* ── TABLE ── */
+    table { width: 100%; border-collapse: collapse; }
+    th {
+      text-align: left; font-size: 10px; font-weight: 700; letter-spacing: 1px;
+      text-transform: uppercase; color: var(--gray);
+      padding: 10px 16px; border-bottom: 1px solid rgba(255,255,255,0.05);
+      white-space: nowrap;
+    }
+    td { padding: 12px 16px; font-size: 13px; border-bottom: 1px solid rgba(255,255,255,0.03); vertical-align: middle; }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: rgba(255,255,255,0.02); }
+    .td-mono { font-family: monospace; font-size: 12px; color: var(--gray); }
+
+    /* ── BADGE ── */
+    .badge {
+      display: inline-block; padding: 3px 10px; border-radius: 20px;
+      font-size: 10px; font-weight: 700; letter-spacing: 0.5px; white-space: nowrap;
+    }
+    .badge-gold { background: rgba(254,217,23,0.12); color: var(--gold); }
+    .badge-green { background: var(--success-bg); color: var(--success); }
+    .badge-red { background: var(--danger-bg); color: var(--danger); }
+    .badge-blue { background: var(--info-bg); color: var(--info); }
+    .badge-gray { background: rgba(136,136,136,0.12); color: var(--gray-light); }
+    .badge-purple { background: rgba(168,85,247,0.12); color: #a855f7; }
+    .badge-orange { background: rgba(249,115,22,0.12); color: #f97316; }
+
+    /* ── FORMS ── */
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .form-row.cols-3 { grid-template-columns: 1fr 1fr 1fr; }
+    .form-row.cols-4 { grid-template-columns: 1fr 1fr 1fr 1fr; }
+    .field { margin-bottom: 16px; }
+    label.lbl {
+      display: block; font-size: 10px; font-weight: 700; letter-spacing: 1.5px;
+      text-transform: uppercase; color: var(--gray-light); margin-bottom: 7px;
+    }
+    input[type="text"], input[type="number"], input[type="date"],
+    input[type="tel"], select, textarea {
+      width: 100%; background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.1); border-radius: 7px;
+      padding: 11px 14px; color: var(--white);
+      font-family: 'Montserrat', sans-serif; font-size: 13px;
+      transition: border-color 0.2s; outline: none; -webkit-appearance: none; appearance: none;
+    }
+    input:focus, select:focus, textarea:focus { border-color: var(--gold); background: rgba(254,217,23,0.03); }
+    input::placeholder, textarea::placeholder { color: var(--gray); }
+    select option { background: var(--charcoal); color: var(--white); }
+    textarea { resize: vertical; min-height: 80px; }
+
+    /* ── BUTTONS ── */
+    .btn {
+      cursor: pointer; transition: all 0.2s; border: none;
+      font-family: 'Montserrat', sans-serif; font-weight: 600; letter-spacing: 1px;
+      border-radius: 7px; display: inline-flex; align-items: center; gap: 6px;
+    }
+    .btn-primary { background: var(--gold); color: var(--black); padding: 11px 20px; font-size: 11px; text-transform: uppercase; }
+    .btn-primary:hover { background: var(--gold-light); transform: translateY(-1px); }
+    .btn-sm { padding: 7px 14px; font-size: 10px; }
+    .btn-outline {
+      background: transparent; border: 1px solid rgba(255,255,255,0.12);
+      color: var(--gray-light); padding: 7px 14px; font-size: 10px; text-transform: uppercase;
+    }
+    .btn-outline:hover { border-color: var(--gold); color: var(--gold); }
+    .btn-danger { background: var(--danger-bg); border: 1px solid rgba(239,68,68,0.2); color: var(--danger); padding: 7px 12px; font-size: 11px; }
+    .btn-danger:hover { background: rgba(239,68,68,0.2); }
+    .btn-success-outline { background: var(--success-bg); border: 1px solid rgba(34,197,94,0.2); color: var(--success); padding: 7px 12px; font-size: 11px; }
+    .btn-success-outline:hover { background: rgba(34,197,94,0.2); }
+    .btn-info { background: var(--info-bg); border: 1px solid rgba(59,130,246,0.2); color: var(--info); padding: 7px 12px; font-size: 11px; }
+    .btn-info:hover { background: rgba(59,130,246,0.2); }
+    .btn-gold-outline { background: var(--gold-muted); border: 1px solid rgba(254,217,23,0.2); color: var(--gold); padding: 7px 12px; font-size: 11px; }
+    .btn-gold-outline:hover { background: rgba(254,217,23,0.15); }
+    .btn-wide { width: 100%; justify-content: center; padding: 13px; }
+
+    /* ── SWITCH ── */
+    .switch { position: relative; width: 44px; height: 24px; flex-shrink: 0; }
+    .switch input { opacity: 0; width: 0; height: 0; }
+    .slider { position: absolute; cursor: pointer; inset: 0; background: rgba(255,255,255,0.1); border-radius: 20px; transition: 0.3s; }
+    .slider:before { content: ''; position: absolute; width: 16px; height: 16px; left: 4px; bottom: 4px; background: var(--white); border-radius: 50%; transition: 0.3s; }
+    input:checked + .slider { background: var(--gold); }
+    input:checked + .slider:before { transform: translateX(20px); background: var(--black); }
+
+    /* ── MODAL SYSTEM ── */
+    .modal-overlay {
+      position: fixed; inset: 0; background: rgba(0,0,0,0.75); z-index: 1000;
+      display: none; align-items: center; justify-content: center; padding: 20px;
+    }
+    .modal-overlay.open { display: flex; }
+    .modal {
+      background: var(--charcoal); border: 1px solid rgba(254,217,23,0.12);
+      border-radius: 12px; width: 100%; max-width: 720px;
+      max-height: 90vh; overflow-y: auto; position: relative;
+    }
+    .modal-header {
+      padding: 20px 24px; border-bottom: 1px solid rgba(255,255,255,0.05);
+      display: flex; align-items: center; justify-content: space-between;
+      position: sticky; top: 0; background: var(--charcoal); z-index: 2;
+    }
+    .modal-title { font-size: 16px; font-weight: 700; }
+    .modal-title em { color: var(--gold); font-style: normal; }
+    .modal-close { background: none; border: none; color: var(--gray); font-size: 20px; cursor: pointer; padding: 4px; line-height: 1; transition: color 0.2s; }
+    .modal-close:hover { color: var(--white); }
+    .modal-body { padding: 24px; }
+    .modal-footer { padding: 16px 24px; border-top: 1px solid rgba(255,255,255,0.05); display: flex; gap: 10px; justify-content: flex-end; }
+
+    /* ── COMANDA ESPECIAL ── */
+    .comanda-header-bar {
+      background: linear-gradient(135deg, var(--charcoal) 0%, var(--charcoal-2) 100%);
+      border: 1px solid rgba(254,217,23,0.1); border-radius: 10px;
+      padding: 20px 24px; margin-bottom: 20px;
+      display: flex; align-items: center; justify-content: space-between; gap: 16px;
+    }
+    .comanda-num {
+      font-family: 'Playfair Display', serif; font-size: 28px; color: var(--gold); font-weight: 700;
+    }
+    .comanda-num-label { font-size: 10px; color: var(--gray); letter-spacing: 2px; text-transform: uppercase; }
+
+    /* Comanda de serviços adicionados */
+    .item-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px; }
+    .item-row {
+      display: flex; align-items: center; gap: 10px;
+      background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 7px; padding: 10px 14px;
+    }
+    .item-row:hover { border-color: rgba(254,217,23,0.15); }
+    .item-emoji { font-size: 18px; flex-shrink: 0; }
+    .item-info { flex: 1; }
+    .item-name { font-size: 13px; font-weight: 600; }
+    .item-sub { font-size: 11px; color: var(--gray); margin-top: 2px; }
+    .item-price { font-size: 14px; font-weight: 700; color: var(--gold); white-space: nowrap; }
+    .item-remove { background: none; border: none; color: var(--gray); cursor: pointer; font-size: 16px; padding: 4px; line-height: 1; transition: color 0.2s; }
+    .item-remove:hover { color: var(--danger); }
+
+    /* Totais */
+    .totals-box {
+      background: var(--black); border: 1px solid rgba(254,217,23,0.1);
+      border-radius: 8px; padding: 16px 18px;
+    }
+    .total-row { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; }
+    .total-row + .total-row { border-top: 1px solid rgba(255,255,255,0.05); }
+    .total-label { font-size: 12px; color: var(--gray); }
+    .total-val { font-size: 13px; font-weight: 600; }
+    .total-row.grand .total-label { font-size: 14px; font-weight: 700; color: var(--white); }
+    .total-row.grand .total-val { font-size: 20px; font-weight: 700; color: var(--gold); font-family: 'Playfair Display', serif; }
+
+    /* Comissão breakdown */
+    .comissao-breakdown {
+      background: rgba(168,85,247,0.06); border: 1px solid rgba(168,85,247,0.15);
+      border-radius: 8px; padding: 14px 16px;
+    }
+    .comissao-title { font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #a855f7; margin-bottom: 10px; }
+    .comissao-row { display: flex; justify-content: space-between; font-size: 12px; padding: 4px 0; }
+    .comissao-row span:first-child { color: var(--gray-light); }
+    .comissao-row span:last-child { color: #a855f7; font-weight: 600; }
+    .comissao-total { border-top: 1px solid rgba(168,85,247,0.2); margin-top: 8px; padding-top: 8px; font-weight: 700; }
+
+    /* Status dots */
+    .status-dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; margin-right: 6px; flex-shrink: 0; }
+    .dot-open { background: var(--gold); }
+    .dot-done { background: var(--success); }
+    .dot-cancelled { background: var(--danger); }
+
+    /* Grid helpers */
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+
+    /* Alert */
+    .alert { padding: 12px 16px; border-radius: 7px; font-size: 12px; margin-bottom: 14px; }
+    .alert-success { background: var(--success-bg); border: 1px solid rgba(34,197,94,0.2); color: var(--success); }
+    .alert-error { background: var(--danger-bg); border: 1px solid rgba(239,68,68,0.2); color: var(--danger); }
+    .alert-info { background: var(--info-bg); border: 1px solid rgba(59,130,246,0.2); color: var(--info); }
+
+    /* Empty state */
+    .empty { text-align: center; padding: 40px; color: var(--gray); font-size: 13px; }
+    .empty-icon { font-size: 36px; display: block; margin-bottom: 10px; opacity: 0.4; }
+
+    /* Divider */
+    .divider { height: 1px; background: rgba(255,255,255,0.06); margin: 16px 0; }
+
+    /* Section header */
+    .section-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
+    .section-tag { font-size: 10px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); }
+
+    /* Print comanda */
+    .print-ticket {
+      background: var(--white); color: var(--black);
+      border-radius: 8px; padding: 24px; max-width: 340px;
+      font-family: 'Montserrat', sans-serif;
+    }
+    .ticket-header { text-align: center; border-bottom: 1px dashed #ccc; padding-bottom: 14px; margin-bottom: 14px; }
+    .ticket-logo { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; color: #1a1a1a; }
+    .ticket-sub { font-size: 10px; letter-spacing: 2px; color: #888; text-transform: uppercase; }
+    .ticket-row { display: flex; justify-content: space-between; font-size: 12px; padding: 3px 0; color: #444; }
+    .ticket-row strong { color: #1a1a1a; }
+    .ticket-total { border-top: 2px solid #1a1a1a; margin-top: 10px; padding-top: 10px; display: flex; justify-content: space-between; font-weight: 700; font-size: 15px; }
+
+    /* Responsive */
+    @media (max-width: 1100px) { .stats-row { grid-template-columns: repeat(2,1fr); } }
+    @media (max-width: 900px) {
+      .sidebar { display: none; } .main { margin-left: 0; }
+      .stats-row { grid-template-columns: repeat(2,1fr); }
+      .form-row.cols-3, .form-row.cols-4 { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 600px) {
+      .stats-row { grid-template-columns: 1fr; }
+      .form-row { grid-template-columns: 1fr; }
+      .grid-2 { grid-template-columns: 1fr; }
+    }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--black); }
+    ::-webkit-scrollbar-thumb { background: rgba(254,217,23,0.2); border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: rgba(254,217,23,0.4); }
+
+    /* Tag de serviço / produto selecionável */
+    .selectable-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px,1fr)); gap: 8px; }
+    .selectable-item {
+      background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 7px; padding: 10px 12px; cursor: pointer; transition: all 0.2s;
+    }
+    .selectable-item:hover { border-color: rgba(254,217,23,0.3); background: rgba(254,217,23,0.04); }
+    .selectable-item.active { border-color: var(--gold); background: rgba(254,217,23,0.08); }
+    .selectable-item .s-emoji { font-size: 18px; margin-bottom: 4px; }
+    .selectable-item .s-name { font-size: 11px; font-weight: 600; color: var(--white); }
+    .selectable-item .s-price { font-size: 10px; color: var(--gold); margin-top: 2px; }
+    .selectable-item .s-sub { font-size: 10px; color: var(--gray); margin-top: 1px; }
+
+    /* Comanda number badge */
+    .num-badge {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 28px; height: 28px; border-radius: 50%;
+      background: var(--gold-muted); border: 1px solid rgba(254,217,23,0.2);
+      font-size: 11px; font-weight: 700; color: var(--gold);
+    }
+
+    /* Search input */
+    .search-wrap { position: relative; }
+    .search-wrap input { padding-left: 36px; }
+    .search-icon { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); font-size: 14px; color: var(--gray); pointer-events: none; }
+
+    /* Tabs simples */
+    .mini-tabs { display: flex; gap: 0; border-bottom: 1px solid rgba(255,255,255,0.07); margin-bottom: 16px; }
+    .mini-tab { padding: 9px 18px; font-size: 11px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: var(--gray); cursor: pointer; border-bottom: 2px solid transparent; transition: all 0.2s; }
+    .mini-tab.active { color: var(--gold); border-bottom-color: var(--gold); }
+
+    .filter-row { display: flex; gap: 10px; align-items: center; margin-bottom: 16px; flex-wrap: wrap; }
+    .filter-select { width: auto; padding: 7px 12px; font-size: 12px; }
+
+    /* Animação de entrada */
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    .animate-in { animation: fadeUp 0.3s ease; }
+  </style>
+</head>
+<body>
+
+<div class="layout">
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-logo">RB</div>
+      <div>
+        <div class="sidebar-brand">RB Barbearia</div>
+        <div class="sidebar-brand-sub">✂️ Comanda</div>
+      </div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-label">Principal</div>
+      <div class="nav-item active" onclick="goTo('dashboard')">
+        <span class="nav-icon">📊</span> Dashboard
+      </div>
+      <div class="nav-item" onclick="goTo('nova-comanda')">
+        <span class="nav-icon">➕</span> Nova Comanda
+      </div>
+      <div class="nav-item" onclick="goTo('comandas')">
+        <span class="nav-icon">📋</span> Comandas
+        <span class="nav-badge" id="badge-abertas">0</span>
+      </div>
+
+      <div class="nav-label">Cadastros</div>
+      <div class="nav-item" onclick="goTo('barbeiros')">
+        <span class="nav-icon">💈</span> Barbeiros
+      </div>
+      <div class="nav-item" onclick="goTo('servicos')">
+        <span class="nav-icon">✂️</span> Serviços
+      </div>
+      <div class="nav-item" onclick="goTo('produtos')">
+        <span class="nav-icon">🛍️</span> Produtos
+      </div>
+
+      <div class="nav-label">Relatórios</div>
+      <div class="nav-item" onclick="goTo('comissoes')">
+        <span class="nav-icon">💰</span> Comissões
+      </div>
+      <div class="nav-item" onclick="goTo('relatorio')">
+        <span class="nav-icon">📈</span> Relatório
+      </div>
+
+      <div class="divider" style="margin: 8px 16px;"></div>
+      <div class="nav-item" onclick="window.location.href='index.html'">
+        <span class="nav-icon">🏠</span> Voltar ao Site
+      </div>
+      <div class="nav-item" onclick="window.location.href='admin.html'">
+        <span class="nav-icon">⚙️</span> Painel Admin
+      </div>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="user-info">
+        <div class="user-avatar">A</div>
+        <div>
+          <div class="user-name">Administrador</div>
+          <div class="user-role">RB Barbearia</div>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <main class="main">
+    <div class="topbar">
+      <span class="page-title" id="page-title">Dashboard</span>
+      <div class="topbar-right">
+        <span class="clock" id="clock">⏰ --:--:--</span>
+        <button class="btn btn-primary btn-sm" onclick="goTo('nova-comanda')">➕ Nova Comanda</button>
+      </div>
+    </div>
+
+    <div class="page-content">
+
+      <!-- ═══════════════════════════════════════
+           DASHBOARD
+      ════════════════════════════════════════ -->
+      <div id="sec-dashboard" class="section active animate-in">
+        <div class="stats-row">
+          <div class="stat-card gold">
+            <div class="stat-icon">💰</div>
+            <div class="stat-label">Faturamento Hoje</div>
+            <div class="stat-value" id="d-fat">R$ 0</div>
+            <div class="stat-sub" id="d-fat-sub">0 atendimentos</div>
+          </div>
+          <div class="stat-card green">
+            <div class="stat-icon">✅</div>
+            <div class="stat-label">Comandas Fechadas</div>
+            <div class="stat-value" id="d-fechadas">0</div>
+            <div class="stat-sub">hoje</div>
+          </div>
+          <div class="stat-card blue">
+            <div class="stat-icon">📋</div>
+            <div class="stat-label">Comandas Abertas</div>
+            <div class="stat-value" id="d-abertas">0</div>
+            <div class="stat-sub">em andamento</div>
+          </div>
+          <div class="stat-card purple">
+            <div class="stat-icon">💜</div>
+            <div class="stat-label">Comissões Hoje</div>
+            <div class="stat-value" id="d-comissoes">R$ 0</div>
+            <div class="stat-sub">para barbeiros</div>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-header">
+              <span class="card-title">📋 Comandas Abertas</span>
+              <button class="btn btn-outline btn-sm" onclick="goTo('comandas')">Ver todas →</button>
+            </div>
+            <div class="card-body-table">
+              <table>
+                <thead><tr><th>Nº</th><th>Cliente</th><th>Barbeiro</th><th>Valor</th><th>Ação</th></tr></thead>
+                <tbody id="dash-abertas"></tbody>
+              </table>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header">
+              <span class="card-title">🏆 Ranking do Dia</span>
+            </div>
+            <div class="card-body-table">
+              <table>
+                <thead><tr><th>Barbeiro</th><th>Atend.</th><th>Faturado</th><th>Comissão</th></tr></thead>
+                <tbody id="dash-ranking"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">🕐 Últimas Comandas Fechadas</span>
+          </div>
+          <div class="card-body-table">
+            <table>
+              <thead><tr><th>Nº</th><th>Cliente</th><th>Barbeiro</th><th>Serviços</th><th>Produtos</th><th>Total</th><th>Status</th></tr></thead>
+              <tbody id="dash-recentes"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══════════════════════════════════════
+           NOVA COMANDA
+      ════════════════════════════════════════ -->
+      <div id="sec-nova-comanda" class="section">
+        <div class="section-head">
+          <div>
+            <div class="section-tag">Nova Comanda</div>
+            <div style="font-size:20px;font-weight:700;margin-top:4px">Abrir Atendimento</div>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <!-- Coluna esquerda: formulário -->
+          <div>
+            <div class="card">
+              <div class="card-header"><span class="card-title">👤 Informações do Cliente</span></div>
+              <div class="card-body">
+                <div class="form-row">
+                  <div class="field">
+                    <label class="lbl">Nome do Cliente *</label>
+                    <input type="text" id="nc-cliente" placeholder="Ex: João Silva" />
+                  </div>
+                  <div class="field">
+                    <label class="lbl">WhatsApp</label>
+                    <input type="tel" id="nc-whats" placeholder="(81) 99999-9999" />
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="field">
+                    <label class="lbl">Barbeiro Responsável *</label>
+                    <select id="nc-barbeiro">
+                      <option value="">— Selecione —</option>
+                    </select>
+                  </div>
+                  <div class="field">
+                    <label class="lbl">Data do Atendimento</label>
+                    <input type="date" id="nc-data" />
+                  </div>
+                </div>
+                <div class="field">
+                  <label class="lbl">Observações</label>
+                  <textarea id="nc-obs" placeholder="Preferências, alergias, solicitações especiais..."></textarea>
+                </div>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-header"><span class="card-title">✂️ Serviços</span></div>
+              <div class="card-body">
+                <div class="selectable-grid" id="nc-servicos-grid"></div>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-header"><span class="card-title">🛍️ Produtos</span></div>
+              <div class="card-body">
+                <div class="selectable-grid" id="nc-produtos-grid"></div>
+                <div id="nc-prod-qty" style="display:none;margin-top:14px;">
+                  <label class="lbl">Quantidade do produto selecionado</label>
+                  <div style="display:flex;gap:10px;align-items:center;margin-top:6px">
+                    <button class="btn btn-outline btn-sm" onclick="changeProdQty(-1)">−</button>
+                    <span id="nc-qty-val" style="font-size:16px;font-weight:700;min-width:30px;text-align:center">1</span>
+                    <button class="btn btn-outline btn-sm" onclick="changeProdQty(1)">+</button>
+                    <button class="btn btn-primary btn-sm" onclick="addProdutoToComanda()">Adicionar</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Coluna direita: preview da comanda -->
+          <div>
+            <div class="card" style="position:sticky;top:80px;">
+              <div class="card-header">
+                <span class="card-title">🧾 Prévia da Comanda</span>
+                <span class="td-mono" id="nc-preview-num">—</span>
+              </div>
+              <div class="card-body">
+                <div id="nc-client-preview" style="margin-bottom:14px;display:none;">
+                  <div style="background:rgba(254,217,23,0.06);border:1px solid rgba(254,217,23,0.15);border-radius:7px;padding:12px 14px;">
+                    <div style="font-size:13px;font-weight:700" id="nc-prev-nome">—</div>
+                    <div style="font-size:11px;color:var(--gray);margin-top:2px" id="nc-prev-barb">—</div>
+                  </div>
+                </div>
+
+                <div style="font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--gray);margin-bottom:8px;">Itens</div>
+                <div class="item-list" id="nc-items-list">
+                  <div class="empty"><span class="empty-icon">📋</span>Nenhum item ainda</div>
+                </div>
+
+                <div class="divider"></div>
+                <div class="totals-box" id="nc-totals">
+                  <div class="total-row">
+                    <span class="total-label">Subtotal Serviços</span>
+                    <span class="total-val" id="nc-tot-serv">R$ 0,00</span>
+                  </div>
+                  <div class="total-row">
+                    <span class="total-label">Subtotal Produtos</span>
+                    <span class="total-val" id="nc-tot-prod">R$ 0,00</span>
+                  </div>
+                  <div class="total-row grand">
+                    <span class="total-label">Total</span>
+                    <span class="total-val" id="nc-tot-total">R$ 0,00</span>
+                  </div>
+                </div>
+
+                <div class="divider"></div>
+                <div class="comissao-breakdown" id="nc-comissao-box" style="display:none;">
+                  <div class="comissao-title">💜 Comissão do Barbeiro</div>
+                  <div id="nc-comissao-rows"></div>
+                  <div class="comissao-row comissao-total">
+                    <span>Total Comissão</span>
+                    <span id="nc-comissao-total">R$ 0,00</span>
+                  </div>
+                </div>
+
+                <div style="margin-top:16px;">
+                  <div class="form-row" style="margin-bottom:10px;">
+                    <div class="field" style="margin:0">
+                      <label class="lbl">Forma de Pagamento</label>
+                      <select id="nc-pagamento">
+                        <option value="pix">PIX</option>
+                        <option value="dinheiro">Dinheiro</option>
+                        <option value="debito">Débito</option>
+                        <option value="credito">Crédito</option>
+                      </select>
+                    </div>
+                    <div class="field" style="margin:0">
+                      <label class="lbl">Status</label>
+                      <select id="nc-status">
+                        <option value="aberta">Aberta</option>
+                        <option value="fechada">Fechada</option>
+                      </select>
+                    </div>
+                  </div>
+                  <button class="btn btn-primary btn-wide" onclick="salvarComanda()">
+                    ✅ Salvar Comanda
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══════════════════════════════════════
+           LISTA DE COMANDAS
+      ════════════════════════════════════════ -->
+      <div id="sec-comandas" class="section animate-in">
+        <div class="section-head">
+          <div>
+            <div class="section-tag">Comandas</div>
+            <div style="font-size:20px;font-weight:700;margin-top:4px">Gerenciar Atendimentos</div>
+          </div>
+          <button class="btn btn-primary" onclick="goTo('nova-comanda')">➕ Nova Comanda</button>
+        </div>
+
+        <div class="filter-row">
+          <div class="search-wrap" style="flex:1;max-width:280px">
+            <span class="search-icon">🔍</span>
+            <input type="text" id="cmd-search" placeholder="Buscar cliente ou nº..." oninput="renderComandas()" class="filter-select" style="width:100%;padding-left:34px;" />
+          </div>
+          <select class="filter-select" id="cmd-status" onchange="renderComandas()" style="width:140px;">
+            <option value="">Todos status</option>
+            <option value="aberta">Abertas</option>
+            <option value="fechada">Fechadas</option>
+            <option value="cancelada">Canceladas</option>
+          </select>
+          <select class="filter-select" id="cmd-barbeiro" onchange="renderComandas()" style="width:160px;">
+            <option value="">Todos barbeiros</option>
+          </select>
+          <input type="date" id="cmd-data" onchange="renderComandas()" class="filter-select" style="width:150px;" />
+        </div>
+
+        <div class="card">
+          <div class="card-body-table">
+            <table>
+              <thead>
+                <tr>
+                  <th>Nº</th>
+                  <th>Cliente</th>
+                  <th>Barbeiro</th>
+                  <th>Serviços</th>
+                  <th>Produtos</th>
+                  <th>Total</th>
+                  <th>Pagamento</th>
+                  <th>Data</th>
+                  <th>Status</th>
+                  <th>Ações</th>
+                </tr>
+              </thead>
+              <tbody id="comandas-table"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══════════════════════════════════════
+           BARBEIROS
+      ════════════════════════════════════════ -->
+      <div id="sec-barbeiros" class="section animate-in">
+        <div class="section-head">
+          <div>
+            <div class="section-tag">Cadastro</div>
+            <div style="font-size:20px;font-weight:700;margin-top:4px">Barbeiros</div>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-header"><span class="card-title">➕ Cadastrar Barbeiro</span></div>
+            <div class="card-body">
+              <div class="field">
+                <label class="lbl">Nome do Barbeiro *</label>
+                <input type="text" id="barb-nome" placeholder="Ex: Diego Teixeira" />
+              </div>
+              <div class="field">
+                <label class="lbl">WhatsApp</label>
+                <input type="tel" id="barb-whats" placeholder="(81) 99999-9999" />
+              </div>
+              <div class="field">
+                <label class="lbl">Comissão por Serviço (%)</label>
+                <input type="number" id="barb-comissao" placeholder="Ex: 40" min="0" max="100" step="1" />
+                <div style="font-size:11px;color:var(--gray);margin-top:5px;">Percentual sobre cada serviço realizado. Produtos têm comissão própria.</div>
+              </div>
+              <div class="field">
+                <label class="lbl">Emoji / Avatar</label>
+                <input type="text" id="barb-emoji" placeholder="💈" />
+              </div>
+              <div class="field">
+                <label class="lbl">Status</label>
+                <select id="barb-status">
+                  <option value="ativo">Ativo</option>
+                  <option value="inativo">Inativo</option>
+                </select>
+              </div>
+              <button class="btn btn-primary" onclick="addBarbeiro()">✅ Cadastrar Barbeiro</button>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header"><span class="card-title">💈 Barbeiros Cadastrados</span></div>
+            <div class="card-body-table">
+              <table>
+                <thead><tr><th>Nome</th><th>Comissão</th><th>Atend.</th><th>Status</th><th>Ações</th></tr></thead>
+                <tbody id="barbeiros-table"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══════════════════════════════════════
+           SERVIÇOS
+      ════════════════════════════════════════ -->
+      <div id="sec-servicos" class="section animate-in">
+        <div class="section-head">
+          <div>
+            <div class="section-tag">Cadastro</div>
+            <div style="font-size:20px;font-weight:700;margin-top:4px">Serviços</div>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-header"><span class="card-title">➕ Cadastrar Serviço</span></div>
+            <div class="card-body">
+              <div class="form-row">
+                <div class="field">
+                  <label class="lbl">Nome *</label>
+                  <input type="text" id="srv-nome" placeholder="Ex: Corte Clássico" />
+                </div>
+                <div class="field">
+                  <label class="lbl">Categoria</label>
+                  <select id="srv-cat">
+                    <option>Cabelo</option><option>Barba</option>
+                    <option>Química</option><option>Estética</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="field">
+                  <label class="lbl">Preço (R$) *</label>
+                  <input type="number" id="srv-preco" placeholder="0,00" step="0.01" min="0" />
+                </div>
+                <div class="field">
+                  <label class="lbl">Emoji</label>
+                  <input type="text" id="srv-emoji" placeholder="✂️" />
+                </div>
+              </div>
+              <div class="field">
+                <label class="lbl">Descrição</label>
+                <input type="text" id="srv-desc" placeholder="Breve descrição" />
+              </div>
+              <button class="btn btn-primary" onclick="addServico()">✅ Cadastrar Serviço</button>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header"><span class="card-title">✂️ Serviços Cadastrados</span></div>
+            <div class="card-body-table">
+              <table>
+                <thead><tr><th>Serviço</th><th>Cat.</th><th>Preço</th><th>Ações</th></tr></thead>
+                <tbody id="servicos-table"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══════════════════════════════════════
+           PRODUTOS
+      ════════════════════════════════════════ -->
+      <div id="sec-produtos" class="section animate-in">
+        <div class="section-head">
+          <div>
+            <div class="section-tag">Cadastro</div>
+            <div style="font-size:20px;font-weight:700;margin-top:4px">Produtos</div>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-header"><span class="card-title">➕ Cadastrar Produto</span></div>
+            <div class="card-body">
+              <div class="form-row">
+                <div class="field">
+                  <label class="lbl">Nome *</label>
+                  <input type="text" id="prod-nome" placeholder="Ex: Pomada Premium" />
+                </div>
+                <div class="field">
+                  <label class="lbl">Categoria</label>
+                  <select id="prod-cat">
+                    <option>Cabelo</option><option>Barba</option>
+                    <option>Cuidados</option><option>Acessórios</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="field">
+                  <label class="lbl">Custo (R$)</label>
+                  <input type="number" id="prod-custo" placeholder="0,00" step="0.01" min="0" />
+                </div>
+                <div class="field">
+                  <label class="lbl">Preço de Venda (R$) *</label>
+                  <input type="number" id="prod-preco" placeholder="0,00" step="0.01" min="0" />
+                </div>
+              </div>
+              <div class="field">
+                <label class="lbl">Comissão do Barbeiro por Produto (%)</label>
+                <input type="number" id="prod-comissao" placeholder="Ex: 15" min="0" max="100" step="1" />
+                <div style="font-size:11px;color:var(--gray);margin-top:5px;">Cada produto tem sua própria comissão, independente do percentual do barbeiro.</div>
+              </div>
+              <div class="form-row">
+                <div class="field">
+                  <label class="lbl">Emoji</label>
+                  <input type="text" id="prod-emoji" placeholder="🧴" />
+                </div>
+                <div class="field">
+                  <label class="lbl">Estoque</label>
+                  <input type="number" id="prod-estoque" placeholder="0" min="0" />
+                </div>
+              </div>
+              <div class="field">
+                <label class="lbl">Descrição</label>
+                <input type="text" id="prod-desc" placeholder="Breve descrição" />
+              </div>
+              <button class="btn btn-primary" onclick="addProduto()">✅ Cadastrar Produto</button>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header"><span class="card-title">🛍️ Produtos Cadastrados</span></div>
+            <div class="card-body-table">
+              <table>
+                <thead><tr><th>Produto</th><th>Preço</th><th>Comissão</th><th>Estoque</th><th>Ações</th></tr></thead>
+                <tbody id="produtos-table"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══════════════════════════════════════
+           COMISSÕES
+      ════════════════════════════════════════ -->
+      <div id="sec-comissoes" class="section animate-in">
+        <div class="section-head">
+          <div>
+            <div class="section-tag">Financeiro</div>
+            <div style="font-size:20px;font-weight:700;margin-top:4px">Painel de Comissões</div>
+          </div>
+        </div>
+
+        <div class="filter-row" style="margin-bottom:20px;">
+          <input type="date" id="com-de" class="filter-select" style="width:150px;" />
+          <span style="color:var(--gray);font-size:12px;">até</span>
+          <input type="date" id="com-ate" class="filter-select" style="width:150px;" />
+          <button class="btn btn-primary btn-sm" onclick="renderComissoes()">Filtrar</button>
+          <button class="btn btn-outline btn-sm" onclick="setComissoesPeriodo('hoje')">Hoje</button>
+          <button class="btn btn-outline btn-sm" onclick="setComissoesPeriodo('semana')">Esta Semana</button>
+          <button class="btn btn-outline btn-sm" onclick="setComissoesPeriodo('mes')">Este Mês</button>
+        </div>
+
+        <div class="stats-row" id="com-stats"></div>
+
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">💜 Detalhamento por Barbeiro</span>
+          </div>
+          <div class="card-body-table">
+            <table>
+              <thead>
+                <tr>
+                  <th>Barbeiro</th>
+                  <th>Nº Comanda</th>
+                  <th>Cliente</th>
+                  <th>Serviços</th>
+                  <th>Comis. Serv.</th>
+                  <th>Produtos</th>
+                  <th>Comis. Prod.</th>
+                  <th>Total Comissão</th>
+                  <th>Data</th>
+                </tr>
+              </thead>
+              <tbody id="comissoes-table"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header"><span class="card-title">📊 Resumo por Barbeiro</span></div>
+          <div class="card-body-table">
+            <table>
+              <thead><tr><th>Barbeiro</th><th>Atend.</th><th>Fat. Serv.</th><th>Comis. Serv.</th><th>Fat. Prod.</th><th>Comis. Prod.</th><th>Total a Pagar</th></tr></thead>
+              <tbody id="resumo-barbeiros"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══════════════════════════════════════
+           RELATÓRIO
+      ════════════════════════════════════════ -->
+      <div id="sec-relatorio" class="section animate-in">
+        <div class="section-head">
+          <div>
+            <div class="section-tag">Financeiro</div>
+            <div style="font-size:20px;font-weight:700;margin-top:4px">Relatório Completo</div>
+          </div>
+        </div>
+
+        <div class="filter-row" style="margin-bottom:20px;">
+          <input type="date" id="rel-de" class="filter-select" style="width:150px;" />
+          <span style="color:var(--gray);font-size:12px;">até</span>
+          <input type="date" id="rel-ate" class="filter-select" style="width:150px;" />
+          <button class="btn btn-primary btn-sm" onclick="renderRelatorio()">Filtrar</button>
+          <button class="btn btn-outline btn-sm" onclick="setRelatorioPeriodo('hoje')">Hoje</button>
+          <button class="btn btn-outline btn-sm" onclick="setRelatorioPeriodo('mes')">Este Mês</button>
+        </div>
+
+        <div class="stats-row" id="rel-stats"></div>
+
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-header"><span class="card-title">✂️ Serviços mais realizados</span></div>
+            <div class="card-body-table">
+              <table><thead><tr><th>Serviço</th><th>Qty</th><th>Receita</th></tr></thead>
+              <tbody id="rel-servicos"></tbody></table>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header"><span class="card-title">🛍️ Produtos mais vendidos</span></div>
+            <div class="card-body-table">
+              <table><thead><tr><th>Produto</th><th>Qty</th><th>Receita</th></tr></thead>
+              <tbody id="rel-produtos"></tbody></table>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header"><span class="card-title">💳 Recebimentos por Forma de Pagamento</span></div>
+          <div class="card-body-table">
+            <table><thead><tr><th>Forma</th><th>Quantidade</th><th>Total</th><th>%</th></tr></thead>
+            <tbody id="rel-pagamentos"></tbody></table>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /page-content -->
+  </main>
+</div><!-- /layout -->
+
+<!-- ═════════ MODAL: VER COMANDA ═════════ -->
+<div class="modal-overlay" id="modal-ver">
+  <div class="modal" style="max-width:600px;">
+    <div class="modal-header">
+      <span class="modal-title">🧾 Comanda <em id="mv-num">—</em></span>
+      <button class="modal-close" onclick="closeModal('modal-ver')">✕</button>
+    </div>
+    <div class="modal-body" id="modal-ver-body"></div>
+    <div class="modal-footer">
+      <button class="btn btn-gold-outline btn-sm" onclick="fecharComandaById()">✅ Fechar Comanda</button>
+      <button class="btn btn-danger btn-sm" onclick="cancelarComandaById()">🚫 Cancelar</button>
+      <button class="btn btn-outline btn-sm" onclick="closeModal('modal-ver')">Fechar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═════════ MODAL: EDITAR COMANDA ═════════ -->
+<div class="modal-overlay" id="modal-editar">
+  <div class="modal" style="max-width:400px;">
+    <div class="modal-header">
+      <span class="modal-title">✏️ Editar Status</span>
+      <button class="modal-close" onclick="closeModal('modal-editar')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="field">
+        <label class="lbl">Status da Comanda</label>
+        <select id="edit-status">
+          <option value="aberta">Aberta</option>
+          <option value="fechada">Fechada</option>
+          <option value="cancelada">Cancelada</option>
+        </select>
+      </div>
+      <div class="field">
+        <label class="lbl">Forma de Pagamento</label>
+        <select id="edit-pgto">
+          <option value="pix">PIX</option>
+          <option value="dinheiro">Dinheiro</option>
+          <option value="debito">Débito</option>
+          <option value="credito">Crédito</option>
+        </select>
+      </div>
+      <input type="hidden" id="edit-idx" />
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-primary btn-sm" onclick="salvarEdicaoStatus()">💾 Salvar</button>
+      <button class="btn btn-outline btn-sm" onclick="closeModal('modal-editar')">Cancelar</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ============================================================
+// ESTADO GLOBAL
+// ============================================================
+let db = {
+  barbeiros: [
+    { id: 1, nome: 'Diego Teixeira', whats: '81998767139', comissao: 40, emoji: '💈', status: 'ativo', atendimentos: 0 },
+    { id: 2, nome: 'Carlos Mendes', whats: '81988887777', comissao: 35, emoji: '✂️', status: 'ativo', atendimentos: 0 },
+  ],
+  servicos: [
+    { id: 1, nome: 'Corte Clássico', cat: 'Cabelo', preco: 45, emoji: '✂️', desc: 'Corte tradicional com acabamento impecável.' },
+    { id: 2, nome: 'Corte Moderno', cat: 'Cabelo', preco: 55, emoji: '💈', desc: 'Degradê e estilos contemporâneos.' },
+    { id: 3, nome: 'Corte Premium', cat: 'Cabelo', preco: 80, emoji: '👑', desc: 'Experiência completa com consultoria.' },
+    { id: 4, nome: 'Barba Completa', cat: 'Barba', preco: 40, emoji: '🪒', desc: 'Modelagem com navalha e toalha quente.' },
+    { id: 5, nome: 'Combo Corte + Barba', cat: 'Barba', preco: 75, emoji: '⚡', desc: 'O pacote mais completo.' },
+    { id: 6, nome: 'Hidratação Capilar', cat: 'Química', preco: 60, emoji: '🧴', desc: 'Restaura brilho e saúde dos fios.' },
+    { id: 7, nome: 'Coloração', cat: 'Química', preco: 90, emoji: '🎨', desc: 'Coloração profissional com resultado natural.' },
+    { id: 8, nome: 'Progressiva Masc.', cat: 'Química', preco: 150, emoji: '✨', desc: 'Alisa e disciplina os fios.' },
+    { id: 9, nome: 'Massagem', cat: 'Estética', preco: 50, emoji: '💆', desc: 'Relaxante após atendimento.' },
+    { id: 10, nome: 'Limpeza Facial', cat: 'Estética', preco: 70, emoji: '🧖', desc: 'Limpeza profunda de poros.' },
+    { id: 11, nome: 'Design Sobrancelha', cat: 'Estética', preco: 25, emoji: '👁️', desc: 'Modelagem masculina.' },
+    { id: 12, nome: 'Epilação Nasal', cat: 'Barba', preco: 20, emoji: '👃', desc: 'Remoção de pelos nasais com cera.' },
+  ],
+  produtos: [
+    { id: 1, nome: 'Pomada Modeladora', cat: 'Cabelo', custo: 18, preco: 35, comissao: 15, emoji: '🧴', desc: 'Fixação forte com brilho natural.', estoque: 10 },
+    { id: 2, nome: 'Balm para Barba', cat: 'Barba', custo: 22, preco: 45, comissao: 15, emoji: '🫙', desc: 'Hidratação e maciez.', estoque: 8 },
+    { id: 3, nome: 'Óleo de Barba', cat: 'Barba', custo: 28, preco: 55, comissao: 20, emoji: '💧', desc: 'Nutrição profunda.', estoque: 6 },
+    { id: 4, nome: 'Shampoo Premium', cat: 'Cuidados', custo: 20, preco: 40, comissao: 10, emoji: '🧼', desc: 'Limpeza profunda sem agredir.', estoque: 12 },
+    { id: 5, nome: 'Cera de Cabelo', cat: 'Cabelo', custo: 14, preco: 30, comissao: 20, emoji: '🪣', desc: 'Textura e volume.', estoque: 5 },
+  ],
+  comandas: [],
+  nextId: 1001,
+};
+
+// ── Load / Save ──
+function loadDB() {
+  const saved = localStorage.getItem('rb_comanda_db');
+  if (saved) try { db = JSON.parse(saved); } catch(e) {}
+}
+function saveDB() { localStorage.setItem('rb_comanda_db', JSON.stringify(db)); }
+loadDB();
+
+// ── State da nova comanda ──
+let nc = {
+  servicosSel: [],      // [{srv, qty}]
+  produtosSel: [],      // [{prod, qty}]
+  prodQtySelecionado: { id: null, qty: 1 },
+};
+
+// ── Formatação ──
+const fmt = v => 'R$ ' + Number(v).toFixed(2).replace('.', ',');
+const today = () => new Date().toISOString().split('T')[0];
+const fmtDate = d => d ? new Date(d + 'T00:00:00').toLocaleDateString('pt-BR') : '—';
+
+// ============================================================
+// NAVEGAÇÃO
+// ============================================================
+const pageTitles = {
+  dashboard: 'Dashboard',
+  'nova-comanda': 'Nova Comanda',
+  comandas: 'Comandas',
+  barbeiros: 'Barbeiros',
+  servicos: 'Serviços',
+  produtos: 'Produtos',
+  comissoes: 'Comissões',
+  relatorio: 'Relatório',
+};
+
+function goTo(sec) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  const el = document.getElementById('sec-' + sec);
+  if (el) el.classList.add('active');
+  const navItems = document.querySelectorAll('.nav-item');
+  navItems.forEach(n => { if (n.getAttribute('onclick')?.includes(`'${sec}'`)) n.classList.add('active'); });
+  document.getElementById('page-title').textContent = pageTitles[sec] || sec;
+
+  if (sec === 'dashboard') renderDashboard();
+  if (sec === 'nova-comanda') initNovaComanda();
+  if (sec === 'comandas') renderComandas();
+  if (sec === 'barbeiros') renderBarbeiros();
+  if (sec === 'servicos') renderServicos();
+  if (sec === 'produtos') renderProdutos();
+  if (sec === 'comissoes') { setComissoesPeriodo('mes'); renderComissoes(); }
+  if (sec === 'relatorio') { setRelatorioPeriodo('mes'); renderRelatorio(); }
+
+  updateBadgeAbertas();
+}
+
+// ============================================================
+// CLOCK
+// ============================================================
+function updateClock() {
+  document.getElementById('clock').textContent = '⏰ ' + new Date().toLocaleTimeString('pt-BR');
+}
+setInterval(updateClock, 1000); updateClock();
+
+// ============================================================
+// DASHBOARD
+// ============================================================
+function renderDashboard() {
+  const hoje = today();
+  const comandasHoje = db.comandas.filter(c => c.data === hoje);
+  const fechadasHoje = comandasHoje.filter(c => c.status === 'fechada');
+  const abertas = db.comandas.filter(c => c.status === 'aberta');
+  const fatHoje = fechadasHoje.reduce((a,c) => a + c.total, 0);
+  const comissoesHoje = fechadasHoje.reduce((a,c) => a + (c.comissaoTotal || 0), 0);
+
+  document.getElementById('d-fat').textContent = fmt(fatHoje);
+  document.getElementById('d-fat-sub').textContent = fechadasHoje.length + ' atendimentos';
+  document.getElementById('d-fechadas').textContent = fechadasHoje.length;
+  document.getElementById('d-abertas').textContent = abertas.length;
+  document.getElementById('d-comissoes').textContent = fmt(comissoesHoje);
+
+  // Comandas abertas
+  const tbody1 = document.getElementById('dash-abertas');
+  tbody1.innerHTML = abertas.length ? abertas.slice(0,5).map(c => `
+    <tr>
+      <td><span class="num-badge">${c.num}</span></td>
+      <td><strong>${c.cliente}</strong></td>
+      <td>${getBarbeiro(c.barbeiroId)?.nome || '—'}</td>
+      <td style="color:var(--gold);font-weight:600">${fmt(c.total)}</td>
+      <td><button class="btn btn-info btn-sm" onclick="verComanda(${c.idx})">Ver →</button></td>
+    </tr>
+  `).join('') : '<tr><td colspan="5" class="empty">Nenhuma comanda aberta</td></tr>';
+
+  // Ranking do dia
+  const ranking = {};
+  fechadasHoje.forEach(c => {
+    if (!ranking[c.barbeiroId]) ranking[c.barbeiroId] = { fat: 0, count: 0, com: 0 };
+    ranking[c.barbeiroId].fat += c.total;
+    ranking[c.barbeiroId].count++;
+    ranking[c.barbeiroId].com += c.comissaoTotal || 0;
+  });
+  const rankArr = Object.entries(ranking).sort((a,b) => b[1].fat - a[1].fat);
+  const tbody2 = document.getElementById('dash-ranking');
+  tbody2.innerHTML = rankArr.length ? rankArr.map(([id, r]) => `
+    <tr>
+      <td><strong>${getBarbeiro(parseInt(id))?.nome || '—'}</strong></td>
+      <td><span class="badge badge-blue">${r.count}</span></td>
+      <td style="color:var(--gold);font-weight:600">${fmt(r.fat)}</td>
+      <td style="color:#a855f7;font-weight:600">${fmt(r.com)}</td>
+    </tr>
+  `).join('') : '<tr><td colspan="4" class="empty">Nenhum atendimento hoje</td></tr>';
+
+  // Recentes
+  const recentes = [...db.comandas].sort((a,b) => b.idx - a.idx).slice(0,8);
+  const tbody3 = document.getElementById('dash-recentes');
+  tbody3.innerHTML = recentes.length ? recentes.map(c => `
+    <tr>
+      <td><span class="num-badge">${c.num}</span></td>
+      <td><strong>${c.cliente}</strong></td>
+      <td>${getBarbeiro(c.barbeiroId)?.nome || '—'}</td>
+      <td style="font-size:12px;color:var(--gray-light)">${c.servicos.map(s=>s.nome).join(', ') || '—'}</td>
+      <td style="font-size:12px;color:var(--gray-light)">${c.produtos.map(p=>p.nome).join(', ') || '—'}</td>
+      <td style="color:var(--gold);font-weight:600">${fmt(c.total)}</td>
+      <td>${statusBadge(c.status)}</td>
+    </tr>
+  `).join('') : '<tr><td colspan="7" class="empty">Nenhuma comanda ainda</td></tr>';
+}
+
+function statusBadge(s) {
+  if (s === 'aberta') return '<span class="badge badge-gold">🟡 Aberta</span>';
+  if (s === 'fechada') return '<span class="badge badge-green">✅ Fechada</span>';
+  if (s === 'cancelada') return '<span class="badge badge-red">🚫 Cancelada</span>';
+  return '<span class="badge badge-gray">' + s + '</span>';
+}
+function updateBadgeAbertas() {
+  const n = db.comandas.filter(c => c.status === 'aberta').length;
+  document.getElementById('badge-abertas').textContent = n;
+}
+
+// ============================================================
+// NOVA COMANDA
+// ============================================================
+function initNovaComanda() {
+  nc = { servicosSel: [], produtosSel: [], prodQtySelecionado: { id: null, qty: 1 } };
+
+  // Barbeiro select
+  const sel = document.getElementById('nc-barbeiro');
+  sel.innerHTML = '<option value="">— Selecione —</option>';
+  db.barbeiros.filter(b => b.status === 'ativo').forEach(b => {
+    sel.innerHTML += `<option value="${b.id}">${b.emoji} ${b.nome} (${b.comissao}% comissão)</option>`;
+  });
+
+  // Data default
+  document.getElementById('nc-data').value = today();
+
+  // Preview num
+  document.getElementById('nc-preview-num').textContent = '#' + db.nextId;
+
+  // Listeners
+  document.getElementById('nc-cliente').addEventListener('input', updatePreview);
+  document.getElementById('nc-barbeiro').addEventListener('change', updatePreview);
+
+  // Grids
+  renderNCServicosGrid();
+  renderNCProdutosGrid();
+  updatePreview();
+}
+
+function renderNCServicosGrid() {
+  const grid = document.getElementById('nc-servicos-grid');
+  grid.innerHTML = db.servicos.map(s => {
+    const isSel = nc.servicosSel.find(x => x.id === s.id);
+    return `<div class="selectable-item ${isSel ? 'active' : ''}" onclick="toggleServico(${s.id})">
+      <div class="s-emoji">${s.emoji}</div>
+      <div class="s-name">${s.nome}</div>
+      <div class="s-price">${fmt(s.preco)}</div>
+      <div class="s-sub">${s.cat}</div>
+    </div>`;
+  }).join('');
+}
+
+function renderNCProdutosGrid() {
+  const grid = document.getElementById('nc-produtos-grid');
+  grid.innerHTML = db.produtos.map(p => {
+    const isSel = nc.produtosSel.find(x => x.id === p.id);
+    return `<div class="selectable-item ${isSel ? 'active' : ''}" onclick="selectProduto(${p.id})">
+      <div class="s-emoji">${p.emoji}</div>
+      <div class="s-name">${p.nome}</div>
+      <div class="s-price">${fmt(p.preco)}</div>
+      <div class="s-sub">Comis.: ${p.comissao}%</div>
+    </div>`;
+  }).join('');
+}
+
+function toggleServico(id) {
+  const idx = nc.servicosSel.findIndex(x => x.id === id);
+  if (idx > -1) nc.servicosSel.splice(idx, 1);
+  else nc.servicosSel.push({ id, qty: 1 });
+  renderNCServicosGrid();
+  updatePreview();
+}
+
+let prodQtyAtual = 1;
+function selectProduto(id) {
+  nc.prodQtySelecionado = { id, qty: 1 };
+  prodQtyAtual = 1;
+  document.getElementById('nc-qty-val').textContent = 1;
+  document.getElementById('nc-prod-qty').style.display = 'block';
+  renderNCProdutosGrid();
+}
+
+function changeProdQty(delta) {
+  prodQtyAtual = Math.max(1, prodQtyAtual + delta);
+  document.getElementById('nc-qty-val').textContent = prodQtyAtual;
+}
+
+function addProdutoToComanda() {
+  const id = nc.prodQtySelecionado.id;
+  if (!id) return;
+  const existing = nc.produtosSel.find(x => x.id === id);
+  if (existing) existing.qty += prodQtyAtual;
+  else nc.produtosSel.push({ id, qty: prodQtyAtual });
+  nc.prodQtySelecionado = { id: null, qty: 1 };
+  document.getElementById('nc-prod-qty').style.display = 'none';
+  renderNCProdutosGrid();
+  updatePreview();
+}
+
+function updatePreview() {
+  const nomeCliente = document.getElementById('nc-cliente').value.trim();
+  const bId = parseInt(document.getElementById('nc-barbeiro').value);
+  const barb = getBarbeiro(bId);
+
+  // Client info
+  const clientPreview = document.getElementById('nc-client-preview');
+  if (nomeCliente || barb) {
+    clientPreview.style.display = 'block';
+    document.getElementById('nc-prev-nome').textContent = nomeCliente || '(sem nome)';
+    document.getElementById('nc-prev-barb').textContent = barb ? `${barb.emoji} ${barb.nome} • ${barb.comissao}% comissão serviços` : '— sem barbeiro —';
+  } else {
+    clientPreview.style.display = 'none';
+  }
+
+  // Itens
+  const itemsList = document.getElementById('nc-items-list');
+  let html = '';
+  let totalServ = 0, totalProd = 0;
+  let comissaoRows = '', comissaoTotal = 0;
+
+  nc.servicosSel.forEach(item => {
+    const s = db.servicos.find(x => x.id === item.id);
+    if (!s) return;
+    const val = s.preco * item.qty;
+    totalServ += val;
+    html += `<div class="item-row">
+      <span class="item-emoji">${s.emoji}</span>
+      <div class="item-info">
+        <div class="item-name">${s.nome}</div>
+        <div class="item-sub">Serviço • x${item.qty}</div>
+      </div>
+      <span class="item-price">${fmt(val)}</span>
+      <button class="item-remove" onclick="toggleServico(${s.id})">✕</button>
+    </div>`;
+    if (barb) {
+      const c = val * barb.comissao / 100;
+      comissaoTotal += c;
+      comissaoRows += `<div class="comissao-row"><span>${s.emoji} ${s.nome}</span><span>${fmt(c)} (${barb.comissao}%)</span></div>`;
+    }
+  });
+
+  nc.produtosSel.forEach(item => {
+    const p = db.produtos.find(x => x.id === item.id);
+    if (!p) return;
+    const val = p.preco * item.qty;
+    totalProd += val;
+    html += `<div class="item-row">
+      <span class="item-emoji">${p.emoji}</span>
+      <div class="item-info">
+        <div class="item-name">${p.nome}</div>
+        <div class="item-sub">Produto • x${item.qty} • Comis.: ${p.comissao}%</div>
+      </div>
+      <span class="item-price">${fmt(val)}</span>
+      <button class="item-remove" onclick="removeProdutoFromComanda(${p.id})">✕</button>
+    </div>`;
+    const c = val * p.comissao / 100;
+    comissaoTotal += c;
+    comissaoRows += `<div class="comissao-row"><span>${p.emoji} ${p.nome} (x${item.qty})</span><span>${fmt(c)} (${p.comissao}%)</span></div>`;
+  });
+
+  itemsList.innerHTML = html || '<div class="empty"><span class="empty-icon">📋</span>Nenhum item ainda</div>';
+
+  const total = totalServ + totalProd;
+  document.getElementById('nc-tot-serv').textContent = fmt(totalServ);
+  document.getElementById('nc-tot-prod').textContent = fmt(totalProd);
+  document.getElementById('nc-tot-total').textContent = fmt(total);
+
+  // Comissão
+  const comBox = document.getElementById('nc-comissao-box');
+  if (comissaoTotal > 0) {
+    comBox.style.display = 'block';
+    document.getElementById('nc-comissao-rows').innerHTML = comissaoRows;
+    document.getElementById('nc-comissao-total').textContent = fmt(comissaoTotal);
+  } else {
+    comBox.style.display = 'none';
+  }
+}
+
+function removeProdutoFromComanda(id) {
+  nc.produtosSel = nc.produtosSel.filter(x => x.id !== id);
+  renderNCProdutosGrid();
+  updatePreview();
+}
+
+function calcComissao(servicos, produtos, barb) {
+  let total = 0, servTotal = 0, prodTotal = 0;
+  servicos.forEach(item => {
+    const s = db.servicos.find(x => x.id === item.id);
+    if (!s || !barb) return;
+    servTotal += s.preco * item.qty * barb.comissao / 100;
+  });
+  produtos.forEach(item => {
+    const p = db.produtos.find(x => x.id === item.id);
+    if (!p) return;
+    prodTotal += p.preco * item.qty * p.comissao / 100;
+  });
+  total = servTotal + prodTotal;
+  return { total, servTotal, prodTotal };
+}
+
+function salvarComanda() {
+  const cliente = document.getElementById('nc-cliente').value.trim();
+  const bId = parseInt(document.getElementById('nc-barbeiro').value);
+  const data = document.getElementById('nc-data').value;
+  const obs = document.getElementById('nc-obs').value.trim();
+  const pgto = document.getElementById('nc-pagamento').value;
+  const status = document.getElementById('nc-status').value;
+
+  if (!cliente) { alert('Informe o nome do cliente!'); return; }
+  if (!bId) { alert('Selecione o barbeiro!'); return; }
+  if (nc.servicosSel.length === 0 && nc.produtosSel.length === 0) { alert('Adicione pelo menos um serviço ou produto!'); return; }
+
+  const barb = getBarbeiro(bId);
+  let totalServ = 0, totalProd = 0;
+
+  const servicosComanda = nc.servicosSel.map(item => {
+    const s = db.servicos.find(x => x.id === item.id);
+    const val = s.preco * item.qty;
+    totalServ += val;
+    return { id: s.id, nome: s.nome, emoji: s.emoji, preco: s.preco, qty: item.qty, total: val };
+  });
+
+  const produtosComanda = nc.produtosSel.map(item => {
+    const p = db.produtos.find(x => x.id === item.id);
+    const val = p.preco * item.qty;
+    totalProd += val;
+    // Baixar estoque
+    p.estoque = Math.max(0, (p.estoque || 0) - item.qty);
+    return { id: p.id, nome: p.nome, emoji: p.emoji, preco: p.preco, comissaoPct: p.comissao, qty: item.qty, total: val };
+  });
+
+  const total = totalServ + totalProd;
+  const { total: comissaoTotal, servTotal: comissaoServ, prodTotal: comissaoProd } = calcComissao(nc.servicosSel, nc.produtosSel, barb);
+
+  const comanda = {
+    idx: db.comandas.length,
+    num: db.nextId++,
+    cliente, barbeiroId: bId, data: data || today(),
+    servicos: servicosComanda,
+    produtos: produtosComanda,
+    totalServicos: totalServ, totalProdutos: totalProd, total,
+    comissaoServ, comissaoProd, comissaoTotal,
+    pagamento: pgto, status, obs,
+    criadoEm: new Date().toISOString(),
+  };
+
+  db.comandas.push(comanda);
+  saveDB();
+  updateBadgeAbertas();
+
+  alert(`✅ Comanda #${comanda.num} salva com sucesso!`);
+  goTo('comandas');
+}
+
+// ============================================================
+// COMANDAS LIST
+// ============================================================
+function renderComandas() {
+  const search = document.getElementById('cmd-search').value.toLowerCase();
+  const statusF = document.getElementById('cmd-status').value;
+  const barbF = document.getElementById('cmd-barbeiro').value;
+  const dataF = document.getElementById('cmd-data').value;
+
+  // Populate barbeiro filter
+  const sel = document.getElementById('cmd-barbeiro');
+  const currentVal = sel.value;
+  sel.innerHTML = '<option value="">Todos barbeiros</option>';
+  db.barbeiros.forEach(b => sel.innerHTML += `<option value="${b.id}" ${b.id == currentVal ? 'selected' : ''}>${b.nome}</option>`);
+
+  const filtrados = db.comandas.filter(c => {
+    if (search && !c.cliente.toLowerCase().includes(search) && !String(c.num).includes(search)) return false;
+    if (statusF && c.status !== statusF) return false;
+    if (barbF && c.barbeiroId != barbF) return false;
+    if (dataF && c.data !== dataF) return false;
+    return true;
+  }).sort((a,b) => b.idx - a.idx);
+
+  const tbody = document.getElementById('comandas-table');
+  if (!filtrados.length) {
+    tbody.innerHTML = '<tr><td colspan="10" class="empty"><span class="empty-icon">📋</span>Nenhuma comanda encontrada</td></tr>';
+    return;
+  }
+  tbody.innerHTML = filtrados.map(c => {
+    const barb = getBarbeiro(c.barbeiroId);
+    return `<tr>
+      <td><span class="num-badge">${c.num}</span></td>
+      <td><strong>${c.cliente}</strong></td>
+      <td>${barb ? barb.emoji + ' ' + barb.nome : '—'}</td>
+      <td style="font-size:11px;max-width:140px;color:var(--gray-light)">${c.servicos.map(s=>s.emoji+' '+s.nome).join('<br>') || '—'}</td>
+      <td style="font-size:11px;max-width:120px;color:var(--gray-light)">${c.produtos.map(p=>p.emoji+' '+p.nome+' x'+p.qty).join('<br>') || '—'}</td>
+      <td style="color:var(--gold);font-weight:700">${fmt(c.total)}</td>
+      <td><span class="badge badge-gray">${pgtoLabel(c.pagamento)}</span></td>
+      <td style="color:var(--gray);font-size:12px">${fmtDate(c.data)}</td>
+      <td>${statusBadge(c.status)}</td>
+      <td>
+        <div style="display:flex;gap:6px">
+          <button class="btn btn-info btn-sm" onclick="verComanda(${c.idx})" title="Ver">👁️</button>
+          <button class="btn btn-gold-outline btn-sm" onclick="editarStatus(${c.idx})" title="Editar">✏️</button>
+          <button class="btn btn-danger btn-sm" onclick="deletarComanda(${c.idx})" title="Excluir">🗑️</button>
+        </div>
+      </td>
+    </tr>`;
+  }).join('');
+}
+
+function pgtoLabel(p) {
+  return { pix: 'PIX', dinheiro: 'Dinheiro', debito: 'Débito', credito: 'Crédito' }[p] || p || '—';
+}
+
+// ============================================================
+// VER COMANDA (MODAL)
+// ============================================================
+let modalComandaIdx = null;
+
+function verComanda(idx) {
+  const c = db.comandas[idx];
+  if (!c) return;
+  modalComandaIdx = idx;
+  document.getElementById('mv-num').textContent = '#' + c.num;
+  const barb = getBarbeiro(c.barbeiroId);
+  const body = document.getElementById('modal-ver-body');
+
+  body.innerHTML = `
+    <div style="display:flex;gap:16px;margin-bottom:20px;flex-wrap:wrap;">
+      <div style="flex:1;min-width:180px;background:var(--gold-muted);border:1px solid rgba(254,217,23,0.15);border-radius:8px;padding:14px;">
+        <div style="font-size:11px;color:var(--gray);margin-bottom:4px;">Cliente</div>
+        <div style="font-size:15px;font-weight:700">${c.cliente}</div>
+        ${c.obs ? `<div style="font-size:11px;color:var(--gray);margin-top:4px;">${c.obs}</div>` : ''}
+      </div>
+      <div style="flex:1;min-width:180px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:8px;padding:14px;">
+        <div style="font-size:11px;color:var(--gray);margin-bottom:4px;">Barbeiro</div>
+        <div style="font-size:15px;font-weight:700">${barb ? barb.emoji + ' ' + barb.nome : '—'}</div>
+        <div style="font-size:11px;color:var(--gray);">Comissão Serv.: ${barb?.comissao || 0}%</div>
+      </div>
+      <div style="flex:0.5;min-width:120px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:8px;padding:14px;">
+        <div style="font-size:11px;color:var(--gray);margin-bottom:4px;">Data</div>
+        <div style="font-size:14px;font-weight:600">${fmtDate(c.data)}</div>
+        <div style="font-size:11px;color:var(--gray);margin-top:4px;">${pgtoLabel(c.pagamento)}</div>
+      </div>
+      <div style="flex:0.5;min-width:100px;text-align:center;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:8px;padding:14px;">
+        ${statusBadge(c.status)}
+      </div>
+    </div>
+
+    ${c.servicos.length ? `
+    <div style="margin-bottom:16px;">
+      <div style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gray);margin-bottom:8px;">Serviços (${barb?.comissao||0}% comissão)</div>
+      <table style="width:100%">
+        <thead><tr><th>Serviço</th><th>Preço</th><th>Qty</th><th>Total</th><th>Comissão</th></tr></thead>
+        <tbody>
+          ${c.servicos.map(s => {
+            const com = s.total * (barb?.comissao||0)/100;
+            return `<tr>
+              <td>${s.emoji} ${s.nome}</td>
+              <td>${fmt(s.preco)}</td>
+              <td>${s.qty}</td>
+              <td style="color:var(--gold);font-weight:600">${fmt(s.total)}</td>
+              <td style="color:#a855f7">${fmt(com)}</td>
+            </tr>`;
+          }).join('')}
+        </tbody>
+      </table>
+    </div>` : ''}
+
+    ${c.produtos.length ? `
+    <div style="margin-bottom:16px;">
+      <div style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gray);margin-bottom:8px;">Produtos (comissão individual por produto)</div>
+      <table style="width:100%">
+        <thead><tr><th>Produto</th><th>Preço</th><th>Qty</th><th>Total</th><th>Comis. %</th><th>Comissão</th></tr></thead>
+        <tbody>
+          ${c.produtos.map(p => {
+            const com = p.total * p.comissaoPct/100;
+            return `<tr>
+              <td>${p.emoji} ${p.nome}</td>
+              <td>${fmt(p.preco)}</td>
+              <td>${p.qty}</td>
+              <td style="color:var(--gold);font-weight:600">${fmt(p.total)}</td>
+              <td><span class="badge badge-purple">${p.comissaoPct}%</span></td>
+              <td style="color:#a855f7">${fmt(com)}</td>
+            </tr>`;
+          }).join('')}
+        </tbody>
+      </table>
+    </div>` : ''}
+
+    <div style="background:var(--black);border:1px solid rgba(254,217,23,0.1);border-radius:8px;padding:16px;">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+        <div>
+          <div class="total-row"><span class="total-label">Total Serviços</span><span class="total-val">${fmt(c.totalServicos)}</span></div>
+          <div class="total-row"><span class="total-label">Total Produtos</span><span class="total-val">${fmt(c.totalProdutos)}</span></div>
+          <div class="total-row grand"><span class="total-label">TOTAL</span><span class="total-val">${fmt(c.total)}</span></div>
+        </div>
+        <div class="comissao-breakdown">
+          <div class="comissao-title">💜 Comissão Total</div>
+          <div class="comissao-row"><span>Serviços</span><span>${fmt(c.comissaoServ)}</span></div>
+          <div class="comissao-row"><span>Produtos</span><span>${fmt(c.comissaoProd)}</span></div>
+          <div class="comissao-row comissao-total"><span>Total a Pagar</span><span>${fmt(c.comissaoTotal)}</span></div>
+        </div>
+      </div>
+    </div>
+  `;
+
+  openModal('modal-ver');
+}
+
+function fecharComandaById() {
+  if (modalComandaIdx === null) return;
+  db.comandas[modalComandaIdx].status = 'fechada';
+  saveDB(); closeModal('modal-ver'); renderComandas(); updateBadgeAbertas(); renderDashboard();
+}
+function cancelarComandaById() {
+  if (modalComandaIdx === null) return;
+  if (!confirm('Cancelar esta comanda?')) return;
+  db.comandas[modalComandaIdx].status = 'cancelada';
+  saveDB(); closeModal('modal-ver'); renderComandas(); updateBadgeAbertas();
+}
+
+function editarStatus(idx) {
+  const c = db.comandas[idx];
+  document.getElementById('edit-idx').value = idx;
+  document.getElementById('edit-status').value = c.status;
+  document.getElementById('edit-pgto').value = c.pagamento;
+  openModal('modal-editar');
+}
+function salvarEdicaoStatus() {
+  const idx = parseInt(document.getElementById('edit-idx').value);
+  db.comandas[idx].status = document.getElementById('edit-status').value;
+  db.comandas[idx].pagamento = document.getElementById('edit-pgto').value;
+  saveDB(); closeModal('modal-editar'); renderComandas(); updateBadgeAbertas();
+}
+function deletarComanda(idx) {
+  if (!confirm('Excluir esta comanda permanentemente?')) return;
+  db.comandas.splice(idx, 1);
+  db.comandas.forEach((c,i) => c.idx = i);
+  saveDB(); renderComandas(); updateBadgeAbertas();
+}
+
+// ============================================================
+// BARBEIROS
+// ============================================================
+function addBarbeiro() {
+  const nome = document.getElementById('barb-nome').value.trim();
+  const comissao = parseFloat(document.getElementById('barb-comissao').value);
+  if (!nome) { alert('Informe o nome!'); return; }
+  if (!comissao && comissao !== 0) { alert('Informe a comissão!'); return; }
+  db.barbeiros.push({
+    id: Date.now(),
+    nome, whats: document.getElementById('barb-whats').value.trim(),
+    comissao, emoji: document.getElementById('barb-emoji').value.trim() || '💈',
+    status: document.getElementById('barb-status').value, atendimentos: 0,
+  });
+  saveDB(); renderBarbeiros();
+  ['barb-nome','barb-whats','barb-comissao','barb-emoji'].forEach(id => document.getElementById(id).value = '');
+}
+function renderBarbeiros() {
+  const tbody = document.getElementById('barbeiros-table');
+  tbody.innerHTML = db.barbeiros.map((b,i) => {
+    const ats = db.comandas.filter(c => c.barbeiroId === b.id && c.status === 'fechada').length;
+    return `<tr>
+      <td>${b.emoji} <strong>${b.nome}</strong></td>
+      <td><span class="badge badge-purple">${b.comissao}%</span></td>
+      <td><span class="badge badge-blue">${ats}</span></td>
+      <td>${b.status === 'ativo' ? '<span class="badge badge-green">Ativo</span>' : '<span class="badge badge-red">Inativo</span>'}</td>
+      <td><button class="btn btn-danger btn-sm" onclick="delBarbeiro(${i})">🗑️</button></td>
+    </tr>`;
+  }).join('') || '<tr><td colspan="5" class="empty">Nenhum barbeiro cadastrado</td></tr>';
+}
+function delBarbeiro(i) {
+  if (!confirm('Excluir barbeiro?')) return;
+  db.barbeiros.splice(i,1); saveDB(); renderBarbeiros();
+}
+
+// ============================================================
+// SERVIÇOS
+// ============================================================
+function addServico() {
+  const nome = document.getElementById('srv-nome').value.trim();
+  const preco = parseFloat(document.getElementById('srv-preco').value);
+  if (!nome || !preco) { alert('Preencha nome e preço!'); return; }
+  db.servicos.push({
+    id: Date.now(), nome, cat: document.getElementById('srv-cat').value,
+    preco, emoji: document.getElementById('srv-emoji').value.trim() || '✂️',
+    desc: document.getElementById('srv-desc').value.trim(),
+  });
+  saveDB(); renderServicos();
+  ['srv-nome','srv-preco','srv-emoji','srv-desc'].forEach(id => document.getElementById(id).value = '');
+}
+function renderServicos() {
+  const tbody = document.getElementById('servicos-table');
+  tbody.innerHTML = db.servicos.map((s,i) => `
+    <tr>
+      <td>${s.emoji} <strong>${s.nome}</strong><br><span style="font-size:11px;color:var(--gray)">${s.desc}</span></td>
+      <td><span class="badge badge-blue">${s.cat}</span></td>
+      <td style="color:var(--gold);font-weight:600">${fmt(s.preco)}</td>
+      <td><button class="btn btn-danger btn-sm" onclick="delServico(${i})">🗑️</button></td>
+    </tr>
+  `).join('') || '<tr><td colspan="4" class="empty">Nenhum serviço</td></tr>';
+}
+function delServico(i) {
+  if (!confirm('Excluir serviço?')) return;
+  db.servicos.splice(i,1); saveDB(); renderServicos();
+}
+
+// ============================================================
+// PRODUTOS
+// ============================================================
+function addProduto() {
+  const nome = document.getElementById('prod-nome').value.trim();
+  const preco = parseFloat(document.getElementById('prod-preco').value);
+  const comissao = parseFloat(document.getElementById('prod-comissao').value) || 0;
+  if (!nome || !preco) { alert('Preencha nome e preço de venda!'); return; }
+  db.produtos.push({
+    id: Date.now(), nome, cat: document.getElementById('prod-cat').value,
+    custo: parseFloat(document.getElementById('prod-custo').value) || 0,
+    preco, comissao,
+    emoji: document.getElementById('prod-emoji').value.trim() || '🛍️',
+    desc: document.getElementById('prod-desc').value.trim(),
+    estoque: parseInt(document.getElementById('prod-estoque').value) || 0,
+  });
+  saveDB(); renderProdutos();
+  ['prod-nome','prod-custo','prod-preco','prod-comissao','prod-emoji','prod-desc','prod-estoque'].forEach(id => document.getElementById(id).value = '');
+}
+function renderProdutos() {
+  const tbody = document.getElementById('produtos-table');
+  tbody.innerHTML = db.produtos.map((p,i) => {
+    const margem = p.custo > 0 ? ((p.preco-p.custo)/p.custo*100).toFixed(0)+'%' : '—';
+    return `<tr>
+      <td>${p.emoji} <strong>${p.nome}</strong><br><span style="font-size:11px;color:var(--gray)">${p.desc}</span></td>
+      <td style="color:var(--gold);font-weight:600">${fmt(p.preco)}</td>
+      <td>
+        <span class="badge badge-purple">${p.comissao}%</span>
+        <div style="font-size:10px;color:var(--gray);margin-top:3px;">${fmt(p.preco * p.comissao / 100)} por unidade</div>
+      </td>
+      <td>${p.estoque <= 3 ? `<span class="badge badge-red">⚠️ ${p.estoque}</span>` : `<span class="badge badge-green">${p.estoque}</span>`}</td>
+      <td><button class="btn btn-danger btn-sm" onclick="delProduto(${i})">🗑️</button></td>
+    </tr>`;
+  }).join('') || '<tr><td colspan="5" class="empty">Nenhum produto</td></tr>';
+}
+function delProduto(i) {
+  if (!confirm('Excluir produto?')) return;
+  db.produtos.splice(i,1); saveDB(); renderProdutos();
+}
+
+// ============================================================
+// COMISSÕES
+// ============================================================
+function setComissoesPeriodo(p) {
+  const now = new Date();
+  let de, ate;
+  if (p === 'hoje') { de = ate = today(); }
+  else if (p === 'semana') {
+    const d = new Date(); d.setDate(d.getDate() - d.getDay());
+    de = d.toISOString().split('T')[0]; ate = today();
+  } else { // mes
+    de = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-01`;
+    ate = today();
+  }
+  document.getElementById('com-de').value = de;
+  document.getElementById('com-ate').value = ate;
+}
+
+function renderComissoes() {
+  const de = document.getElementById('com-de').value;
+  const ate = document.getElementById('com-ate').value;
+
+  const comandas = db.comandas.filter(c =>
+    c.status === 'fechada' &&
+    (!de || c.data >= de) &&
+    (!ate || c.data <= ate)
+  );
+
+  // Stats por barbeiro
+  const stats = {};
+  db.barbeiros.forEach(b => {
+    stats[b.id] = { nome: b.nome, emoji: b.emoji, count: 0, fatServ: 0, comServ: 0, fatProd: 0, comProd: 0 };
+  });
+
+  comandas.forEach(c => {
+    if (!stats[c.barbeiroId]) return;
+    stats[c.barbeiroId].count++;
+    stats[c.barbeiroId].fatServ += c.totalServicos;
+    stats[c.barbeiroId].comServ += c.comissaoServ;
+    stats[c.barbeiroId].fatProd += c.totalProdutos;
+    stats[c.barbeiroId].comProd += c.comissaoProd;
+  });
+
+  // Cards
+  const statsEl = document.getElementById('com-stats');
+  statsEl.innerHTML = Object.values(stats).map(s => `
+    <div class="stat-card purple">
+      <div class="stat-icon">${s.emoji}</div>
+      <div class="stat-label">${s.nome}</div>
+      <div class="stat-value">${fmt(s.comServ + s.comProd)}</div>
+      <div class="stat-sub">${s.count} atend. • Serv: ${fmt(s.comServ)} • Prod: ${fmt(s.comProd)}</div>
+    </div>
+  `).join('');
+
+  // Tabela detalhada
+  const tbody = document.getElementById('comissoes-table');
+  tbody.innerHTML = comandas.length ? comandas.sort((a,b) => b.idx - a.idx).map(c => {
+    const barb = getBarbeiro(c.barbeiroId);
+    return `<tr>
+      <td>${barb ? barb.emoji + ' <strong>' + barb.nome + '</strong>' : '—'}</td>
+      <td><span class="num-badge">${c.num}</span></td>
+      <td>${c.cliente}</td>
+      <td style="font-size:11px">${c.servicos.map(s=>s.nome).join(', ') || '—'}</td>
+      <td style="color:#a855f7;font-weight:600">${fmt(c.comissaoServ)}</td>
+      <td style="font-size:11px">${c.produtos.map(p=>p.nome+' x'+p.qty).join(', ') || '—'}</td>
+      <td style="color:#a855f7;font-weight:600">${fmt(c.comissaoProd)}</td>
+      <td style="color:#a855f7;font-weight:700;font-size:15px">${fmt(c.comissaoTotal)}</td>
+      <td style="color:var(--gray);font-size:12px">${fmtDate(c.data)}</td>
+    </tr>`;
+  }).join('') : '<tr><td colspan="9" class="empty">Nenhuma comanda fechada no período</td></tr>';
+
+  // Resumo por barbeiro
+  const tbody2 = document.getElementById('resumo-barbeiros');
+  tbody2.innerHTML = Object.values(stats).filter(s => s.count > 0).map(s => `
+    <tr>
+      <td>${s.emoji} <strong>${s.nome}</strong></td>
+      <td><span class="badge badge-blue">${s.count}</span></td>
+      <td>${fmt(s.fatServ)}</td>
+      <td style="color:#a855f7;font-weight:600">${fmt(s.comServ)}</td>
+      <td>${fmt(s.fatProd)}</td>
+      <td style="color:#a855f7;font-weight:600">${fmt(s.comProd)}</td>
+      <td style="color:#a855f7;font-weight:700;font-size:15px">${fmt(s.comServ + s.comProd)}</td>
+    </tr>
+  `).join('') || '<tr><td colspan="7" class="empty">Sem dados no período</td></tr>';
+}
+
+// ============================================================
+// RELATÓRIO
+// ============================================================
+function setRelatorioPeriodo(p) {
+  const now = new Date();
+  let de, ate;
+  if (p === 'hoje') { de = ate = today(); }
+  else {
+    de = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-01`;
+    ate = today();
+  }
+  document.getElementById('rel-de').value = de;
+  document.getElementById('rel-ate').value = ate;
+}
+
+function renderRelatorio() {
+  const de = document.getElementById('rel-de').value;
+  const ate = document.getElementById('rel-ate').value;
+  const comandas = db.comandas.filter(c =>
+    c.status === 'fechada' && (!de || c.data >= de) && (!ate || c.data <= ate)
+  );
+
+  const totFat = comandas.reduce((a,c) => a + c.total, 0);
+  const totServ = comandas.reduce((a,c) => a + c.totalServicos, 0);
+  const totProd = comandas.reduce((a,c) => a + c.totalProdutos, 0);
+  const totCom = comandas.reduce((a,c) => a + c.comissaoTotal, 0);
+
+  document.getElementById('rel-stats').innerHTML = `
+    <div class="stat-card gold"><div class="stat-icon">💰</div><div class="stat-label">Faturamento Total</div><div class="stat-value">${fmt(totFat)}</div><div class="stat-sub">${comandas.length} atendimentos</div></div>
+    <div class="stat-card blue"><div class="stat-icon">✂️</div><div class="stat-label">Receita Serviços</div><div class="stat-value">${fmt(totServ)}</div></div>
+    <div class="stat-card green"><div class="stat-icon">🛍️</div><div class="stat-label">Receita Produtos</div><div class="stat-value">${fmt(totProd)}</div></div>
+    <div class="stat-card purple"><div class="stat-icon">💜</div><div class="stat-label">Total Comissões</div><div class="stat-value">${fmt(totCom)}</div><div class="stat-sub">Líquido: ${fmt(totFat - totCom)}</div></div>
+  `;
+
+  // Serviços mais realizados
+  const servCount = {};
+  comandas.forEach(c => c.servicos.forEach(s => {
+    if (!servCount[s.id]) servCount[s.id] = { nome: s.emoji+' '+s.nome, qty: 0, rec: 0 };
+    servCount[s.id].qty += s.qty; servCount[s.id].rec += s.total;
+  }));
+  const tbody1 = document.getElementById('rel-servicos');
+  const servArr = Object.values(servCount).sort((a,b) => b.qty - a.qty);
+  tbody1.innerHTML = servArr.length ? servArr.map(s => `
+    <tr><td>${s.nome}</td><td><span class="badge badge-blue">${s.qty}</span></td><td style="color:var(--gold);font-weight:600">${fmt(s.rec)}</td></tr>
+  `).join('') : '<tr><td colspan="3" class="empty">Sem dados</td></tr>';
+
+  // Produtos mais vendidos
+  const prodCount = {};
+  comandas.forEach(c => c.produtos.forEach(p => {
+    if (!prodCount[p.id]) prodCount[p.id] = { nome: p.emoji+' '+p.nome, qty: 0, rec: 0 };
+    prodCount[p.id].qty += p.qty; prodCount[p.id].rec += p.total;
+  }));
+  const tbody2 = document.getElementById('rel-produtos');
+  const prodArr = Object.values(prodCount).sort((a,b) => b.qty - a.qty);
+  tbody2.innerHTML = prodArr.length ? prodArr.map(p => `
+    <tr><td>${p.nome}</td><td><span class="badge badge-green">${p.qty}</span></td><td style="color:var(--gold);font-weight:600">${fmt(p.rec)}</td></tr>
+  `).join('') : '<tr><td colspan="3" class="empty">Sem dados</td></tr>';
+
+  // Pagamentos
+  const pgtos = {};
+  comandas.forEach(c => {
+    pgtos[c.pagamento] = pgtos[c.pagamento] || { qty: 0, total: 0 };
+    pgtos[c.pagamento].qty++; pgtos[c.pagamento].total += c.total;
+  });
+  const tbody3 = document.getElementById('rel-pagamentos');
+  tbody3.innerHTML = Object.entries(pgtos).sort((a,b)=>b[1].total-a[1].total).map(([p,d]) => `
+    <tr>
+      <td><span class="badge badge-gold">${pgtoLabel(p)}</span></td>
+      <td>${d.qty}</td>
+      <td style="color:var(--gold);font-weight:600">${fmt(d.total)}</td>
+      <td style="color:var(--gray)">${totFat > 0 ? (d.total/totFat*100).toFixed(1)+'%' : '0%'}</td>
+    </tr>
+  `).join('') || '<tr><td colspan="4" class="empty">Sem dados</td></tr>';
+}
+
+// ============================================================
+// UTILS
+// ============================================================
+function getBarbeiro(id) { return db.barbeiros.find(b => b.id === id); }
+
+function openModal(id) { document.getElementById(id).classList.add('open'); }
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+
+// Fechar modal clicando fora
+document.querySelectorAll('.modal-overlay').forEach(overlay => {
+  overlay.addEventListener('click', e => { if (e.target === overlay) overlay.classList.remove('open'); });
+});
+
+// ============================================================
+// INIT
+// ============================================================
+updateBadgeAbertas();
+renderDashboard();
+</script>
+</body>
+</html>
